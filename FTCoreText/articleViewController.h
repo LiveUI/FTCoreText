@@ -1,5 +1,5 @@
 //
-//  FTCoreTextAppDelegate.h
+//  articleViewController.h
 //  FTCoreText
 //
 //  Created by Francesco Frison on 18/08/2011.
@@ -8,8 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface FTCoreTextAppDelegate : NSObject <UIApplicationDelegate>
-
-@property (nonatomic, retain) IBOutlet UIWindow *window;
+@interface articleViewController : UIViewController
 
 @end

@@ -14,6 +14,10 @@
 		684DBCB613FD4DCF00776C6D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 684DBCB513FD4DCF00776C6D /* main.m */; };
 		684DBCBA13FD4DCF00776C6D /* FTCoreTextAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 684DBCB913FD4DCF00776C6D /* FTCoreTextAppDelegate.m */; };
 		684DBCBD13FD4DCF00776C6D /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 684DBCBB13FD4DCF00776C6D /* MainWindow.xib */; };
+		684DBCC513FD4E5E00776C6D /* articleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 684DBCC413FD4E5E00776C6D /* articleViewController.m */; };
+		684DBCD113FD4F8200776C6D /* FTCoreTextStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 684DBCCC13FD4F8200776C6D /* FTCoreTextStyle.m */; };
+		684DBCD213FD4F8200776C6D /* FTCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 684DBCCE13FD4F8200776C6D /* FTCoreTextView.m */; };
+		684DBCD413FD526200776C6D /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 684DBCD313FD526200776C6D /* CoreText.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +32,13 @@
 		684DBCB813FD4DCF00776C6D /* FTCoreTextAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FTCoreTextAppDelegate.h; sourceTree = "<group>"; };
 		684DBCB913FD4DCF00776C6D /* FTCoreTextAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FTCoreTextAppDelegate.m; sourceTree = "<group>"; };
 		684DBCBC13FD4DCF00776C6D /* en */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = en; path = en.lproj/MainWindow.xib; sourceTree = "<group>"; };
+		684DBCC313FD4E5E00776C6D /* articleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = articleViewController.h; sourceTree = "<group>"; };
+		684DBCC413FD4E5E00776C6D /* articleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = articleViewController.m; sourceTree = "<group>"; };
+		684DBCCB13FD4F8200776C6D /* FTCoreTextStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTCoreTextStyle.h; sourceTree = "<group>"; };
+		684DBCCC13FD4F8200776C6D /* FTCoreTextStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTCoreTextStyle.m; sourceTree = "<group>"; };
+		684DBCCD13FD4F8200776C6D /* FTCoreTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTCoreTextView.h; sourceTree = "<group>"; };
+		684DBCCE13FD4F8200776C6D /* FTCoreTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTCoreTextView.m; sourceTree = "<group>"; };
+		684DBCD313FD526200776C6D /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -35,6 +46,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				684DBCD413FD526200776C6D /* CoreText.framework in Frameworks */,
 				684DBCAA13FD4DCF00776C6D /* UIKit.framework in Frameworks */,
 				684DBCAC13FD4DCF00776C6D /* Foundation.framework in Frameworks */,
 				684DBCAE13FD4DCF00776C6D /* CoreGraphics.framework in Frameworks */,
@@ -64,6 +76,7 @@
 		684DBCA813FD4DCF00776C6D /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				684DBCD313FD526200776C6D /* CoreText.framework */,
 				684DBCA913FD4DCF00776C6D /* UIKit.framework */,
 				684DBCAB13FD4DCF00776C6D /* Foundation.framework */,
 				684DBCAD13FD4DCF00776C6D /* CoreGraphics.framework */,
@@ -74,10 +87,15 @@
 		684DBCAF13FD4DCF00776C6D /* FTCoreText */ = {
 			isa = PBXGroup;
 			children = (
+				684DBCCB13FD4F8200776C6D /* FTCoreTextStyle.h */,
+				684DBCCC13FD4F8200776C6D /* FTCoreTextStyle.m */,
+				684DBCCD13FD4F8200776C6D /* FTCoreTextView.h */,
+				684DBCCE13FD4F8200776C6D /* FTCoreTextView.m */,
+				684DBCB013FD4DCF00776C6D /* Supporting Files */,
+				684DBCC313FD4E5E00776C6D /* articleViewController.h */,
+				684DBCC413FD4E5E00776C6D /* articleViewController.m */,
 				684DBCB813FD4DCF00776C6D /* FTCoreTextAppDelegate.h */,
 				684DBCB913FD4DCF00776C6D /* FTCoreTextAppDelegate.m */,
-				684DBCBB13FD4DCF00776C6D /* MainWindow.xib */,
-				684DBCB013FD4DCF00776C6D /* Supporting Files */,
 			);
 			path = FTCoreText;
 			sourceTree = "<group>";
@@ -85,6 +103,7 @@
 		684DBCB013FD4DCF00776C6D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				684DBCBB13FD4DCF00776C6D /* MainWindow.xib */,
 				684DBCB113FD4DCF00776C6D /* FTCoreText-Info.plist */,
 				684DBCB213FD4DCF00776C6D /* InfoPlist.strings */,
 				684DBCB513FD4DCF00776C6D /* main.m */,
@@ -154,6 +173,9 @@
 			files = (
 				684DBCB613FD4DCF00776C6D /* main.m in Sources */,
 				684DBCBA13FD4DCF00776C6D /* FTCoreTextAppDelegate.m in Sources */,
+				684DBCC513FD4E5E00776C6D /* articleViewController.m in Sources */,
+				684DBCD113FD4F8200776C6D /* FTCoreTextStyle.m in Sources */,
+				684DBCD213FD4F8200776C6D /* FTCoreTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

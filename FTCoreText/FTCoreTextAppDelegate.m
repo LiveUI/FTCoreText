@@ -2,11 +2,12 @@
 //  FTCoreTextAppDelegate.m
 //  FTCoreText
 //
-//  Created by Fuerte International on 18/08/2011.
-//  Copyright 2011 __MyCompanyName__. All rights reserved.
+//  Created by Francesco Frison on 18/08/2011.
+//  Copyright 2011 Fuerte International. All rights reserved.
 //
 
 #import "FTCoreTextAppDelegate.h"
+#import "articleViewController.h"
 
 @implementation FTCoreTextAppDelegate
 
@@ -15,7 +16,12 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+    articleViewController *articleVC = [[articleViewController alloc] init];
+    [self.window setRootViewController:articleVC];
+    [articleVC release];
+    
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 
