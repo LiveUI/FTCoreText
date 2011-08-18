@@ -113,7 +113,7 @@
 }
 
 /*!
- * @abstract strip the text from all tags. Can be used to havea clear text for devices that do not support CoreText
+ * @abstract strip the text from all tags. Can be used to havea clear text for devices that do not support CoreText (iPhone >= 4.0 iPad >= 3.2)
  *
  */
 

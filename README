@@ -1,0 +1,26 @@
+Welcome to FTCoreText Objective C library for iOS development.
+
+Implemantation Instructions:
+
+    Import CoreText.framework to your library
+    Import FTCoreTextView.h
+    Create an Instance of FTCoreTextView
+    set the styles and the text for the view
+
+Notes:
+
+Use of the CoreText framework is granted only from iOS 4.0 for iPhone and 3.2 for iPad on.
+
+Although FTCoreTextView uses an html-like tag syntax all the complex properties of html are not supported. Most of the time this will result as not formatted text but sometimes it can lead to crashes. For instance nested tags are not allowed. There is a self.path reference to draw the text along a specific shape instead the given frame. This feature has been only partially implemented and not tested.
+License:
+
+Open Source Initiative OSI - The MIT License (MIT):Licensing [OSI Approved License] The MIT License (MIT)
+
+Copyright (c) 2011 Fuerte International
+
+Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+
