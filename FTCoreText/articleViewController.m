@@ -43,6 +43,7 @@
     titleStyle.name = @"title";
     titleStyle.color = [UIColor redColor];
     titleStyle.font = [UIFont boldSystemFontOfSize:20];
+    titleStyle.alignment = kCTCenterTextAlignment;
     [result setValue:titleStyle forKey:titleStyle.name];
     [titleStyle release];
     

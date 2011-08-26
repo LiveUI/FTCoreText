@@ -2,28 +2,29 @@
 //  CPCoreTextView.h
 //  FTLibrary
 //
-//  Created by Francesco on 20/07/2011.
+//  Created by Francesco Freezone <cescofry@gmail.com> on 20/07/2011.
 //  Copyright 2011 Fuerte International. All rights reserved.
 //
 
 //     Special markers:
 //     _default: It is the default applyed to the whole text. MArkups is not needed on the text
-//     <_page/>: Will divide the text in different pages
+//     _bullet: define styles for bullets. Respond to Markups <bullets />
  
 
 #import <UIKit/UIKit.h>
 #import "FTCoreTextStyle.h"
-
+#import <CoreText/CoreText.h>
 
 @interface FTCoreTextView : UIView {
     NSString *_text;
     NSMutableDictionary *_styles;
     @private
-    NSMutableArray *_markers;
-    FTCoreTextStyle *_defaultStyle;
-    NSMutableString *_processedString;
-    CGPathRef _path;
-    
+    NSMutableArray		*_markers;
+    FTCoreTextStyle		*_defaultStyle;
+    NSMutableString		*_processedString;
+    CGPathRef			_path;
+    CTFramesetterRef	_framesetter;
+	BOOL				_changesMade;
 }
 
 @property (nonatomic, retain) NSString *text;
@@ -37,5 +38,7 @@
 - (void)addStyle:(FTCoreTextStyle *)style;
 + (NSString *)stripTagsforString:(NSString *)string;
 + (NSArray *)pagesFromText:(NSString *)string;
+
+- (CGSize)suggestedSizeConstrainedToSize:(CGSize)size;
 
 @end
