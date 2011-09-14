@@ -18,11 +18,12 @@
 @interface FTCoreTextView : UIView {
     NSString *_text;
     NSMutableDictionary *_styles;
-    @private
+@private
     NSMutableArray		*_markers;
     FTCoreTextStyle		*_defaultStyle;
     NSMutableString		*_processedString;
     CGPathRef			_path;
+    CGContextRef        _context;
     CTFramesetterRef	_framesetter;
 	BOOL				_changesMade;
 }
@@ -33,9 +34,11 @@
 @property (nonatomic, assign) FTCoreTextStyle *defaultStyle;
 @property (nonatomic, retain) NSMutableString *processedString;
 @property (nonatomic, assign) CGPathRef path;
+@property (nonatomic, assign) CGContextRef context;
 
 - (id)initWithFrame:(CGRect)frame;
 - (void)addStyle:(FTCoreTextStyle *)style;
+- (void)addStyles:(NSArray *)styles;
 + (NSString *)stripTagsforString:(NSString *)string;
 + (NSArray *)pagesFromText:(NSString *)string;
 

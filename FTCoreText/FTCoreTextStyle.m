@@ -10,13 +10,29 @@
 
 @implementation FTCoreTextStyle
 
+
 @synthesize name;
 @synthesize appendedCharacter;
 @synthesize font;
 @synthesize color;
 @synthesize isUnderLined;
 @synthesize alignment;
+@synthesize maxLineHeight;
+@synthesize spaceBetweenParagraphs;
 
+- (id)init
+{
+	self = [super init];
+	if (self) {
+		self.name = @"_default";
+		self.appendedCharacter = @"";
+		self.color = [UIColor blackColor];
+		self.isUnderLined = NO;
+		self.alignment = kCTLeftTextAlignment;
+		self.font = [UIFont systemFontOfSize:12];
+	}
+	return self;
+}
 
 - (id)copyWithZone:(NSZone *)zone
 {
@@ -24,10 +40,11 @@
 	style.name = [[self.name copy] autorelease];
 	style.appendedCharacter = [[self.appendedCharacter copy] autorelease];
 	style.font = [UIFont fontWithName:self.font.fontName size:self.font.pointSize];
-	const CGFloat *components = CGColorGetComponents(color.CGColor);
-	style.color = [UIColor colorWithRed:components[0] green:components[1] blue:components[2] alpha:components[3]];
+	style.color = self.color;
 	style.isUnderLined = self.isUnderLined;
     style.alignment = self.alignment;
+	style.maxLineHeight = self.maxLineHeight;
+	style.spaceBetweenParagraphs = self.spaceBetweenParagraphs;
 	return style;
 }
 

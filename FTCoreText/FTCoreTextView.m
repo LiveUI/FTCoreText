@@ -25,6 +25,7 @@
 @synthesize defaultStyle = _defaultStyle;
 @synthesize processedString = _processedString;
 @synthesize path = _path;
+@synthesize context = _context;
 
 - (void)updateFramesetterIfNeeded
 {
@@ -51,9 +52,11 @@
 		
 		//set default attributeds
 		
+		NSRange stringRange = NSMakeRange(0, [_text length]);
+		
 		[string addAttribute:(id)kCTForegroundColorAttributeName
 					   value:(id)_defaultStyle.color.CGColor
-					   range:NSMakeRange(0, [_text length])];
+					   range:stringRange];
 		
 		CTFontRef ctFont = CTFontCreateWithName((CFStringRef)_defaultStyle.font.fontName, 
 												_defaultStyle.font.pointSize, 
@@ -61,7 +64,21 @@
 		
 		[string addAttribute:(id)kCTFontAttributeName
 					   value:(id)ctFont
-					   range:NSMakeRange(0, [_text length])];
+					   range:stringRange];
+		
+		CTTextAlignment alignment = (_defaultStyle.alignment)? _defaultStyle.alignment : kCTLeftTextAlignment;
+		CGFloat maxLineHeight = _defaultStyle.maxLineHeight;
+		CGFloat paragraphSpaceBefore = _defaultStyle.spaceBetweenParagraphs;
+		
+		CTParagraphStyleSetting settings[] = {
+			{kCTParagraphStyleSpecifierAlignment, sizeof(alignment), &alignment},
+			{kCTParagraphStyleSpecifierMaximumLineHeight, sizeof(CGFloat), &maxLineHeight},
+			{kCTParagraphStyleSpecifierParagraphSpacing, sizeof(CGFloat), &paragraphSpaceBefore}
+		};
+		CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, 3);
+		[string addAttribute:(id)kCTParagraphStyleAttributeName
+					   value:(id)paragraphStyle 
+					   range:stringRange];
 		
 		//set markers attributes
 		for (NSDictionary *dict in _markers) {
@@ -86,11 +103,15 @@
             
             
             CTTextAlignment alignment = (style.alignment)? style.alignment : kCTLeftTextAlignment;
-            
+            CGFloat maxLineHeight = style.maxLineHeight;
+			CGFloat paragraphSpaceBefore = style.spaceBetweenParagraphs;
+			
             CTParagraphStyleSetting settings[] = {
                 {kCTParagraphStyleSpecifierAlignment, sizeof(alignment), &alignment},
+				{kCTParagraphStyleSpecifierMaximumLineHeight, sizeof(CGFloat), &maxLineHeight},
+				{kCTParagraphStyleSpecifierParagraphSpacing, sizeof(CGFloat), &paragraphSpaceBefore}
             };
-            CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, sizeof(settings) / sizeof(settings[0]));
+            CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, 3);
             [string addAttribute:(id)kCTParagraphStyleAttributeName
                            value:(id)paragraphStyle 
                            range:aRange];
@@ -98,11 +119,12 @@
             
 		}
 		CFRelease(ctFont);
-		// layout master
-		if (_framesetter != NULL)
-			CFRelease(_framesetter);
+		// layout master 
+		if (_framesetter != NULL) CFRelease(_framesetter);
 		_framesetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)string);
-	}
+		[string release];
+        
+    }
 }
 
 /*!
@@ -161,12 +183,12 @@
     self.defaultStyle = style;
     
     NSString *regEx = @"<[a-zA-Z0-9]*( /){0,1}>";
-       
+           
     while (YES) {
         int length;
         NSRange rangeStart;
         NSRange rangeActive;
-        FTCoreTextStyle *style;
+        FTCoreTextStyle *style = nil;
         
         
         rangeStart = [_processedString rangeOfString:regEx options:NSRegularExpressionSearch];
@@ -237,6 +259,7 @@
 + (NSArray *)pagesFromText:(NSString *)string {
     FTCoreTextView *instance = [[FTCoreTextView alloc] initWithFrame:CGRectZero];
     NSArray *result = [instance divideTextInPages:string];
+	[instance release];
     return (NSArray *)result;
 }
 
@@ -251,6 +274,8 @@
         _processedString = [[NSMutableString alloc] init];
         _styles = [[NSMutableDictionary alloc] init];
         [self setBackgroundColor:[UIColor clearColor]];
+        self.contentMode = UIViewContentModeRedraw;
+        [self setUserInteractionEnabled:YES];
     }
     return self;
 }
@@ -285,13 +310,14 @@
                                                     mainPath, NULL);
     
     // flip coordinate system
-	CGContextRef context = UIGraphicsGetCurrentContext();
-	CGContextSetTextMatrix(context, CGAffineTransformIdentity);
-	CGContextTranslateCTM(context, 0, self.bounds.size.height);
-	CGContextScaleCTM(context, 1.0, -1.0);
-    
+    _context = UIGraphicsGetCurrentContext();
+    CGContextClearRect(self.context, self.frame);
+	CGContextSetTextMatrix(self.context, CGAffineTransformIdentity);
+	CGContextTranslateCTM(self.context, 0, self.bounds.size.height);
+	CGContextScaleCTM(self.context, 1.0, -1.0);
 	// draw
-	CTFrameDraw(drawFrame, context);
+	CTFrameDraw(drawFrame, self.context);
+    CGContextSaveGState(self.context);
     
     
     
@@ -314,6 +340,15 @@
 
 - (void)addStyle:(FTCoreTextStyle *)style {
     [self.styles setValue:style forKey:style.name];
+	_changesMade = YES;
+    if ([self superview]) [self setNeedsDisplay];
+}
+
+- (void)addStyles:(NSArray *)styles
+{
+	for (FTCoreTextStyle *style in styles) {
+		[self.styles setValue:style forKey:style.name];
+	}
 	_changesMade = YES;
     if ([self superview]) [self setNeedsDisplay];
 }
