@@ -26,6 +26,82 @@
 @synthesize processedString = _processedString;
 @synthesize path = _path;
 @synthesize context = _context;
+@synthesize uRLs = _URLs;
+@synthesize delegate = _delegate;
+
+
+
+/** 
+ * check if the given point has any data 
+ */
+
+- (NSDictionary *)dataForPoint:(CGPoint)point {
+	CGMutablePathRef mainPath = CGPathCreateMutable();
+    if (!_path) {
+        CGPathAddRect(mainPath, NULL, 
+                      CGRectMake(0, 0, 
+                                 self.bounds.size.width,
+                                 self.bounds.size.height));  
+    }
+    else {
+        CGPathAddPath(mainPath, NULL, _path);
+    }
+    
+    
+    float inverter = [self suggestedSizeConstrainedToSize:self.frame.size].height;
+
+    CTFrameRef ctframe = CTFramesetterCreateFrame(_framesetter, CFRangeMake(0, 0), mainPath, NULL);
+    
+    CGPathRelease(mainPath);
+    
+    NSString *strippedString = [FTCoreTextView stripTagsforString:self.text];
+    
+    CFArrayRef lines = CTFrameGetLines(ctframe);
+    CFIndex lineCount = CFArrayGetCount(lines);
+    CGPoint origins[lineCount];
+    
+    if (lineCount == 0) return nil;
+    
+    CTFrameGetLineOrigins(ctframe, CFRangeMake(0, 0), origins);
+    
+    inverter = origins[0].y;
+    
+    for(CFIndex idx = 0; idx < lineCount; idx++)
+    {
+        CTLineRef line = CFArrayGetValueAtIndex(lines, idx);
+        CGRect lineBounds = CTLineGetImageBounds(line, self.context);
+        if (CGRectIsEmpty(lineBounds)) continue;
+        lineBounds.origin.y = ( inverter - origins[idx].y + abs(lineBounds.origin.y));
+        
+        CFRange cfrange = CTLineGetStringRange(line);
+        NSRange range = NSMakeRange(cfrange.location, cfrange.length);
+        NSString *selectedText = [strippedString substringWithRange:range];
+
+        
+        if (CGRectContainsPoint(lineBounds, point)) {
+            NSURL *url = [self.uRLs objectForKey:[NSNumber numberWithInt:range.location]];
+            NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+            [dict setObject:selectedText forKey:@"text"];
+            [dict setObject:[NSValue valueWithCGRect:lineBounds] forKey:@"frame"];
+            if (url) [dict setObject:url forKey:@"url"];
+            
+            //TEST FRAME
+            /*
+            UILabel *lbl = [[UILabel alloc] initWithFrame:lineBounds];
+            [lbl setText:selectedText];
+            [lbl setFont:[UIFont systemFontOfSize:14]];
+            [lbl setBackgroundColor:[UIColor redColor]];
+            [self addSubview:lbl];
+            [lbl release];
+            */
+            
+            return dict;
+        }
+         
+    }
+    
+    return nil;
+}
 
 - (void)updateFramesetterIfNeeded
 {
@@ -181,9 +257,14 @@
     _processedString = (NSMutableString *)_text;
     FTCoreTextStyle *style = [self.styles objectForKey:@"_default"];
     self.defaultStyle = style;
+	if (_defaultStyle == nil) {
+		_defaultStyle = [FTCoreTextStyle new];
+	}
     
     NSString *regEx = @"<[a-zA-Z0-9]*( /){0,1}>";
-           
+    
+    [self.uRLs removeAllObjects];
+       
     while (YES) {
         int length;
         NSRange rangeStart;
@@ -204,6 +285,18 @@
         NSString *append = @"";
         if (style != nil && style.appendedCharacter) {
             append = style.appendedCharacter;
+        }
+        
+        BOOL isURL = (style && style.URLStringReplacement);
+        if (isURL) {
+            //replace active string with url text
+            NSRange closeTagRange = [_processedString rangeOfString:[NSString stringWithFormat:@"</%@>", key]];
+            NSRange urlRange = NSMakeRange((rangeStart.location + rangeStart.length), (closeTagRange.location - (rangeStart.location + rangeStart.length)));
+            NSString *urlString = [_processedString substringWithRange:urlRange];
+            [_processedString replaceCharactersInRange:urlRange withString:style.URLStringReplacement];
+            NSURL *url = [NSURL URLWithString:urlString];
+            [self.uRLs setObject:url forKey:[NSNumber numberWithInt:rangeStart.location]];
+            
         }
         
         if (isAutoClose) {
@@ -263,24 +356,50 @@
     return (NSArray *)result;
 }
 
-- (id)initWithFrame:(CGRect)frame
+
+#pragma mark Initialization
+
+- (void)doInit {
+	// Initialization code
+	_framesetter = NULL;
+	_text = [[NSString alloc] init];
+	_markers = [[NSMutableArray alloc] init];
+	_processedString = [[NSMutableString alloc] init];
+	_styles = [[NSMutableDictionary alloc] init];
+	_URLs = [[NSMutableDictionary alloc] init];
+	[self setBackgroundColor:[UIColor clearColor]];
+	self.contentMode = UIViewContentModeRedraw;
+	[self setUserInteractionEnabled:YES];
+}
+
+- (id)init
 {
-    self = [super initWithFrame:frame];
+    self = [super init];
     if (self) {
-        // Initialization code
-		_framesetter = NULL;
-        _text = [[NSString alloc] init];
-        _markers = [[NSMutableArray alloc] init];
-        _processedString = [[NSMutableString alloc] init];
-        _styles = [[NSMutableDictionary alloc] init];
-        [self setBackgroundColor:[UIColor clearColor]];
-        self.contentMode = UIViewContentModeRedraw;
-        [self setUserInteractionEnabled:YES];
+        [self doInit];
     }
     return self;
 }
 
+- (id)initWithCoder:(NSCoder *)aDecoder
+{
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        [self doInit];
+    }
+    return self;
+}
 
+- (id)initWithFrame:(CGRect)frame
+{
+    self = [super initWithFrame:frame];
+    if (self) {
+        [self doInit];
+    }
+    return self;
+}
+
+#pragma mark Draw rect
 
 /*!
  * @abstract draw the actual coretext on the context
@@ -373,7 +492,20 @@
     [_styles release];
     [_markers release];
     [_processedString release];
+    [_URLs release], _URLs = nil;
+    _delegate = nil;
     [super dealloc];
+}
+
+#pragma mark touches
+
+- (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event {
+    CGPoint point = [(UITouch *)[touches anyObject] locationInView:self];
+    NSDictionary *data = [self dataForPoint:point];
+    
+    if (data && self.delegate && [self.delegate respondsToSelector:@selector(touchedData:inCoreTextView:)]) {
+        [self.delegate touchedData:data inCoreTextView:self];
+    }
 }
 
 @end

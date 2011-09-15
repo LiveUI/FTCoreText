@@ -15,10 +15,11 @@
 #import "FTCoreTextStyle.h"
 #import <CoreText/CoreText.h>
 
+@protocol FTCoreTextViewDelegate;
 @interface FTCoreTextView : UIView {
     NSString *_text;
     NSMutableDictionary *_styles;
-@private
+    @private
     NSMutableArray		*_markers;
     FTCoreTextStyle		*_defaultStyle;
     NSMutableString		*_processedString;
@@ -26,6 +27,8 @@
     CGContextRef        _context;
     CTFramesetterRef	_framesetter;
 	BOOL				_changesMade;
+    NSMutableDictionary *_URLs;
+    id<FTCoreTextViewDelegate> _delegate;
 }
 
 @property (nonatomic, retain) NSString *text;
@@ -35,6 +38,9 @@
 @property (nonatomic, retain) NSMutableString *processedString;
 @property (nonatomic, assign) CGPathRef path;
 @property (nonatomic, assign) CGContextRef context;
+@property (nonatomic, retain) NSMutableDictionary *uRLs;
+@property (nonatomic, assign) id<FTCoreTextViewDelegate> delegate;
+
 
 - (id)initWithFrame:(CGRect)frame;
 - (void)addStyle:(FTCoreTextStyle *)style;
@@ -43,5 +49,11 @@
 + (NSArray *)pagesFromText:(NSString *)string;
 
 - (CGSize)suggestedSizeConstrainedToSize:(CGSize)size;
+
+@end
+
+@protocol FTCoreTextViewDelegate <NSObject>
+@optional
+- (void)touchedData:(NSDictionary *)data inCoreTextView:(FTCoreTextView *)textView;
 
 @end
