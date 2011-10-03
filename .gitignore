@@ -1,8 +1,24 @@
+*.mode1v3
+*.mode2v3
+*.pyc
+*~.nib/
+*.pbxuser
+*.perspective
+*.perspectivev3
 
-FTCoreText.xcodeproj/xcuserdata/baldophpourprix.xcuserdatad/xcschemes/xcschememanagement.plist
+xcuserdata
 
-FTCoreText.xcodeproj/xcuserdata/baldophpourprix.xcuserdatad/xcschemes/FTCoreText.xcscheme
+PLBlocks.framework/*
+build/*
 
-FTCoreText.xcodeproj/project.xcworkspace/xcuserdata/baldophpourprix.xcuserdatad/UserInterfaceState.xcuserstate
+.DS_Store
+profile
+.svn
 
-*.xcuserstate
+Calpol.xcodeproj/project.xcworkspace/xcuserdata/baldophpourprix.xcuserdatad/UserInterfaceState.xcuserstate
+
+Calpol.xcodeproj/project.xcworkspace/xcuserdata/baldophpourprix.xcuserdatad/UserInterfaceState.xcuserstate
+
+/.DS_Store
+/Calpol/.DS_Store
+Calpol/CPSectionView.m
