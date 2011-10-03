@@ -18,6 +18,8 @@
 		684DBCD113FD4F8200776C6D /* FTCoreTextStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 684DBCCC13FD4F8200776C6D /* FTCoreTextStyle.m */; };
 		684DBCD213FD4F8200776C6D /* FTCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 684DBCCE13FD4F8200776C6D /* FTCoreTextView.m */; };
 		684DBCD413FD526200776C6D /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 684DBCD313FD526200776C6D /* CoreText.framework */; };
+		68DAFA481439C1B2006E1497 /* twitter_icon_a.png in Resources */ = {isa = PBXBuildFile; fileRef = 68DAFA471439C1B2006E1497 /* twitter_icon_a.png */; };
+		68DAFA4A1439D097006E1497 /* homer.png in Resources */ = {isa = PBXBuildFile; fileRef = 68DAFA491439D097006E1497 /* homer.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -39,6 +41,8 @@
 		684DBCCD13FD4F8200776C6D /* FTCoreTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTCoreTextView.h; sourceTree = "<group>"; };
 		684DBCCE13FD4F8200776C6D /* FTCoreTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTCoreTextView.m; sourceTree = "<group>"; };
 		684DBCD313FD526200776C6D /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		68DAFA471439C1B2006E1497 /* twitter_icon_a.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = twitter_icon_a.png; path = assets/twitter_icon_a.png; sourceTree = "<group>"; };
+		68DAFA491439D097006E1497 /* homer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = homer.png; path = assets/homer.png; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -103,6 +107,7 @@
 		684DBCB013FD4DCF00776C6D /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				68DAFA451439C0A4006E1497 /* assets */,
 				684DBCBB13FD4DCF00776C6D /* MainWindow.xib */,
 				684DBCB113FD4DCF00776C6D /* FTCoreText-Info.plist */,
 				684DBCB213FD4DCF00776C6D /* InfoPlist.strings */,
@@ -110,6 +115,15 @@
 				684DBCB713FD4DCF00776C6D /* FTCoreText-Prefix.pch */,
 			);
 			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		68DAFA451439C0A4006E1497 /* assets */ = {
+			isa = PBXGroup;
+			children = (
+				68DAFA491439D097006E1497 /* homer.png */,
+				68DAFA471439C1B2006E1497 /* twitter_icon_a.png */,
+			);
+			name = assets;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -161,6 +175,8 @@
 			files = (
 				684DBCB413FD4DCF00776C6D /* InfoPlist.strings in Resources */,
 				684DBCBD13FD4DCF00776C6D /* MainWindow.xib in Resources */,
+				68DAFA481439C1B2006E1497 /* twitter_icon_a.png in Resources */,
+				68DAFA4A1439D097006E1497 /* homer.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -285,6 +301,7 @@
 				684DBCC213FD4DCF00776C6D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

@@ -17,7 +17,7 @@
 
 
 - (NSString *)textForView {
-    return @"<title>Article Title</title>\nMaecenas faucibus mollis interdum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. <black>Curabitur blandit tempus porttitor</black>. Donec ullamcorper nulla non metus auctor fringilla. Sed posuere consectetur est at lobortis.\n\nCras justo odio, dapibus ac facilisis in, egestas eget quam. Nullam quis risus eget urna mollis ornare vel eu leo:\n<bullet /> Fusce dapibus\n<bullet /> tellus ac cursus commodo\n<bullet /> tortor mauris condimentum nibh\n<disclaimer>Ut fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</disclaimer>";
+    return @"<title>Article Title</title>\n\n<_image>homer.png</_image>Maecenas faucibus mollis interdum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros. <black>Curabitur blandit tempus porttitor</black>. Donec ullamcorper nulla non metus auctor fringilla. Sed posuere consectetur est at lobortis.\n<_image>homer.png</_image>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Nullam quis risus eget urna mollis ornare vel eu leo:\n<bullet /> Fusce dapibus\n<bullet /> tellus ac cursus commodo\n<bullet /> tortor mauris condimentum nibh\n<disclaimer>Ut fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</disclaimer>";
 }
 
 
@@ -61,7 +61,18 @@
     bullet.font = [UIFont systemFontOfSize:14];
     bullet.appendedCharacter = @"• ";
     [result setValue:bullet forKey:bullet.name];
-    [bullet release];    
+    [bullet release];
+    
+    FTCoreTextStyle *imgStyle = [[FTCoreTextStyle alloc] init];
+    imgStyle.name = @"_image";
+    imgStyle.color = [UIColor purpleColor];
+    imgStyle.font = [UIFont systemFontOfSize:14];
+    imgStyle.alignment = kCTCenterTextAlignment;
+    imgStyle.spaceBetweenParagraphs = 10;
+    [result setValue:imgStyle forKey:imgStyle.name];
+    [imgStyle release];
+
+    
     return  result;
 }
 

@@ -28,17 +28,19 @@
     CTFramesetterRef	_framesetter;
 	BOOL				_changesMade;
     NSMutableDictionary *_URLs;
+    NSMutableDictionary *_images;
     id<FTCoreTextViewDelegate> _delegate;
 }
 
 @property (nonatomic, retain) NSString *text;
 @property (nonatomic, retain) NSMutableDictionary *styles;
 @property (nonatomic, retain) NSMutableArray *markers;
-@property (nonatomic, assign) FTCoreTextStyle *defaultStyle;
+@property (nonatomic, retain) FTCoreTextStyle *defaultStyle;
 @property (nonatomic, retain) NSMutableString *processedString;
 @property (nonatomic, assign) CGPathRef path;
 @property (nonatomic, assign) CGContextRef context;
 @property (nonatomic, retain) NSMutableDictionary *uRLs;
+@property (nonatomic, retain) NSMutableDictionary *images;
 @property (nonatomic, assign) id<FTCoreTextViewDelegate> delegate;
 
 

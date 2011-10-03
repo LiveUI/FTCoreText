@@ -27,13 +27,10 @@
 @synthesize path = _path;
 @synthesize context = _context;
 @synthesize uRLs = _URLs;
+@synthesize images = _images;
 @synthesize delegate = _delegate;
 
 
-
-/** 
- * check if the given point has any data 
- */
 
 - (NSDictionary *)dataForPoint:(CGPoint)point {
 	CGMutablePathRef mainPath = CGPathCreateMutable();
@@ -71,7 +68,7 @@
         CTLineRef line = CFArrayGetValueAtIndex(lines, idx);
         CGRect lineBounds = CTLineGetImageBounds(line, self.context);
         if (CGRectIsEmpty(lineBounds)) continue;
-        lineBounds.origin.y = ( inverter - origins[idx].y + abs(lineBounds.origin.y));
+        lineBounds.origin.y = ( inverter - origins[idx].y);
         
         CFRange cfrange = CTLineGetStringRange(line);
         NSRange range = NSMakeRange(cfrange.location, cfrange.length);
@@ -85,7 +82,6 @@
             [dict setObject:[NSValue valueWithCGRect:lineBounds] forKey:@"frame"];
             if (url) [dict setObject:url forKey:@"url"];
             
-            //TEST FRAME
             /*
             UILabel *lbl = [[UILabel alloc] initWithFrame:lineBounds];
             [lbl setText:selectedText];
@@ -97,7 +93,21 @@
             
             return dict;
         }
-         
+        
+       
+        /*
+        for (id runObj in (NSArray *)CTLineGetGlyphRuns(line)) {
+            CTRunRef run = (CTRunRef)runObj;
+            CGRect runBounds = CTRunGetImageBounds(run, self.context, CFRangeMake(0, 0));
+            
+            CFRange cfrange = CTRunGetStringRange(run);
+            NSRange range = NSMakeRange(cfrange.location, cfrange.length);
+            NSString *selectedText = [strippedString substringWithRange:range];
+            
+            NSLog(@"RUN: %@", NSStringFromCGRect(runBounds));
+            
+        }
+         */
     }
     
     return nil;
@@ -141,7 +151,8 @@
 		[string addAttribute:(id)kCTFontAttributeName
 					   value:(id)ctFont
 					   range:stringRange];
-		
+		CFRelease(ctFont);
+
 		CTTextAlignment alignment = (_defaultStyle.alignment)? _defaultStyle.alignment : kCTLeftTextAlignment;
 		CGFloat maxLineHeight = _defaultStyle.maxLineHeight;
 		CGFloat paragraphSpaceBefore = _defaultStyle.spaceBetweenParagraphs;
@@ -155,6 +166,8 @@
 		[string addAttribute:(id)kCTParagraphStyleAttributeName
 					   value:(id)paragraphStyle 
 					   range:stringRange];
+		CFRelease(paragraphStyle);
+
 		
 		//set markers attributes
 		for (NSDictionary *dict in _markers) {
@@ -162,21 +175,18 @@
 			FTCoreTextStyle *style = [dict objectForKey:@"style"];
 			if ((aRange.location + aRange.length) > [_text length] ) continue;
 			
-			
-			
 			[string addAttribute:(id)kCTForegroundColorAttributeName
 						   value:(id)style.color.CGColor
 						   range:aRange];
             
-			ctFont = nil;
-			ctFont = CTFontCreateWithName((CFStringRef)style.font.fontName, 
+			CTFontRef setCTFont = CTFontCreateWithName((CFStringRef)style.font.fontName, 
 										  style.font.pointSize, 
 										  NULL);
 			
 			[string addAttribute:(id)kCTFontAttributeName
-						   value:(id)ctFont
+						   value:(id)setCTFont
 						   range:aRange];
-            
+            CFRelease(setCTFont);
             
             CTTextAlignment alignment = (style.alignment)? style.alignment : kCTLeftTextAlignment;
             CGFloat maxLineHeight = style.maxLineHeight;
@@ -191,10 +201,9 @@
             [string addAttribute:(id)kCTParagraphStyleAttributeName
                            value:(id)paragraphStyle 
                            range:aRange];
-            
+			CFRelease(paragraphStyle);
             
 		}
-		CFRelease(ctFont);
 		// layout master 
 		if (_framesetter != NULL) CFRelease(_framesetter);
 		_framesetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)string);
@@ -261,9 +270,10 @@
 		_defaultStyle = [FTCoreTextStyle new];
 	}
     
-    NSString *regEx = @"<[a-zA-Z0-9]*( /){0,1}>";
+    NSString *regEx = @"<[_a-zA-Z0-9]*( /){0,1}>";
     
     [self.uRLs removeAllObjects];
+    [self.images removeAllObjects];
        
     while (YES) {
         int length;
@@ -299,6 +309,29 @@
             
         }
         
+        NSLog(@"key: %@", key);
+        
+        BOOL isImage = ([key isEqualToString:@"_image"]);
+        if (isImage) {
+            //replace active string with emptySpace
+            NSRange closeTagRange = [_processedString rangeOfString:[NSString stringWithFormat:@"</%@>", key]];
+            NSRange imageRange = NSMakeRange((rangeStart.location + rangeStart.length), (closeTagRange.location - (rangeStart.location + rangeStart.length)));
+            NSString *imageString = [_processedString substringWithRange:imageRange];
+            UIImage *img = [UIImage imageNamed:imageString];
+
+            if (img) {
+                int skipLine = floorf(img.size.height / style.font.lineHeight);
+                NSMutableString *lines = [NSMutableString string];
+                for (int i = 0; i < skipLine; i++) {
+                    [lines appendFormat:@"\n"];
+                }
+                
+                [_processedString replaceCharactersInRange:imageRange withString:lines];
+                [self.images setObject:img forKey:[NSNumber numberWithInt:rangeStart.location]];
+            }
+ 
+        }
+        
         if (isAutoClose) {
             [_processedString replaceCharactersInRange:rangeStart withString:append];
             rangeActive = NSMakeRange(rangeStart.location, [append length]);
@@ -326,7 +359,69 @@
             [_markers addObject:dict];            
         }
     }
+}
+
+
+
+- (void)drawImages {
     
+    
+    
+    CGMutablePathRef mainPath = CGPathCreateMutable();
+    if (!_path) {
+        CGPathAddRect(mainPath, NULL, 
+                      CGRectMake(0, 0, 
+                                 self.bounds.size.width,
+                                 self.bounds.size.height));  
+    }
+    else {
+        CGPathAddPath(mainPath, NULL, _path);
+    }
+    
+    float inverter = [self suggestedSizeConstrainedToSize:self.frame.size].height;
+    
+    CTFrameRef ctframe = CTFramesetterCreateFrame(_framesetter, CFRangeMake(0, 0), mainPath, NULL);
+    
+    CGPathRelease(mainPath);
+
+    
+    CFArrayRef lines = CTFrameGetLines(ctframe);
+    CFIndex lineCount = CFArrayGetCount(lines);
+    CGPoint origins[lineCount];
+    
+    CTFrameGetLineOrigins(ctframe, CFRangeMake(0, 0), origins);
+    
+    inverter = origins[0].y;
+    NSArray *keys = [self.images allKeys];
+    
+    for(CFIndex idx = 0; idx < lineCount; idx++)
+    {
+        CTLineRef line = CFArrayGetValueAtIndex(lines, idx);
+        CGRect lineBounds = CTLineGetImageBounds(line, self.context);
+        lineBounds.origin.y = ( inverter - origins[idx].y);
+        
+        CFRange cfrange = CTLineGetStringRange(line);
+        NSNumber *checkKey = [NSNumber numberWithInt:(cfrange.location - 1)];
+        
+        
+        if ([keys containsObject:checkKey]) {
+            
+            CTTextAlignment alignment = [(FTCoreTextStyle *)[self.styles objectForKey:@"_image"] alignment];
+            
+            UIImage *img = [self.images objectForKey:checkKey];
+            if (img) {
+                int x = 0;
+                if (alignment == kCTRightTextAlignment) x = (self.frame.size.width - img.size.width);
+                if (alignment == kCTCenterTextAlignment) x = ((self.frame.size.width - img.size.width) / 2);
+                
+                CGRect frame = CGRectMake(x, lineBounds.origin.y, img.size.width, img.size.height);
+                [img drawInRect:frame];
+
+            }
+        }
+        
+    }
+
 }
 
 /*!
@@ -367,6 +462,7 @@
 	_processedString = [[NSMutableString alloc] init];
 	_styles = [[NSMutableDictionary alloc] init];
 	_URLs = [[NSMutableDictionary alloc] init];
+    _images = [[NSMutableDictionary alloc] init];
 	[self setBackgroundColor:[UIColor clearColor]];
 	self.contentMode = UIViewContentModeRedraw;
 	[self setUserInteractionEnabled:YES];
@@ -431,18 +527,22 @@
     // flip coordinate system
     _context = UIGraphicsGetCurrentContext();
     CGContextClearRect(self.context, self.frame);
+    
+    //draw images
+    [self drawImages];
+    
+    
 	CGContextSetTextMatrix(self.context, CGAffineTransformIdentity);
 	CGContextTranslateCTM(self.context, 0, self.bounds.size.height);
 	CGContextScaleCTM(self.context, 1.0, -1.0);
 	// draw
 	CTFrameDraw(drawFrame, self.context);
     CGContextSaveGState(self.context);
-    
-    
-    
+
 	// cleanup
 	CFRelease(drawFrame);
 	CGPathRelease(mainPath);
+
 }
 
 
@@ -492,7 +592,9 @@
     [_styles release];
     [_markers release];
     [_processedString release];
+	[_defaultStyle release];
     [_URLs release], _URLs = nil;
+    [_images release], _images = nil;
     _delegate = nil;
     [super dealloc];
 }
