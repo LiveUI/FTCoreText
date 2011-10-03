@@ -85,12 +85,16 @@
     
   
     //add coretextview
-    FTCoreTextView *coreTextV = [[FTCoreTextView alloc] initWithFrame:CGRectMake(20, 20, 280, 400)];
+    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+    FTCoreTextView *coreTextV = [[FTCoreTextView alloc] initWithFrame:CGRectMake(20, 20, 280, 700)];
     // set text
     [coreTextV setText:[self textForView]];
     // set styles
     [coreTextV setStyles:[self coreTextStyle]];
-    [self.view addSubview:coreTextV];
+    [scrollView addSubview:coreTextV];
+    [scrollView setContentSize:coreTextV.frame.size];
+    
+    [self.view addSubview:scrollView];
     
     [coreTextV release];
     
