@@ -70,44 +70,41 @@
         if (CGRectIsEmpty(lineBounds)) continue;
         lineBounds.origin.y = ( inverter - origins[idx].y);
         
-        CFRange cfrange = CTLineGetStringRange(line);
-        NSRange range = NSMakeRange(cfrange.location, cfrange.length);
-        NSString *selectedText = [strippedString substringWithRange:range];
-
-        
         if (CGRectContainsPoint(lineBounds, point)) {
-            NSURL *url = [self.uRLs objectForKey:[NSNumber numberWithInt:range.location]];
-            NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-            [dict setObject:selectedText forKey:@"text"];
-            [dict setObject:[NSValue valueWithCGRect:lineBounds] forKey:@"frame"];
-            if (url) [dict setObject:url forKey:@"url"];
             
-            /*
-            UILabel *lbl = [[UILabel alloc] initWithFrame:lineBounds];
-            [lbl setText:selectedText];
-            [lbl setFont:[UIFont systemFontOfSize:14]];
-            [lbl setBackgroundColor:[UIColor redColor]];
-            [self addSubview:lbl];
-            [lbl release];
-            */
-            
-            return dict;
+            for (id runObj in (NSArray *)CTLineGetGlyphRuns(line)) {
+                CTRunRef run = (CTRunRef)runObj;
+                CGRect runBounds = CTRunGetImageBounds(run, self.context, CFRangeMake(0, 0));
+                runBounds.origin.y = ( inverter - origins[idx].y);
+                
+                CFRange cfrange = CTRunGetStringRange(run);
+                NSRange range = NSMakeRange(cfrange.location, cfrange.length);
+                NSString *selectedText = [strippedString substringWithRange:range];
+                
+                if (CGRectContainsPoint(runBounds, point)) {
+                    NSURL *url = [self.uRLs objectForKey:[NSNumber numberWithInt:range.location]];
+                    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+                    [dict setObject:selectedText forKey:@"text"];
+                    [dict setObject:[NSValue valueWithCGRect:lineBounds] forKey:@"frame"];
+                    if (url) [dict setObject:url forKey:@"url"];
+                    
+                    /*
+                     UILabel *lbl = [[UILabel alloc] initWithFrame:lineBounds];
+                     [lbl setText:selectedText];
+                     [lbl setFont:[UIFont systemFontOfSize:14]];
+                     [lbl setBackgroundColor:[UIColor redColor]];
+                     [self addSubview:lbl];
+                     [lbl release];
+                     */
+                    
+                    return dict;
+                }
+                
+            }
+ 
+
         }
-        
-       
-        /*
-        for (id runObj in (NSArray *)CTLineGetGlyphRuns(line)) {
-            CTRunRef run = (CTRunRef)runObj;
-            CGRect runBounds = CTRunGetImageBounds(run, self.context, CFRangeMake(0, 0));
-            
-            CFRange cfrange = CTRunGetStringRange(run);
-            NSRange range = NSMakeRange(cfrange.location, cfrange.length);
-            NSString *selectedText = [strippedString substringWithRange:range];
-            
-            NSLog(@"RUN: %@", NSStringFromCGRect(runBounds));
-            
-        }
-         */
+
     }
     
     return nil;
@@ -297,19 +294,27 @@
             append = style.appendedCharacter;
         }
         
-        BOOL isURL = (style && style.URLStringReplacement);
+        BOOL isURL = ([key isEqualToString:@"_link"]);
         if (isURL) {
             //replace active string with url text
             NSRange closeTagRange = [_processedString rangeOfString:[NSString stringWithFormat:@"</%@>", key]];
             NSRange urlRange = NSMakeRange((rangeStart.location + rangeStart.length), (closeTagRange.location - (rangeStart.location + rangeStart.length)));
-            NSString *urlString = [_processedString substringWithRange:urlRange];
-            [_processedString replaceCharactersInRange:urlRange withString:style.URLStringReplacement];
+            NSString *allUrlString = [_processedString substringWithRange:urlRange];
+            NSRange pipeRange = [allUrlString rangeOfString:@"|"];
+            NSString *urlString;
+            NSString *replacementString;
+            if (pipeRange.location != NSNotFound) {
+                urlString = [allUrlString substringWithRange:NSMakeRange(0, pipeRange.location)];
+                replacementString = [allUrlString stringByReplacingCharactersInRange:NSMakeRange(0, (pipeRange.location + 1)) withString:@""];
+            }
+            
+            
+            [_processedString replaceCharactersInRange:urlRange withString:replacementString];
             NSURL *url = [NSURL URLWithString:urlString];
             [self.uRLs setObject:url forKey:[NSNumber numberWithInt:rangeStart.location]];
             
         }
         
-        NSLog(@"key: %@", key);
         
         BOOL isImage = ([key isEqualToString:@"_image"]);
         if (isImage) {

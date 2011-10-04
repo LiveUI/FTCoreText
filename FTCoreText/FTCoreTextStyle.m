@@ -17,7 +17,6 @@
 @synthesize color;
 @synthesize isUnderLined;
 @synthesize alignment;
-@synthesize URLStringReplacement;
 @synthesize maxLineHeight;
 @synthesize spaceBetweenParagraphs;
 
@@ -44,7 +43,6 @@
 	style.color = self.color;
 	style.isUnderLined = self.isUnderLined;
     style.alignment = self.alignment;
-    style.URLStringReplacement = self.URLStringReplacement;
 	style.maxLineHeight = self.maxLineHeight;
 	style.spaceBetweenParagraphs = self.spaceBetweenParagraphs;
 	return style;
@@ -56,7 +54,6 @@
     [appendedCharacter release], appendedCharacter = nil;
     [font release], font = nil;
     [color release], color = nil;
-    [URLStringReplacement release], URLStringReplacement = nil;
     [super dealloc];
 }
 

@@ -7,7 +7,8 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "FTCoreTextView.h"
 
-@interface articleViewController : UIViewController
+@interface articleViewController : UIViewController <FTCoreTextViewDelegate>
 
 @end

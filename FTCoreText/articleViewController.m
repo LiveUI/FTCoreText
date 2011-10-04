@@ -7,7 +7,6 @@
 //
 
 #import "articleViewController.h"
-#import "FTCoreTextView.h"
 
 @implementation articleViewController
 
@@ -17,7 +16,7 @@
 
 
 - (NSString *)textForView {
-    return @"<title>Article Title</title>\nMaecenas faucibus mollis interdum. Morbi leo risus, porta ac consectetur ac, vestibulum at eros.\n<_image>homer.png</_image> <black>Curabitur blandit tempus porttitor</black>. Donec ullamcorper nulla non metus auctor fringilla. Sed posuere consectetur est at lobortis.\n<_image>homer.png</_image>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Nullam quis risus eget urna mollis ornare vel eu leo:\n<bullet /> Fusce dapibus\n<bullet /> tellus ac cursus commodo\n<bullet /> tortor mauris condimentum nibh\n<disclaimer>Ut fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</disclaimer>";
+    return @"<title>Article Title</title>\nMaecenas faucibus mollis interdum. Morbi leo risus, <_link>http://www.google.com|I am a link</_link> ac consectetur ac, vestibulum at eros.\n<_image>homer.png</_image> <black>Curabitur blandit tempus porttitor</black>. Donec ullamcorper nulla non metus auctor fringilla. Sed posuere consectetur est at lobortis.\n<_image>homer.png</_image>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Nullam quis risus eget urna mollis ornare vel eu leo:\n<bullet /> Fusce dapibus\n<bullet /> tellus ac cursus commodo\n<bullet /> tortor mauris condimentum nibh\n<disclaimer>Ut fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</disclaimer>";
 }
 
 
@@ -71,6 +70,13 @@
     imgStyle.spaceBetweenParagraphs = 10;
     [result setValue:imgStyle forKey:imgStyle.name];
     [imgStyle release];
+    
+    FTCoreTextStyle *linkStyle = [[FTCoreTextStyle alloc] init];
+    linkStyle.name = @"_link";
+    [linkStyle setColor:[UIColor greenColor]];
+    [linkStyle setFont:[UIFont italicSystemFontOfSize:14]];
+    [result setValue:linkStyle forKey:linkStyle.name];
+    [linkStyle release];
 
     
     return  result;
@@ -91,6 +97,8 @@
     [coreTextV setText:[self textForView]];
     // set styles
     [coreTextV setStyles:[self coreTextStyle]];
+    //set deelgate
+    [coreTextV setDelegate:self];
     [scrollView addSubview:coreTextV];
     [scrollView setContentSize:coreTextV.frame.size];
     
@@ -99,6 +107,12 @@
     [coreTextV release];
     
     
+}
+
+- (void)touchedData:(NSDictionary *)data inCoreTextView:(FTCoreTextView *)textView {
+    NSURL *url = [data objectForKey:@"url"];
+    if (!url) return;
+    [[UIApplication sharedApplication] openURL:url];
 }
 
 

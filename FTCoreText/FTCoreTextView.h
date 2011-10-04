@@ -8,7 +8,10 @@
 
 //     Special markers:
 //     _default: It is the default applyed to the whole text. MArkups is not needed on the text
+//     _page: Divide the text in pages. REspond to markup <_page/>
 //     _bullet: define styles for bullets. Respond to Markups <bullets />
+//     _image: define style for images. Respond to markup <_image>imageNameOnBundle.extension</_image>
+//     _link: define style for links. Respond to markup <_link>link_target|link name</_link>
  
 
 #import <UIKit/UIKit.h>
