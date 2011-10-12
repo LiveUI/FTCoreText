@@ -7,7 +7,7 @@
 //
 
 //     Special markers:
-//     _default: It is the default applied to the whole text. MArkups is not needed on the text
+//     _default: It is the default applied to the whole text. Markups is not needed on the text
 //     _page: Divide the text in pages. Respond to markup <_page/>
 //     _bullet: define styles for bullets. Respond to Markups <bullets />
 //     _image: define style for images. Respond to markup <_image>imageNameOnBundle.extension</_image>
@@ -54,6 +54,7 @@
 + (NSArray *)pagesFromText:(NSString *)string;
 
 - (CGSize)suggestedSizeConstrainedToSize:(CGSize)size;
+- (void)fitToSuggestedHeight;
 
 @end
 

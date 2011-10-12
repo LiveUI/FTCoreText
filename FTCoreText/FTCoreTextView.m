@@ -252,6 +252,15 @@
 		_defaultStyle = [FTCoreTextStyle new];
 	}
     
+	if (![_styles objectForKey:@"_link"]) {
+		//we add a default style for links
+		FTCoreTextStyle *linksStyle = [_defaultStyle copy];
+		linksStyle.color = [UIColor blueColor];
+		linksStyle.name = @"_link";
+		[_styles setValue:linksStyle forKey:linksStyle.name];
+		[linksStyle release];
+	}
+	
     NSString *regEx = @"<[_a-zA-Z0-9]*( /){0,1}>";
     
     [self.uRLs removeAllObjects];
@@ -286,8 +295,8 @@
             NSRange urlRange = NSMakeRange((rangeStart.location + rangeStart.length), (closeTagRange.location - (rangeStart.location + rangeStart.length)));
             NSString *allUrlString = [_processedString substringWithRange:urlRange];
             NSRange pipeRange = [allUrlString rangeOfString:@"|"];
-            NSString *urlString;
-            NSString *replacementString;
+            NSString *urlString = nil;
+            NSString *replacementString = nil;
             if (pipeRange.location != NSNotFound) {
                 urlString = [allUrlString substringWithRange:NSMakeRange(0, pipeRange.location)];
                 replacementString = [allUrlString stringByReplacingCharactersInRange:NSMakeRange(0, (pipeRange.location + 1)) withString:@""];
