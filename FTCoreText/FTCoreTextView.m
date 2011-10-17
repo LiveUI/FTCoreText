@@ -20,7 +20,6 @@
 @implementation FTCoreTextView
 
 @synthesize text = _text;
-@synthesize styles = _styles;
 @synthesize markers = _markers;
 @synthesize defaultStyle = _defaultStyle;
 @synthesize processedString = _processedString;
@@ -43,71 +42,46 @@
     else {
         CGPathAddPath(mainPath, NULL, _path);
     }
-    
-    
-    float inverter = [self suggestedSizeConstrainedToSize:self.frame.size].height;
-
+	
     CTFrameRef ctframe = CTFramesetterCreateFrame(_framesetter, CFRangeMake(0, 0), mainPath, NULL);
-    
     CGPathRelease(mainPath);
-    
-    NSString *strippedString = [FTCoreTextView stripTagsforString:self.text];
-    
-    CFArrayRef lines = CTFrameGetLines(ctframe);
-    CFIndex lineCount = CFArrayGetCount(lines);
+	
+    NSArray *lines = (NSArray *)CTFrameGetLines(ctframe);
+    NSInteger lineCount = [lines count];
     CGPoint origins[lineCount];
     
     if (lineCount == 0) return nil;
-    
-    CTFrameGetLineOrigins(ctframe, CFRangeMake(0, 0), origins);
-    
-    inverter = origins[0].y;
-    
-    for(CFIndex idx = 0; idx < lineCount; idx++)
-    {
-        CTLineRef line = CFArrayGetValueAtIndex(lines, idx);
-        CGRect lineBounds = CTLineGetImageBounds(line, self.context);
-        if (CGRectIsEmpty(lineBounds)) continue;
-        lineBounds.origin.y = ( inverter - origins[idx].y);
-        
-        if (CGRectContainsPoint(lineBounds, point)) {
-            
-            for (id runObj in (NSArray *)CTLineGetGlyphRuns(line)) {
-                CTRunRef run = (CTRunRef)runObj;
-                CGRect runBounds = CTRunGetImageBounds(run, self.context, CFRangeMake(0, 0));
-                runBounds.origin.y = ( inverter - origins[idx].y);
-                
-                CFRange cfrange = CTRunGetStringRange(run);
-                NSRange range = NSMakeRange(cfrange.location, cfrange.length);
-                NSString *selectedText = [strippedString substringWithRange:range];
-                
-                if (CGRectContainsPoint(runBounds, point)) {
-                    NSURL *url = [self.uRLs objectForKey:[NSNumber numberWithInt:range.location]];
-                    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-                    [dict setObject:selectedText forKey:@"text"];
-                    [dict setObject:[NSValue valueWithCGRect:lineBounds] forKey:@"frame"];
-                    if (url) [dict setObject:url forKey:@"url"];
-                    
-                    /*
-                     UILabel *lbl = [[UILabel alloc] initWithFrame:lineBounds];
-                     [lbl setText:selectedText];
-                     [lbl setFont:[UIFont systemFontOfSize:14]];
-                     [lbl setBackgroundColor:[UIColor redColor]];
-                     [self addSubview:lbl];
-                     [lbl release];
-                     */
-                    
-                    return dict;
-                }
-                
-            }
- 
+	
+    //the view is inverted, the y origin of the baseline is upside down
+	CTFrameGetLineOrigins(ctframe, CFRangeMake(0, 0), origins);
+	for (int i = 0; i < lineCount; i++) {
+		CGPoint baselineOrigin = origins[i];
+		baselineOrigin.y = CGRectGetHeight(self.frame) - baselineOrigin.y;
+		
+		CTLineRef line = (CTLineRef)[lines objectAtIndex:i];
+		CGFloat ascent, descent;
+		CGFloat lineWidth = CTLineGetTypographicBounds(line, &ascent, &descent, NULL);
+		
+		CGRect lineFrame = CGRectMake(baselineOrigin.x, baselineOrigin.y - ascent, lineWidth, ascent + descent);
+		
+		if (CGRectContainsPoint(lineFrame, point)) {
+			//we look if the position of the touch is correct on the line
+			
+			CFIndex index = CTLineGetStringIndexForPosition(line, point);
+			NSArray *urlsKeys = [_URLs allKeys];
 
-        }
-
-    }
-    
-    return nil;
+			for (NSString *key in urlsKeys) {
+				NSRange range = NSRangeFromString(key);
+				if (index >= range.location && index < range.location + range.length) {
+					NSURL *url = [_URLs objectForKey:key];
+					NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+					if (url) [dict setObject:url forKey:@"url"];
+					return dict;
+				}
+			}
+		}
+	}
+	return nil;
 }
 
 - (void)updateFramesetterIfNeeded
@@ -130,7 +104,7 @@
 			_defaultStyle.color= [UIColor blackColor];
 			NSLog(@"FTCoreTextView: _default style not found!");
 		}
-		
+
 		NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:_processedString];
 		
 		//set default attributeds
@@ -225,6 +199,18 @@
     return suggestedSize;
 }
 
+/*!
+ * @abstract handy method to fit to the suggested height in one call
+ *
+ */
+
+- (void)fitToSuggestedHeight
+{
+	CGSize suggestedSize = [self suggestedSizeConstrainedToSize:CGSizeMake(CGRectGetWidth(self.frame), MAXFLOAT)];
+	CGRect viewFrame = self.frame;
+	viewFrame.size.height = suggestedSize.height;
+	self.frame = viewFrame;
+}
 
 /*!
  * @abstract divide the text in different pages according to the tags <_page/> found
@@ -261,12 +247,21 @@
     
     if (!_text || [_text length] == 0) return;
     _processedString = (NSMutableString *)_text;
-    FTCoreTextStyle *style = [self.styles objectForKey:@"_default"];
+    FTCoreTextStyle *style = [_styles objectForKey:@"_default"];
     self.defaultStyle = style;
 	if (_defaultStyle == nil) {
 		_defaultStyle = [FTCoreTextStyle new];
 	}
     
+	if (![_styles objectForKey:@"_link"]) {
+		//we add a default style for links
+		FTCoreTextStyle *linksStyle = [_defaultStyle copy];
+		linksStyle.color = [UIColor blueColor];
+		linksStyle.name = @"_link";
+		[_styles setValue:linksStyle forKey:linksStyle.name];
+		[linksStyle release];
+	}
+	
     NSString *regEx = @"<[_a-zA-Z0-9]*( /){0,1}>";
     
     [self.uRLs removeAllObjects];
@@ -286,7 +281,7 @@
         NSString *autoCloseKey = [key stringByReplacingOccurrencesOfString:@" /" withString:@""];
         BOOL isAutoClose = (![key isEqualToString:autoCloseKey]);
         
-        style = [self.styles objectForKey:(isAutoClose)? autoCloseKey : key];
+        style = [_styles objectForKey:(isAutoClose)? autoCloseKey : key];
 
         
         NSString *append = @"";
@@ -301,8 +296,8 @@
             NSRange urlRange = NSMakeRange((rangeStart.location + rangeStart.length), (closeTagRange.location - (rangeStart.location + rangeStart.length)));
             NSString *allUrlString = [_processedString substringWithRange:urlRange];
             NSRange pipeRange = [allUrlString rangeOfString:@"|"];
-            NSString *urlString;
-            NSString *replacementString;
+            NSString *urlString = nil;
+            NSString *replacementString = nil;
             if (pipeRange.location != NSNotFound) {
                 urlString = [allUrlString substringWithRange:NSMakeRange(0, pipeRange.location)];
                 replacementString = [allUrlString stringByReplacingCharactersInRange:NSMakeRange(0, (pipeRange.location + 1)) withString:@""];
@@ -311,8 +306,10 @@
             
             [_processedString replaceCharactersInRange:urlRange withString:replacementString];
             NSURL *url = [NSURL URLWithString:urlString];
-            [self.uRLs setObject:url forKey:[NSNumber numberWithInt:rangeStart.location]];
-            
+			NSRange replacementStringRange;
+			replacementStringRange.location = rangeStart.location;
+			replacementStringRange.length = [replacementString length];
+			[self.uRLs setObject:url forKey:NSStringFromRange(replacementStringRange)];            
         }
         
         
@@ -411,7 +408,7 @@
         
         if ([keys containsObject:checkKey]) {
             
-            CTTextAlignment alignment = [(FTCoreTextStyle *)[self.styles objectForKey:@"_image"] alignment];
+            CTTextAlignment alignment = [(FTCoreTextStyle *)[_styles objectForKey:@"_image"] alignment];
             
             UIImage *img = [self.images objectForKey:checkKey];
             if (img) {
@@ -563,7 +560,7 @@
 }
 
 - (void)addStyle:(FTCoreTextStyle *)style {
-    [self.styles setValue:style forKey:style.name];
+    [_styles setValue:style forKey:style.name];
 	_changesMade = YES;
     if ([self superview]) [self setNeedsDisplay];
 }
@@ -571,15 +568,28 @@
 - (void)addStyles:(NSArray *)styles
 {
 	for (FTCoreTextStyle *style in styles) {
-		[self.styles setValue:style forKey:style.name];
+		[_styles setValue:style forKey:style.name];
 	}
 	_changesMade = YES;
     if ([self superview]) [self setNeedsDisplay];
 }
 
-- (void)setStyles:(NSMutableDictionary *)styles {
-    [_styles release];
-    _styles = [[NSMutableDictionary dictionaryWithDictionary:styles] retain];
+- (NSArray *)stylesArray
+{
+	return [_styles allValues];
+}
+
+//only here to assure compatibility with previous versions
+- (NSDictionary *)styles
+{
+	return [[_styles copy] autorelease];
+}
+
+//only here to assure compatibility with previous versions
+- (void)setStyles:(NSDictionary *)styles
+{
+	[_styles release];
+    _styles = [styles mutableCopy];
 	_changesMade = YES;
     if ([self superview]) [self setNeedsDisplay];
 }

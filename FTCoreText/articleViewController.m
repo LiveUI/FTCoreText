@@ -7,6 +7,7 @@
 //
 
 #import "articleViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation articleViewController
 
@@ -16,26 +17,26 @@
 
 
 - (NSString *)textForView {
-    return @"<title>Article Title</title>\nMaecenas faucibus mollis interdum. Morbi leo risus, <_link>http://www.google.com|I am a link</_link> ac consectetur ac, vestibulum at eros.\n<_image>homer.png</_image> <black>Curabitur blandit tempus porttitor</black>. Donec ullamcorper nulla non metus auctor fringilla. Sed posuere consectetur est at lobortis.\n<_image>homer.png</_image>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Nullam quis risus eget urna mollis ornare vel eu leo:\n<bullet /> Fusce dapibus\n<bullet /> tellus ac cursus commodo\n<bullet /> tortor mauris condimentum nibh\n<disclaimer>Ut fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</disclaimer>";
+    return @"<title>Article Title</title>\nMaecenas faucibus mollis interdum. Morbi leo risus, <_link>http://www.google.com|I am a link</_link> ac consectetur ac, vestibulum at eros.\n<_image>homer.png</_image> <black>Curabitur blandit tempus porttitor</black>. Donec ullamcorper nulla non metus auctor fringilla. Sed posuere consectetur est at lobortis.\n<_image>homer.png</_image>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Nullam quis risus eget urna mollis ornare vel eu leo:\n<bullet /> Fusce dapibus\n<bullet /> tellus ac cursus commodo\n<bullet /> tortor mauris condimentum nibh\n  <_bullet />Cras justo odio<_bullet />Dapibus ac facilisis in<_bullet />Gestas eget quam. \n <disclaimer>Ut fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</disclaimer>";
 }
 
 
-- (NSMutableDictionary *)coreTextStyle {
+- (NSArray *)coreTextStyle {
     
-    NSMutableDictionary *result = [NSMutableDictionary dictionary];
+    NSMutableArray *result = [NSMutableArray array];
            
     FTCoreTextStyle *defaultStyle = [[FTCoreTextStyle alloc] init];
     [defaultStyle setName:@"_default"];
     defaultStyle.color = [UIColor darkGrayColor];
     defaultStyle.font = [UIFont systemFontOfSize:14];
-    [result setValue:defaultStyle forKey:defaultStyle.name];
+    [result addObject:defaultStyle];
     [defaultStyle release];
     
     FTCoreTextStyle *blackBold = [[FTCoreTextStyle alloc] init];
     blackBold.name = @"black";
     blackBold.color = [UIColor blackColor];
     blackBold.font = [UIFont boldSystemFontOfSize:14];
-    [result setValue:blackBold forKey:blackBold.name];
+    [result addObject:blackBold];
     [blackBold release];
     
     FTCoreTextStyle *titleStyle = [[FTCoreTextStyle alloc] init];
@@ -43,23 +44,23 @@
     titleStyle.color = [UIColor redColor];
     titleStyle.font = [UIFont boldSystemFontOfSize:20];
     titleStyle.alignment = kCTCenterTextAlignment;
-    [result setValue:titleStyle forKey:titleStyle.name];
+    [result addObject:titleStyle];
     [titleStyle release];
     
     FTCoreTextStyle *disclaimerStyle = [[FTCoreTextStyle alloc] init];
     disclaimerStyle.name = @"disclaimer";
     disclaimerStyle.color = [UIColor blueColor];
     disclaimerStyle.font = [UIFont italicSystemFontOfSize:13];
-    [result setValue:disclaimerStyle forKey:disclaimerStyle.name];
+    [result addObject:disclaimerStyle];
     [disclaimerStyle release];
     
     
     FTCoreTextStyle *bullet = [[FTCoreTextStyle alloc] init];
-    bullet.name = @"bullet";
+    bullet.name = @"_bullet";
     bullet.color = [UIColor purpleColor];
     bullet.font = [UIFont systemFontOfSize:14];
-    bullet.appendedCharacter = @"• ";
-    [result setValue:bullet forKey:bullet.name];
+    bullet.appendedCharacter = @"\n• ";
+    [result addObject:bullet];
     [bullet release];
     
     FTCoreTextStyle *imgStyle = [[FTCoreTextStyle alloc] init];
@@ -68,14 +69,14 @@
     imgStyle.font = [UIFont systemFontOfSize:14];
     imgStyle.alignment = kCTCenterTextAlignment;
     imgStyle.spaceBetweenParagraphs = 10;
-    [result setValue:imgStyle forKey:imgStyle.name];
+    [result addObject:imgStyle];
     [imgStyle release];
     
     FTCoreTextStyle *linkStyle = [[FTCoreTextStyle alloc] init];
     linkStyle.name = @"_link";
-    [linkStyle setColor:[UIColor greenColor]];
+    [linkStyle setColor:[UIColor blueColor]];
     [linkStyle setFont:[UIFont italicSystemFontOfSize:14]];
-    [result setValue:linkStyle forKey:linkStyle.name];
+    [result addObject:linkStyle];
     [linkStyle release];
 
     
@@ -92,18 +93,23 @@
   
     //add coretextview
     UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    FTCoreTextView *coreTextV = [[FTCoreTextView alloc] initWithFrame:CGRectMake(20, 20, 280, 700)];
+    FTCoreTextView *coreTextV = [[FTCoreTextView alloc] initWithFrame:CGRectMake(20, 0, 280, 800)];
     // set text
     [coreTextV setText:[self textForView]];
     // set styles
-    [coreTextV setStyles:[self coreTextStyle]];
+    [coreTextV addStyles:[self coreTextStyle]];
     //set deelgate
     [coreTextV setDelegate:self];
+    
+    coreTextV.layer.shadowColor = [UIColor blackColor].CGColor;
+    coreTextV.layer.shadowOffset = CGSizeMake(1, 1);
+    coreTextV.layer.shadowOpacity = 0.4;
+    coreTextV.layer.shadowRadius = 2;
+    
     [scrollView addSubview:coreTextV];
-    [scrollView setContentSize:coreTextV.frame.size];
+    [scrollView setContentSize:[coreTextV suggestedSizeConstrainedToSize:CGSizeMake(coreTextV.bounds.size.width, CGFLOAT_MAX)]];
     
     [self.view addSubview:scrollView];
-    
     [coreTextV release];
     
     
