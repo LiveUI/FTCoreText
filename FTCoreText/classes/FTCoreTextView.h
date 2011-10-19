@@ -12,7 +12,7 @@
 //     _bullet: define styles for bullets. Respond to Markups <bullets />
 //     _image: define style for images. Respond to markup <_image>imageNameOnBundle.extension</_image>
 //     _link: define style for links. Respond to markup <_link>link_target|link name</_link>
- 
+
 
 #import <UIKit/UIKit.h>
 #import "FTCoreTextStyle.h"
@@ -21,7 +21,7 @@
 @protocol FTCoreTextViewDelegate;
 @interface FTCoreTextView : UIView {
     NSString *_text;
-    @private
+@private
 	NSMutableDictionary *_styles;
     NSMutableArray		*_markers;
     FTCoreTextStyle		*_defaultStyle;
@@ -49,7 +49,6 @@
 - (id)initWithFrame:(CGRect)frame;
 
 - (void)setStyles:(NSDictionary *)styles __deprecated;
-
 
 - (void)addStyle:(FTCoreTextStyle *)style;
 - (void)addStyles:(NSArray *)styles;

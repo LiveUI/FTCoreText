@@ -69,7 +69,7 @@
 			
 			CFIndex index = CTLineGetStringIndexForPosition(line, point);
 			NSArray *urlsKeys = [_URLs allKeys];
-
+			
 			for (NSString *key in urlsKeys) {
 				NSRange range = NSRangeFromString(key);
 				if (index >= range.location && index < range.location + range.length) {
@@ -123,7 +123,7 @@
 					   value:(id)ctFont
 					   range:stringRange];
 		CFRelease(ctFont);
-
+		
 		CTTextAlignment alignment = (_defaultStyle.alignment)? _defaultStyle.alignment : kCTLeftTextAlignment;
 		CGFloat maxLineHeight = _defaultStyle.maxLineHeight;
 		CGFloat paragraphSpaceBefore = _defaultStyle.spaceBetweenParagraphs;
@@ -138,7 +138,7 @@
 					   value:(id)paragraphStyle 
 					   range:stringRange];
 		CFRelease(paragraphStyle);
-
+		
 		
 		//set markers attributes
 		for (NSDictionary *dict in _markers) {
@@ -151,8 +151,8 @@
 						   range:aRange];
             
 			CTFontRef setCTFont = CTFontCreateWithName((CFStringRef)style.font.fontName, 
-										  style.font.pointSize, 
-										  NULL);
+													   style.font.pointSize, 
+													   NULL);
 			
 			[string addAttribute:(id)kCTFontAttributeName
 						   value:(id)setCTFont
@@ -266,7 +266,7 @@
     
     [self.uRLs removeAllObjects];
     [self.images removeAllObjects];
-       
+	
     while (YES) {
         int length;
         NSRange rangeStart;
@@ -277,12 +277,11 @@
         rangeStart = [_processedString rangeOfString:regEx options:NSRegularExpressionSearch];
         if (rangeStart.location == NSNotFound) return;
         NSString *key = [_processedString substringWithRange:NSMakeRange(rangeStart.location + 1, rangeStart.length - 2)];
-       
+		
         NSString *autoCloseKey = [key stringByReplacingOccurrencesOfString:@" /" withString:@""];
         BOOL isAutoClose = (![key isEqualToString:autoCloseKey]);
         
         style = [_styles objectForKey:(isAutoClose)? autoCloseKey : key];
-
         
         NSString *append = @"";
         if (style != nil && style.appendedCharacter) {
@@ -320,7 +319,7 @@
             NSRange imageRange = NSMakeRange((rangeStart.location + rangeStart.length), (closeTagRange.location - (rangeStart.location + rangeStart.length)));
             NSString *imageString = [_processedString substringWithRange:imageRange];
             UIImage *img = [UIImage imageNamed:imageString];
-
+			
             if (img) {
                 int skipLine = floorf(img.size.height / style.font.lineHeight);
                 NSMutableString *lines = [NSMutableString string];
@@ -331,7 +330,7 @@
                 [_processedString replaceCharactersInRange:imageRange withString:lines];
                 [self.images setObject:img forKey:[NSNumber numberWithInt:rangeStart.location]];
             }
- 
+			
         }
         
         if (isAutoClose) {
@@ -385,7 +384,7 @@
     CTFrameRef ctframe = CTFramesetterCreateFrame(_framesetter, CFRangeMake(0, 0), mainPath, NULL);
     
     CGPathRelease(mainPath);
-
+	
     
     CFArrayRef lines = CTFrameGetLines(ctframe);
     CFIndex lineCount = CFArrayGetCount(lines);
@@ -418,12 +417,12 @@
                 
                 CGRect frame = CGRectMake(x, lineBounds.origin.y, img.size.width, img.size.height);
                 [img drawInRect:frame];
-
+				
             }
         }
         
     }
-
+	
 }
 
 /*!
@@ -520,7 +519,7 @@
         CGPathAddPath(mainPath, NULL, _path);
     }
     
-
+	
     
 	CTFrameRef drawFrame = CTFramesetterCreateFrame(_framesetter, 
                                                     CFRangeMake(0, 0),
@@ -540,11 +539,11 @@
 	// draw
 	CTFrameDraw(drawFrame, self.context);
     CGContextSaveGState(self.context);
-
+	
 	// cleanup
 	CFRelease(drawFrame);
 	CGPathRelease(mainPath);
-
+	
 }
 
 
