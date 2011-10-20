@@ -19,6 +19,8 @@
     CTTextAlignment alignment;
 	CGFloat maxLineHeight;
 	CGFloat spaceBetweenParagraphs;
+	CGFloat paragraphBodyLeftMargin;
+	CGFloat bulletInset;
 }
 
 @property (nonatomic, retain) NSString *name;
@@ -29,5 +31,7 @@
 @property (nonatomic, assign) CTTextAlignment alignment;
 @property (nonatomic, assign) CGFloat maxLineHeight;
 @property (nonatomic, assign) CGFloat spaceBetweenParagraphs;
+@property (nonatomic, assign) CGFloat paragraphBodyLeftMargin;
+@property (nonatomic, assign) CGFloat bulletInset;
 
 @end

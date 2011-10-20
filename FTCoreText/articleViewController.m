@@ -17,7 +17,7 @@
 
 
 - (NSString *)textForView {
-    return @"<title>Article Title</title>\nMaecenas faucibus mollis interdum. Morbi leo risus, <_link>http://www.google.com|I am a link</_link> ac consectetur ac, vestibulum at eros.\n<_image>homer.png</_image> <black>Curabitur blandit tempus porttitor</black>. Donec ullamcorper nulla non metus auctor fringilla. Sed posuere consectetur est at lobortis.\n<_image>homer.png</_image>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Nullam quis risus eget urna mollis ornare vel eu leo:\n<bullet /> Fusce dapibus\n<bullet /> tellus ac cursus commodo\n<bullet /> tortor mauris condimentum nibh\n  <_bullet />Cras justo odio<_bullet />Dapibus ac facilisis in<_bullet />Gestas eget quam. \n <disclaimer>Ut fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</disclaimer>";
+    return @"<title>Article Title</title>\nMaecenas faucibus mollis interdum. Morbi leo risus, <_link>http://www.google.com|I am a link</_link> ac consectetur ac, vestibulum at eros.\n<_image>homer.png</_image><black>Curabitur blandit tempus porttitor</black>. Donec ullamcorper nulla non metus auctor fringilla. Sed posuere consectetur est at lobortis.\n<_image>homer.png</_image>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Nullam quis risus eget urna mollis ornare vel eu leo:\n<bullet />Fusce dapibus\n<bullet />tellus ac cursus commodo\n<bullet />tortor mauris condimentum nibh\n  <_bullet />Cras justo odio<_bullet />Dapibus ac facilisis in<_bullet />Gestas eget quam. Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque.\n<disclaimer>Ut fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</disclaimer>";
 }
 
 
@@ -44,6 +44,7 @@
     titleStyle.color = [UIColor redColor];
     titleStyle.font = [UIFont boldSystemFontOfSize:20];
     titleStyle.alignment = kCTCenterTextAlignment;
+	
     [result addObject:titleStyle];
     [titleStyle release];
     
@@ -54,12 +55,12 @@
     [result addObject:disclaimerStyle];
     [disclaimerStyle release];
     
-    
     FTCoreTextStyle *bullet = [[FTCoreTextStyle alloc] init];
     bullet.name = @"_bullet";
     bullet.color = [UIColor purpleColor];
     bullet.font = [UIFont systemFontOfSize:14];
-    bullet.appendedCharacter = @"\n• ";
+	bullet.appendedCharacter = @"\n•";
+	bullet.bulletInset = 15;
     [result addObject:bullet];
     [bullet release];
     
@@ -110,6 +111,7 @@
     [scrollView setContentSize:[coreTextV suggestedSizeConstrainedToSize:CGSizeMake(coreTextV.bounds.size.width, CGFLOAT_MAX)]];
     
     [self.view addSubview:scrollView];
+	[scrollView release];
     [coreTextV release];
     
     

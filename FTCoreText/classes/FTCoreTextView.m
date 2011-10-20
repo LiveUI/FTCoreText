@@ -127,18 +127,19 @@
 		CTTextAlignment alignment = (_defaultStyle.alignment)? _defaultStyle.alignment : kCTLeftTextAlignment;
 		CGFloat maxLineHeight = _defaultStyle.maxLineHeight;
 		CGFloat paragraphSpaceBefore = _defaultStyle.spaceBetweenParagraphs;
-		
+		CGFloat leftMargin = _defaultStyle.paragraphBodyLeftMargin;
+
 		CTParagraphStyleSetting settings[] = {
 			{kCTParagraphStyleSpecifierAlignment, sizeof(alignment), &alignment},
 			{kCTParagraphStyleSpecifierMaximumLineHeight, sizeof(CGFloat), &maxLineHeight},
-			{kCTParagraphStyleSpecifierParagraphSpacing, sizeof(CGFloat), &paragraphSpaceBefore}
+			{kCTParagraphStyleSpecifierParagraphSpacing, sizeof(CGFloat), &paragraphSpaceBefore},
+			{kCTParagraphStyleSpecifierHeadIndent, sizeof(CGFloat), &leftMargin},
 		};
-		CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, 3);
+		CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, 4);
 		[string addAttribute:(id)kCTParagraphStyleAttributeName
 					   value:(id)paragraphStyle 
 					   range:stringRange];
 		CFRelease(paragraphStyle);
-		
 		
 		//set markers attributes
 		for (NSDictionary *dict in _markers) {
@@ -162,17 +163,27 @@
             CTTextAlignment alignment = (style.alignment)? style.alignment : kCTLeftTextAlignment;
             CGFloat maxLineHeight = style.maxLineHeight;
 			CGFloat paragraphSpaceBefore = style.spaceBetweenParagraphs;
+			CGFloat leftMargin = style.paragraphBodyLeftMargin;
+
+			CFIndex numberOfSettings = ([style.name isEqualToString:@"_bullet"]) ? 5 : 4;
+			CTTextTabRef tabArray[] = { CTTextTabCreate(0, style.bulletInset, NULL) };
+			
+			CFArrayRef tabStops = CFArrayCreate( kCFAllocatorDefault, (const void**) tabArray, 1, &kCFTypeArrayCallBacks );
+			CFRelease(tabArray[0]);
 			
             CTParagraphStyleSetting settings[] = {
                 {kCTParagraphStyleSpecifierAlignment, sizeof(alignment), &alignment},
 				{kCTParagraphStyleSpecifierMaximumLineHeight, sizeof(CGFloat), &maxLineHeight},
-				{kCTParagraphStyleSpecifierParagraphSpacing, sizeof(CGFloat), &paragraphSpaceBefore}
+				{kCTParagraphStyleSpecifierParagraphSpacing, sizeof(CGFloat), &paragraphSpaceBefore},
+				{kCTParagraphStyleSpecifierHeadIndent, sizeof(CGFloat), &leftMargin},
+				{kCTParagraphStyleSpecifierTabStops, sizeof(CFArrayRef), &tabStops}
             };
-            CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, 3);
+            CTParagraphStyleRef paragraphStyle = CTParagraphStyleCreate(settings, numberOfSettings);
             [string addAttribute:(id)kCTParagraphStyleAttributeName
                            value:(id)paragraphStyle 
                            range:aRange];
 			CFRelease(paragraphStyle);
+			CFRelease(tabStops);
             
 		}
 		// layout master 
@@ -262,6 +273,11 @@
 		[linksStyle release];
 	}
 	
+	FTCoreTextStyle *bulletStyle = [_styles objectForKey:@"_bullet"];
+	if (bulletStyle) {
+		bulletStyle.appendedCharacter = [NSString stringWithFormat:@"%@\t", bulletStyle.appendedCharacter];
+	}
+	
     NSString *regEx = @"<[_a-zA-Z0-9]*( /){0,1}>";
     
     [self.uRLs removeAllObjects];
@@ -336,6 +352,25 @@
         if (isAutoClose) {
             [_processedString replaceCharactersInRange:rangeStart withString:append];
             rangeActive = NSMakeRange(rangeStart.location, [append length]);
+			
+			if ([style.name isEqualToString:@"_bullet"]) {
+				FTCoreTextStyle *bulletParagraphStyle = [_defaultStyle copy];
+				bulletParagraphStyle.name = @"_bulletStyle";
+				bulletParagraphStyle.paragraphBodyLeftMargin = style.bulletInset;
+				
+				NSRange remainingStringRange = NSMakeRange(rangeActive.location + 1, [_text length] - rangeActive.location - 1);
+				NSRange nextReturnLineRange = [_text rangeOfString:@"\n" options:0 range:remainingStringRange];
+				
+				NSRange bulletStyleRange = (nextReturnLineRange.length == 0) ? remainingStringRange : NSMakeRange(remainingStringRange.location, nextReturnLineRange.location - remainingStringRange.location);
+				
+				NSValue *rangeValue = [NSValue valueWithRange:bulletStyleRange];
+				NSDictionary *dict = [NSDictionary 
+									  dictionaryWithObjects:[NSArray arrayWithObjects:rangeValue, bulletParagraphStyle, nil]                                                     
+									  forKeys:[NSArray arrayWithObjects:@"range", @"style", nil]];
+				[bulletParagraphStyle release];
+				rangeValue = nil;
+				[_markers addObject:dict];  
+			}
         }
         else {
             [_processedString replaceCharactersInRange:rangeStart withString:@""];

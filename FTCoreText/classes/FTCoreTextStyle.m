@@ -10,7 +10,6 @@
 
 @implementation FTCoreTextStyle
 
-
 @synthesize name;
 @synthesize appendedCharacter;
 @synthesize font;
@@ -19,6 +18,8 @@
 @synthesize alignment;
 @synthesize maxLineHeight;
 @synthesize spaceBetweenParagraphs;
+@synthesize paragraphBodyLeftMargin;
+@synthesize bulletInset;
 
 - (id)init
 {
@@ -30,6 +31,8 @@
 		self.isUnderLined = NO;
 		self.alignment = kCTLeftTextAlignment;
 		self.font = [UIFont systemFontOfSize:12];
+		self.paragraphBodyLeftMargin = 0;
+		self.bulletInset = 0;
 	}
 	return self;
 }
@@ -45,6 +48,9 @@
     style.alignment = self.alignment;
 	style.maxLineHeight = self.maxLineHeight;
 	style.spaceBetweenParagraphs = self.spaceBetweenParagraphs;
+	style.paragraphBodyLeftMargin = self.paragraphBodyLeftMargin;
+
+	
 	return style;
 }
 
