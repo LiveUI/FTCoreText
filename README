@@ -17,9 +17,10 @@ Styles Markup:
 
 Notes:
 
+FTCoreText view is constantly developed by FuerteInt.com. Please drop us an email at open-source@fuerteint.com to let us know you are using this component.
 Use of the CoreText framework is granted only from iOS 4.0 for iPhone and 3.2 for iPad on.
 
-Although FTCoreTextView uses an html-like tag syntax all the complex properties of html are not supported. Most of the time this will result as not formatted text but sometimes it can lead to crashes. For instance nested tags are not allowed. There is a self.path reference to draw the text along a specific shape instead the given frame. This feature has been only partially implemented and not tested.
+Although FTCoreTextView uses an html-like tag syntax all the complex properties of html are not supported. Most of the time this will result as not formatted text but sometimes it can lead to crashes. Custom drawing path and HTML-like nested tags are now implemented.
 License:
 
 Open Source Initiative OSI - The MIT License (MIT):Licensing [OSI Approved License] The MIT License (MIT)
