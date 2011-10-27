@@ -1,26 +1,27 @@
-Welcome to FTCoreText Objective C library for iOS development.
+Welcome to FTCoreText Objective-C library for iOS development.
 
 Implementation Instructions:
 
-    Import CoreText.framework to your library
+    Import CoreText.framework to your project
     Import FTCoreTextView.h
     Create an Instance of FTCoreTextView
-    set the styles and the text for the view
+    Set the styles and the text for the view
 
 Styles Markup:
 
- _default: It is the default applied to the whole text. MArkups is not needed on the text
+ _default: It is the default applied to the whole text. You get a default style if you don't use this tag.
  _page: Divide the text in pages. Respond to markup <_page/>
- _bullet: define styles for bullets. Respond to Markups <bullets />
+ _bullet: define styles for bullets. Respond to Markups <_bullet>content</bullet>
  _image: define style for images. Respond to markup <_image>imageNameOnBundle.extension</_image>
  _link: define style for links. Respond to markup <_link>link_target|link name</_link>
 
 Notes:
 
 FTCoreText view is constantly developed by FuerteInt.com. Please drop us an email at open-source@fuerteint.com to let us know you are using this component.
-Use of the CoreText framework is granted only from iOS 4.0 for iPhone and 3.2 for iPad on.
+Use of the CoreText framework is granted only for iOS 3.2 and later version.
 
 Although FTCoreTextView uses an html-like tag syntax all the complex properties of html are not supported. Most of the time this will result as not formatted text but sometimes it can lead to crashes. Custom drawing path and HTML-like nested tags are now implemented.
+
 License:
 
 Open Source Initiative OSI - The MIT License (MIT):Licensing [OSI Approved License] The MIT License (MIT)
