@@ -7,117 +7,78 @@
 //
 
 #import "articleViewController.h"
-#import <QuartzCore/QuartzCore.h>
 
 @implementation articleViewController
+@synthesize scrollView;
+@synthesize coreTextView;
 
 
-
-#pragma mark - View lifecycle
-
-
-- (NSString *)textForView {
-    return @"<title>Article Title</title>\nMaecenas faucibus mollis interdum. Morbi leo risus, <_link>http://www.google.com|I am a link</_link> ac consectetur ac, vestibulum at eros.\n<_image>homer.png</_image><black>Curabitur blandit tempus porttitor</black>. Donec ullamcorper nulla non metus auctor fringilla. Sed posuere consectetur est at lobortis.\n<_image>homer.png</_image>Cras justo odio, dapibus ac facilisis in, egestas eget quam. Nullam quis risus eget urna mollis ornare vel eu leo:\n<bullet />Fusce dapibus\n<bullet />tellus ac cursus commodo\n<bullet />tortor mauris condimentum nibh\n  <_bullet />Cras justo odio<_bullet />Dapibus ac facilisis in<_bullet />Gestas eget quam. Vivamus hendrerit arcu sed erat molestie vehicula. Sed auctor neque.\n<disclaimer>Ut fermentum massa justo sit amet risus. Lorem ipsum dolor sit amet, consectetur adipiscing elit.</disclaimer>";
+- (NSString *)textForView
+{
+    return [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"text" ofType:@"txt"] encoding:NSUTF8StringEncoding error:nil];
 }
 
 
-- (NSArray *)coreTextStyle {
-    
+- (NSArray *)coreTextStyle
+{
     NSMutableArray *result = [NSMutableArray array];
-           
-    FTCoreTextStyle *defaultStyle = [[FTCoreTextStyle alloc] init];
-    [defaultStyle setName:@"_default"];
-    defaultStyle.color = [UIColor darkGrayColor];
-    defaultStyle.font = [UIFont systemFontOfSize:14];
-    [result addObject:defaultStyle];
-    [defaultStyle release];
     
-    FTCoreTextStyle *blackBold = [[FTCoreTextStyle alloc] init];
-    blackBold.name = @"black";
-    blackBold.color = [UIColor blackColor];
-    blackBold.font = [UIFont boldSystemFontOfSize:14];
-    [result addObject:blackBold];
-    [blackBold release];
-    
-    FTCoreTextStyle *titleStyle = [[FTCoreTextStyle alloc] init];
-    titleStyle.name = @"title";
-    titleStyle.color = [UIColor redColor];
-    titleStyle.font = [UIFont boldSystemFontOfSize:20];
-    titleStyle.alignment = kCTCenterTextAlignment;
+	FTCoreTextStyle *defaultStyle = [FTCoreTextStyle new];
+	defaultStyle.name = FTCoreTextTagDefault;	//thought the default name is already set to FTCoreTextTagDefault
+	defaultStyle.font = [UIFont fontWithName:@"TimesNewRomanPSMT" size:16.f];
+	defaultStyle.textAlignment = FTCoreTextAlignementJustified;
+	[result addObject:defaultStyle];
+	[defaultStyle release];
 	
-    [result addObject:titleStyle];
-    [titleStyle release];
-    
-    FTCoreTextStyle *disclaimerStyle = [[FTCoreTextStyle alloc] init];
-    disclaimerStyle.name = @"disclaimer";
-    disclaimerStyle.color = [UIColor blueColor];
-    disclaimerStyle.font = [UIFont italicSystemFontOfSize:13];
-    [result addObject:disclaimerStyle];
-    [disclaimerStyle release];
-    
-    FTCoreTextStyle *bullet = [[FTCoreTextStyle alloc] init];
-    bullet.name = @"_bullet";
-    bullet.color = [UIColor purpleColor];
-    bullet.font = [UIFont systemFontOfSize:14];
-	bullet.appendedCharacter = @"\n•";
-	bullet.bulletInset = 15;
-    [result addObject:bullet];
-    [bullet release];
-    
-    FTCoreTextStyle *imgStyle = [[FTCoreTextStyle alloc] init];
-    imgStyle.name = @"_image";
-    imgStyle.color = [UIColor purpleColor];
-    imgStyle.font = [UIFont systemFontOfSize:14];
-    imgStyle.alignment = kCTCenterTextAlignment;
-    imgStyle.spaceBetweenParagraphs = 10;
-    [result addObject:imgStyle];
-    [imgStyle release];
-    
-    FTCoreTextStyle *linkStyle = [[FTCoreTextStyle alloc] init];
-    linkStyle.name = @"_link";
-    [linkStyle setColor:[UIColor blueColor]];
-    [linkStyle setFont:[UIFont italicSystemFontOfSize:14]];
-    [result addObject:linkStyle];
-    [linkStyle release];
-
-    
+	FTCoreTextStyle *titleStyle = [FTCoreTextStyle new];
+	titleStyle.name = @"title";
+	titleStyle.font = [UIFont fontWithName:@"TimesNewRomanPSMT" size:40.f];
+	titleStyle.paragraphInset = UIEdgeInsetsMake(0, 0, 25, 0);
+	titleStyle.textAlignment = FTCoreTextAlignementCenter;
+	[result addObject:titleStyle];
+	[titleStyle release];
+	
+	FTCoreTextStyle *imageStyle = [FTCoreTextStyle new];
+	imageStyle.paragraphInset = UIEdgeInsetsMake(0, 0, 1, 0);
+	imageStyle.name = FTCoreTextTagImage;
+	imageStyle.textAlignment = FTCoreTextAlignementCenter;
+	[result addObject:imageStyle];
+	[imageStyle release];	
+	
+	FTCoreTextStyle *firstLetterStyle = [FTCoreTextStyle new];
+	firstLetterStyle.name = @"firstLetter";
+	firstLetterStyle.font = [UIFont fontWithName:@"TimesNewRomanPS-BoldMT" size:30.f];
+	[result addObject:firstLetterStyle];
+	[firstLetterStyle release];
+	
+	FTCoreTextStyle *linkStyle = [defaultStyle copy];
+	linkStyle.name = FTCoreTextTagLink;
+	linkStyle.color = [UIColor orangeColor];
+	[result addObject:linkStyle];
+	[linkStyle release];
+	
+	FTCoreTextStyle *subtitleStyle = [FTCoreTextStyle new];
+	subtitleStyle.name = @"subtitle";
+	subtitleStyle.font = [UIFont fontWithName:@"TimesNewRomanPS-BoldMT" size:25.f];
+	subtitleStyle.color = [UIColor brownColor];
+	subtitleStyle.paragraphInset = UIEdgeInsetsMake(10, 0, 10, 0);
+	[result addObject:subtitleStyle];
+	[subtitleStyle release];
+	
+	FTCoreTextStyle *bulletStyle = [defaultStyle copy];
+	bulletStyle.name = FTCoreTextTagBullet;
+	bulletStyle.bulletFont = [UIFont fontWithName:@"TimesNewRomanPSMT" size:16.f];
+	bulletStyle.bulletColor = [UIColor orangeColor];
+	bulletStyle.bulletCharacter = @"❧";
+	[result addObject:bulletStyle];
+	[bulletStyle release];
+	
     return  result;
 }
 
 
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad
+- (void)touchedData:(NSDictionary *)data inCoreTextView:(FTCoreTextView *)textView
 {
-    [super viewDidLoad];
-    
-  
-    //add coretextview
-    UIScrollView *scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-    FTCoreTextView *coreTextV = [[FTCoreTextView alloc] initWithFrame:CGRectMake(20, 0, 280, 800)];
-    // set text
-    [coreTextV setText:[self textForView]];
-    // set styles
-    [coreTextV addStyles:[self coreTextStyle]];
-    //set deelgate
-    [coreTextV setDelegate:self];
-    
-    coreTextV.layer.shadowColor = [UIColor blackColor].CGColor;
-    coreTextV.layer.shadowOffset = CGSizeMake(1, 1);
-    coreTextV.layer.shadowOpacity = 0.4;
-    coreTextV.layer.shadowRadius = 2;
-    
-    [scrollView addSubview:coreTextV];
-    [scrollView setContentSize:[coreTextV suggestedSizeConstrainedToSize:CGSizeMake(coreTextV.bounds.size.width, CGFLOAT_MAX)]];
-    
-    [self.view addSubview:scrollView];
-	[scrollView release];
-    [coreTextV release];
-    
-    
-}
-
-- (void)touchedData:(NSDictionary *)data inCoreTextView:(FTCoreTextView *)textView {
     NSURL *url = [data objectForKey:@"url"];
     if (!url) return;
     [[UIApplication sharedApplication] openURL:url];
@@ -125,6 +86,49 @@
 
 
 
+#pragma mark - View Controller Methods
 
+// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    //add coretextview
+    scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+	scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    coreTextView = [[FTCoreTextView alloc] initWithFrame:CGRectMake(20, 20, 280, 0)];
+	coreTextView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    // set text
+    [coreTextView setText:[self textForView]];
+    // set styles
+    [coreTextView addStyles:[self coreTextStyle]];
+    // set delegate
+    [coreTextView setDelegate:self];
+	
+	[coreTextView fitToSuggestedHeight];
+    
+    [scrollView addSubview:coreTextView];
+    [scrollView setContentSize:CGSizeMake(CGRectGetWidth(scrollView.bounds), CGRectGetHeight(coreTextView.frame) + 40)];
+    
+    [self.view addSubview:scrollView];
+	[scrollView release];
+    [coreTextView release];
+}
+
+- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
+{
+	return (toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
+}
+
+- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
+{
+	[scrollView setContentSize:CGSizeMake(CGRectGetWidth(scrollView.bounds), CGRectGetHeight(coreTextView.frame) + 40)];
+}
+
+- (void)dealloc
+{
+	[scrollView release];
+	[super dealloc];
+}
 
 @end

@@ -11,4 +11,7 @@
 
 @interface articleViewController : UIViewController <FTCoreTextViewDelegate>
 
+@property (nonatomic, retain) UIScrollView *scrollView;
+@property (nonatomic, retain) FTCoreTextView *coreTextView;
+
 @end

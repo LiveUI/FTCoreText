@@ -18,7 +18,9 @@
 		684DBCBD13FD4DCF00776C6D /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 684DBCBB13FD4DCF00776C6D /* MainWindow.xib */; };
 		684DBCC513FD4E5E00776C6D /* articleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 684DBCC413FD4E5E00776C6D /* articleViewController.m */; };
 		684DBCD413FD526200776C6D /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 684DBCD313FD526200776C6D /* CoreText.framework */; };
-		68DAFA4A1439D097006E1497 /* homer.png in Resources */ = {isa = PBXBuildFile; fileRef = 68DAFA491439D097006E1497 /* homer.png */; };
+		9346F4301459AEF500EFA449 /* giraffe.png in Resources */ = {isa = PBXBuildFile; fileRef = 9346F42E1459AEF500EFA449 /* giraffe.png */; };
+		9346F4311459AEF500EFA449 /* giraffe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9346F42F1459AEF500EFA449 /* giraffe@2x.png */; };
+		9346F4331459AF2200EFA449 /* text.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9346F4321459AF2200EFA449 /* text.txt */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,7 +42,9 @@
 		684DBCC313FD4E5E00776C6D /* articleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = articleViewController.h; sourceTree = "<group>"; };
 		684DBCC413FD4E5E00776C6D /* articleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = articleViewController.m; sourceTree = "<group>"; };
 		684DBCD313FD526200776C6D /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
-		68DAFA491439D097006E1497 /* homer.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = homer.png; path = assets/homer.png; sourceTree = "<group>"; };
+		9346F42E1459AEF500EFA449 /* giraffe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = giraffe.png; sourceTree = "<group>"; };
+		9346F42F1459AEF500EFA449 /* giraffe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "giraffe@2x.png"; sourceTree = "<group>"; };
+		9346F4321459AF2200EFA449 /* text.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = text.txt; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -118,7 +122,9 @@
 		68DAFA451439C0A4006E1497 /* assets */ = {
 			isa = PBXGroup;
 			children = (
-				68DAFA491439D097006E1497 /* homer.png */,
+				9346F4321459AF2200EFA449 /* text.txt */,
+				9346F42E1459AEF500EFA449 /* giraffe.png */,
+				9346F42F1459AEF500EFA449 /* giraffe@2x.png */,
 			);
 			name = assets;
 			sourceTree = "<group>";
@@ -175,7 +181,9 @@
 			files = (
 				684DBCB413FD4DCF00776C6D /* InfoPlist.strings in Resources */,
 				684DBCBD13FD4DCF00776C6D /* MainWindow.xib in Resources */,
-				68DAFA4A1439D097006E1497 /* homer.png in Resources */,
+				9346F4301459AEF500EFA449 /* giraffe.png in Resources */,
+				9346F4311459AEF500EFA449 /* giraffe@2x.png in Resources */,
+				9346F4331459AF2200EFA449 /* text.txt in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
