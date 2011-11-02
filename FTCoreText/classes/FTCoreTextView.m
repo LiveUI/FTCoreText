@@ -27,7 +27,7 @@ typedef enum {
 
 @interface FTCoreTextNode : NSObject
 
-@property (nonatomic, retain) FTCoreTextNode	*supernode;
+@property (nonatomic, assign) FTCoreTextNode	*supernode;
 @property (nonatomic, retain) NSArray			*subnodes;
 @property (nonatomic, retain) FTCoreTextStyle	*style;
 @property (nonatomic, assign) NSRange			styleRange;
@@ -80,7 +80,7 @@ typedef enum {
 - (void)insertSubnode:(FTCoreTextNode *)subnode atIndex:(NSUInteger)index
 {
 	subnode.supernode = self;
-
+	
 	NSMutableArray *subnodes = (NSMutableArray *)self.subnodes;
 	if (index <= [_subnodes count]) {
 		[subnodes insertObject:subnode atIndex:index];
@@ -176,7 +176,7 @@ typedef enum {
 {
 	NSRange range = self.styleRange;
 	if (range.length + range.location > insertedRange.location) {
-			range.location += insertedRange.length;
+		range.location += insertedRange.length;
 	}
 	self.styleRange = range;
 	
@@ -218,7 +218,6 @@ typedef enum {
 
 - (void)dealloc
 {
-	[_supernode release];
 	[_subnodes release];
 	[_style release];
 	[_imageName release];
@@ -236,6 +235,7 @@ typedef enum {
 
 - (void)updateFramesetterIfNeeded;
 - (void)processText;
+CTFontRef CTFontCreateFromUIFont(UIFont *font);
 
 @end
 
@@ -251,6 +251,13 @@ typedef enum {
 @synthesize framesetter = _framesetter;
 @synthesize rootNode = _rootNode;
 
+CTFontRef CTFontCreateFromUIFont(UIFont *font)
+{
+    CTFontRef ctFont = CTFontCreateWithName((CFStringRef)font.fontName, 
+                                            font.pointSize, 
+                                            NULL);
+    return ctFont;
+}
 
 - (NSDictionary *)dataForPoint:(CGPoint)point
 {
@@ -312,9 +319,7 @@ typedef enum {
 							  value:(id)style.color.CGColor
 							  range:styleRange];
 	
-	CTFontRef ctFont = CTFontCreateWithName((CFStringRef)style.font.fontName, 
-											style.font.pointSize, 
-											NULL);
+	CTFontRef ctFont = CTFontCreateFromUIFont(style.font);
 	
 	[*attributedString addAttribute:(id)kCTFontAttributeName
 							  value:(id)ctFont
@@ -333,7 +338,7 @@ typedef enum {
 	CGFloat paragraphTailIntent = style.paragraphInset.right;
 	
 	//if (SYSTEM_VERSION_LESS_THAN(@"5.0")) {
-		paragraphSpacingBefore = 0;
+	paragraphSpacingBefore = 0;
 	//}
 	
 	CFIndex numberOfSettings = 9;
@@ -566,7 +571,7 @@ typedef enum {
 						newNode.isBullet = YES;
 						
 						NSString *appendedString = [NSString stringWithFormat:@"%@\t", newNode.style.bulletCharacter];
-
+						
 						[processedString insertString:appendedString atIndex:tagRange.location + tagRange.length];
 						
 						//bullet styling
@@ -905,9 +910,7 @@ typedef enum {
 	// cleanup
 	CFRelease(drawFrame);
 	CGPathRelease(mainPath);
-	
 }
-
 
 
 #pragma mark --
