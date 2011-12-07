@@ -48,6 +48,14 @@
 	return self;
 }
 
+
+//fast method
++ (id)styleWithName:(NSString *)name {
+    FTCoreTextStyle *style = [[FTCoreTextStyle alloc] init];
+    [style setName:name];
+    return [style autorelease];
+}
+
 - (void)setSpaceBetweenParagraphs:(CGFloat)spaceBetweenParagraphs
 {
 	UIEdgeInsets edgeInset = _paragraphInset;

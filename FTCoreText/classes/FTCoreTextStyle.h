@@ -78,5 +78,7 @@ typedef uint8_t FTCoreTextAlignement;
 //deprecated
 @property (nonatomic, assign) __deprecated CGFloat spaceBetweenParagraphs;
 
++ (id)styleWithName:(NSString *)name;
+
 @end
 
