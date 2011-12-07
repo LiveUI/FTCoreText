@@ -30,8 +30,7 @@
 	[result addObject:defaultStyle];
 	[defaultStyle release];
 	
-	FTCoreTextStyle *titleStyle = [FTCoreTextStyle new];
-	titleStyle.name = @"title";
+	FTCoreTextStyle *titleStyle = [FTCoreTextStyle styleWithName:@"title"]; // using fast method
 	titleStyle.font = [UIFont fontWithName:@"TimesNewRomanPSMT" size:40.f];
 	titleStyle.paragraphInset = UIEdgeInsetsMake(0, 0, 25, 0);
 	titleStyle.textAlignment = FTCoreTextAlignementCenter;
@@ -72,6 +71,18 @@
 	bulletStyle.bulletCharacter = @"❧";
 	[result addObject:bulletStyle];
 	[bulletStyle release];
+    
+    FTCoreTextStyle *italicStyle = [defaultStyle copy];
+	italicStyle.name = @"italic";
+    italicStyle.font = [UIFont fontWithName:@"TimesNewRomanPS-ItalicMT" size:16.f];
+	[result addObject:italicStyle];
+	[italicStyle release];
+    
+    FTCoreTextStyle *boldStyle = [defaultStyle copy];
+	boldStyle.name = @"bold";
+    boldStyle.font = [UIFont fontWithName:@"TimesNewRomanPS-BoldMT" size:16.f];
+	[result addObject:boldStyle];
+	[boldStyle release];
 	
     return  result;
 }
