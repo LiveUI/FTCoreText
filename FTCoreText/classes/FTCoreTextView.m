@@ -319,6 +319,14 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
 							  value:(id)style.color.CGColor
 							  range:styleRange];
 	
+    	if(style.isUnderLined == YES) {
+        	NSNumber *underline = [NSNumber numberWithInt:kCTUnderlineStyleSingle];
+
+        	[*attributedString addAttribute:(id)kCTUnderlineStyleAttributeName
+                	                  value:(id)underline
+        	                          range:styleRange];
+    	}	
+	
 	CTFontRef ctFont = CTFontCreateFromUIFont(style.font);
 	
 	[*attributedString addAttribute:(id)kCTFontAttributeName
