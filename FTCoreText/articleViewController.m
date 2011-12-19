@@ -35,7 +35,6 @@
 	titleStyle.paragraphInset = UIEdgeInsetsMake(0, 0, 25, 0);
 	titleStyle.textAlignment = FTCoreTextAlignementCenter;
 	[result addObject:titleStyle];
-	[titleStyle release];
 	
 	FTCoreTextStyle *imageStyle = [FTCoreTextStyle new];
 	imageStyle.paragraphInset = UIEdgeInsetsMake(0, 0, 1, 0);
