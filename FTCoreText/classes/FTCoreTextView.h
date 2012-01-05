@@ -26,28 +26,24 @@ extern NSString * const FTCoreTextTagBullet;
 extern NSString * const FTCoreTextTagPage;
 extern NSString * const FTCoreTextTagLink;
 
+extern NSString * const FTCoreTextDataURL;
+
 @protocol FTCoreTextViewDelegate;
 @interface FTCoreTextView : UIView {
-    NSString *_text;
-@private
+	
 	NSMutableDictionary *_styles;
-    NSString			*_processedString;
-    CGPathRef			_path;
-    CGContextRef        _context;
 	BOOL				_changesMade;
-    NSMutableDictionary *_URLs;
-    NSMutableArray		*_images;
-    id <FTCoreTextViewDelegate> _delegate;
 }
 
 @property (nonatomic, retain) NSString				*text;
 @property (nonatomic, retain) NSString				*processedString;
 @property (nonatomic, assign) CGPathRef				path;
-@property (nonatomic, assign) CGContextRef			context;
 @property (nonatomic, retain) NSMutableDictionary	*URLs;
 @property (nonatomic, retain) NSMutableArray		*images;
 @property (nonatomic, assign) id <FTCoreTextViewDelegate> delegate;
-
+//shadow is not yet part of a style. It's applied on the whole view	
+@property (nonatomic, retain) UIColor *shadowColor;
+@property (nonatomic, assign) CGSize shadowOffset;
 
 - (id)initWithFrame:(CGRect)frame;
 
@@ -56,9 +52,10 @@ extern NSString * const FTCoreTextTagLink;
 - (void)addStyle:(FTCoreTextStyle *)style;
 - (void)addStyles:(NSArray *)styles;
 
-- (NSArray *)stylesArray;
+- (NSArray *)stylesArray __deprecated;
+- (NSArray *)styles;
 
-+ (NSString *)stripTagsforString:(NSString *)string;
++ (NSString *)stripTagsForString:(NSString *)string;
 + (NSArray *)pagesFromText:(NSString *)string;
 
 - (CGSize)suggestedSizeConstrainedToSize:(CGSize)size;
@@ -68,8 +65,8 @@ extern NSString * const FTCoreTextTagLink;
 
 @protocol FTCoreTextViewDelegate <NSObject>
 @optional
-- (void)touchedData:(NSDictionary *)data inCoreTextView:(FTCoreTextView *)textView;
-
+- (void)touchedData:(NSDictionary *)data inCoreTextView:(FTCoreTextView *)textView __deprecated;
+- (void)coreTextView:(FTCoreTextView *)coreTextView receivedTouchOnData:(NSDictionary *)data;
 @end
 
 @interface NSString (FTCoreText)

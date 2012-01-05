@@ -11,5 +11,6 @@
 @interface FTCoreTextAppDelegate : NSObject <UIApplicationDelegate>
 
 @property (nonatomic, retain) IBOutlet UIWindow *window;
+@property (nonatomic, retain) UIViewController *controller;
 
 @end

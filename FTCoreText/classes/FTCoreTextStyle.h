@@ -81,4 +81,3 @@ typedef uint8_t FTCoreTextAlignement;
 + (id)styleWithName:(NSString *)name;
 
 @end
-

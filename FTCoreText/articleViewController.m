@@ -37,7 +37,7 @@
 	[result addObject:titleStyle];
 	
 	FTCoreTextStyle *imageStyle = [FTCoreTextStyle new];
-	imageStyle.paragraphInset = UIEdgeInsetsMake(0, 0, 1, 0);
+	imageStyle.paragraphInset = UIEdgeInsetsMake(-210, 0, 105, 0);
 	imageStyle.name = FTCoreTextTagImage;
 	imageStyle.textAlignment = FTCoreTextAlignementCenter;
 	[result addObject:imageStyle];
@@ -55,13 +55,11 @@
 	[result addObject:linkStyle];
 	[linkStyle release];
 	
-	FTCoreTextStyle *subtitleStyle = [FTCoreTextStyle new];
-	subtitleStyle.name = @"subtitle";
+	FTCoreTextStyle *subtitleStyle = [FTCoreTextStyle styleWithName:@"subtitle"];
 	subtitleStyle.font = [UIFont fontWithName:@"TimesNewRomanPS-BoldMT" size:25.f];
 	subtitleStyle.color = [UIColor brownColor];
 	subtitleStyle.paragraphInset = UIEdgeInsetsMake(10, 0, 10, 0);
 	[result addObject:subtitleStyle];
-	[subtitleStyle release];
 	
 	FTCoreTextStyle *bulletStyle = [defaultStyle copy];
 	bulletStyle.name = FTCoreTextTagBullet;
@@ -103,7 +101,7 @@
 {
     [super viewDidLoad];
     
-    //add coretextview
+	//add coretextview
     scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
 	scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     coreTextView = [[FTCoreTextView alloc] initWithFrame:CGRectMake(20, 20, 280, 0)];
@@ -116,13 +114,11 @@
     [coreTextView setDelegate:self];
 	
 	[coreTextView fitToSuggestedHeight];
-    
+
     [scrollView addSubview:coreTextView];
     [scrollView setContentSize:CGSizeMake(CGRectGetWidth(scrollView.bounds), CGRectGetHeight(coreTextView.frame) + 40)];
     
     [self.view addSubview:scrollView];
-	[scrollView release];
-    [coreTextView release];
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
@@ -137,6 +133,7 @@
 
 - (void)dealloc
 {
+	[coreTextView release];
 	[scrollView release];
 	[super dealloc];
 }

@@ -9,16 +9,25 @@
 #import "FTCoreTextAppDelegate.h"
 #import "articleViewController.h"
 
+#define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+
 @implementation FTCoreTextAppDelegate
 
 @synthesize window = _window;
+@synthesize controller = _controller;
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
     articleViewController *articleVC = [[articleViewController alloc] init];
-    [self.window setRootViewController:articleVC];
-    [articleVC release];
+	if (SYSTEM_VERSION_LESS_THAN(@"4.0")) {
+		[self.window addSubview:articleVC.view];
+		_controller = articleVC;
+	}
+	else {
+		[self.window setRootViewController:articleVC];
+		[articleVC release];
+	}
     
     [self.window makeKeyAndVisible];
     
@@ -67,6 +76,7 @@
 - (void)dealloc
 {
     [_window release];
+	[_controller release];
     [super dealloc];
 }
 

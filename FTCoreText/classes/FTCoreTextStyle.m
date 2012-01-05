@@ -48,8 +48,6 @@
 	return self;
 }
 
-
-//fast method
 + (id)styleWithName:(NSString *)name {
     FTCoreTextStyle *style = [[FTCoreTextStyle alloc] init];
     [style setName:name];
@@ -104,11 +102,6 @@
 
 - (void)setParagraphInset:(UIEdgeInsets)paragraphInset
 {
-	if (paragraphInset.bottom < 0) paragraphInset.bottom = 0;
-	if (paragraphInset.left < 0) paragraphInset.left = 0;
-	if (paragraphInset.right < 0) paragraphInset.right = 0;
-	if (paragraphInset.top < 0) paragraphInset.top = 0;
-	
 	_paragraphInset = paragraphInset;
 }
 
