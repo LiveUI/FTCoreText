@@ -1108,7 +1108,7 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 				if (alignment == kCTRightTextAlignment) x = (self.frame.size.width - img.size.width);
 				if (alignment == kCTCenterTextAlignment) x = ((self.frame.size.width - img.size.width) / 2);
 				
-				CGRect frame = CGRectMake(x, lineFrame.origin.y, img.size.width, img.size.height);
+				CGRect frame = CGRectMake(x, (lineFrame.origin.y - img.size.height), img.size.width, img.size.height);
                 
                 // adjusting frame
 				
