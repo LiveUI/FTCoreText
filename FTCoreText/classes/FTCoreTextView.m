@@ -242,6 +242,7 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 NSInteger rangeSort(NSString *range1, NSString *range2, void *context);
 - (void)drawImages;
 - (void)doInit;
+- (void)didMakeChanges;
 
 @end
 
@@ -257,6 +258,7 @@ NSInteger rangeSort(NSString *range1, NSString *range2, void *context);
 @synthesize rootNode = _rootNode;
 @synthesize shadowColor = _shadowColor;
 @synthesize shadowOffset = _shadowOffset;
+@synthesize attributedString = _attributedString;
 
 #pragma mark - Tools methods
 
@@ -302,6 +304,12 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 }
 
 #pragma mark - FTCoreTextView business
+
+- (void)didMakeChanges
+{
+	_coreTextViewFlags.updatedAttrString = NO;
+	_coreTextViewFlags.updatedFramesetter = NO;
+}
 
 - (NSDictionary *)dataForPoint:(CGPoint)point
 {
@@ -367,13 +375,12 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 							  value:(id)style.color.CGColor
 							  range:styleRange];
 	
-    	if(style.isUnderLined == YES) {
-        	NSNumber *underline = [NSNumber numberWithInt:kCTUnderlineStyleSingle];
-
-        	[*attributedString addAttribute:(id)kCTUnderlineStyleAttributeName
-                	                  value:(id)underline
-        	                          range:styleRange];
-    	}	
+	if (style.isUnderLined) {
+		NSNumber *underline = [NSNumber numberWithInt:kCTUnderlineStyleSingle];
+		[*attributedString addAttribute:(id)kCTUnderlineStyleAttributeName
+								  value:(id)underline
+								  range:styleRange];
+	}	
 	
 	CTFontRef ctFont = CTFontCreateFromUIFont(style.font);
 	
@@ -449,28 +456,10 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 
 - (void)updateFramesetterIfNeeded
 {
-    if (_changesMade) {
-		_changesMade = NO;
-		[self processText];
-		
-		if (!_processedString || [_processedString length] == 0) {
-			if (_framesetter) {
-				CFRelease(_framesetter);
-				_framesetter = NULL;
-			}
-			return;
-		}
-		
-		NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:_processedString];
-		
-		for (FTCoreTextNode *node in [_rootNode allSubnodes]) {
-			[self applyStyle:node.style inRange:node.styleRange onString:&string];
-		}
-		
-		// layout master 
+    if (!_coreTextViewFlags.updatedAttrString) {
 		if (_framesetter != NULL) CFRelease(_framesetter);
-		_framesetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)string);
-		[string release];
+		_framesetter = CTFramesetterCreateWithAttributedString((CFAttributedStringRef)self.attributedString);
+		_coreTextViewFlags.updatedAttrString = YES;
     }
 }
 
@@ -564,7 +553,7 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 	NSString *regEx = @"<(/){0,1}[_a-zA-Z0-9]*( /){0,1}>";
 	
 	BOOL systemUnder3_2 = ([self isSystemUnder3_2]);
-
+	
 	NSArray *possibleTags = nil;
 	if (systemUnder3_2) {
 		
@@ -832,7 +821,7 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
     FTCoreTextView *instance = [[FTCoreTextView alloc] initWithFrame:CGRectZero];
     [instance setText:string];
     [instance processText];
-    NSString *result = [NSString stringWithString:instance.processedString];
+    NSString *result = [[instance.processedString copy] autorelease];
     [instance release];
     return result;
 }
@@ -854,11 +843,17 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 
 - (id)initWithFrame:(CGRect)frame
 {
-    self = [super initWithFrame:frame];
-    if (self) {
-        [self doInit];
-    }
-    return self;
+    return [self initWithFrame:frame andAttributedString:nil];
+}
+
+- (id)initWithFrame:(CGRect)frame andAttributedString:(NSAttributedString *)attributedString
+{
+	self = [super initWithFrame:frame];
+	if (self) {
+		_attributedString = [attributedString retain];
+		[self doInit];
+	}
+	return self;
 }
 
 - (id)initWithCoder:(NSCoder *)aDecoder
@@ -904,6 +899,7 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
     [_URLs release];
     [_images release];
 	[_shadowColor release];
+	[_attributedString release];
     [super dealloc];
 }
 
@@ -913,9 +909,8 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 {
     [_text release];
     _text = [text retain];
-	_changesMade = YES;
-	[_processedString release];
-	_processedString = nil;
+	_coreTextViewFlags.textChangesMade = YES;
+	[self didMakeChanges];
     if ([self superview]) [self setNeedsDisplay];
 }
 
@@ -924,14 +919,14 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 {
 	[_styles release];
     _styles = [styles mutableCopy];
-	_changesMade = YES;
+	[self didMakeChanges];
     if ([self superview]) [self setNeedsDisplay];
 }
 
 - (void)setPath:(CGPathRef)path
 {
     _path = CGPathRetain(path);
-	_changesMade = YES;
+	[self didMakeChanges];
     if ([self superview]) [self setNeedsDisplay];
 }
 
@@ -939,13 +934,13 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 {
 	[_shadowColor release];
 	_shadowColor = [shadowColor retain];
-	[self setNeedsDisplay];
+	if ([self superview]) [self setNeedsDisplay];
 }
 
 - (void)setShadowOffset:(CGSize)shadowOffset
 {
 	_shadowOffset = shadowOffset;
-	[self setNeedsDisplay];
+	if ([self superview]) [self setNeedsDisplay];
 }
 
 #pragma mark Setting Styles
@@ -953,7 +948,7 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 - (void)addStyle:(FTCoreTextStyle *)style
 {
     [_styles setValue:style forKey:style.name];
-	_changesMade = YES;
+	[self didMakeChanges];
     if ([self superview]) [self setNeedsDisplay];
 }
 
@@ -962,7 +957,7 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 	for (FTCoreTextStyle *style in styles) {
 		[_styles setValue:style forKey:style.name];
 	}
-	_changesMade = YES;
+	[self didMakeChanges];
     if ([self superview]) [self setNeedsDisplay];
 }
 
@@ -977,6 +972,28 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 - (NSArray *)styles
 {
 	return [_styles allValues];
+}
+
+- (NSAttributedString *)attributedString
+{
+	if (!_coreTextViewFlags.updatedAttrString) {
+		_coreTextViewFlags.updatedAttrString = YES;
+		
+		if (_processedString == nil || _coreTextViewFlags.textChangesMade) {
+			_coreTextViewFlags.textChangesMade = NO;
+			[self processText];
+		}
+		
+		NSMutableAttributedString *string = [[NSMutableAttributedString alloc] initWithString:_processedString];
+		
+		for (FTCoreTextNode *node in [_rootNode allSubnodes]) {
+			[self applyStyle:node.style inRange:node.styleRange onString:&string];
+		}
+		
+		[_attributedString release];
+		_attributedString = string;
+	}
+	return _attributedString;
 }
 
 #pragma mark - View lifecycle
@@ -995,7 +1012,8 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 	
 	if ([self isSystemUnder3_2]) {
 		
-		if (_processedString == nil) {
+		if (_processedString == nil || _coreTextViewFlags.textChangesMade) {
+			_coreTextViewFlags.textChangesMade = NO;
 			[self processText];
 		}
 		
@@ -1120,20 +1138,22 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 {
 	[super touchesEnded:touches withEvent:event];
 	
-	if (self.delegate && ([self.delegate respondsToSelector:@selector(touchedData:inCoreTextView:)] || [self.delegate respondsToSelector:@selector(coreTextView:receivedTouchOnData:)])) {
-		CGPoint point = [(UITouch *)[touches anyObject] locationInView:self];
-		NSDictionary *data = [self dataForPoint:point];
-		if (data) {
-			if ([self.delegate respondsToSelector:@selector(coreTextView:receivedTouchOnData:)]) {
-				[self.delegate coreTextView:self receivedTouchOnData:data];
-			}
-			else {
-				if ([self.delegate respondsToSelector:@selector(touchedData:inCoreTextView:)]) {
-					[self.delegate touchedData:data inCoreTextView:self];
+	if (![self isSystemUnder3_2]) {
+		if (self.delegate && ([self.delegate respondsToSelector:@selector(touchedData:inCoreTextView:)] || [self.delegate respondsToSelector:@selector(coreTextView:receivedTouchOnData:)])) {
+			CGPoint point = [(UITouch *)[touches anyObject] locationInView:self];
+			NSDictionary *data = [self dataForPoint:point];
+			if (data) {
+				if ([self.delegate respondsToSelector:@selector(coreTextView:receivedTouchOnData:)]) {
+					[self.delegate coreTextView:self receivedTouchOnData:data];
+				}
+				else {
+					if ([self.delegate respondsToSelector:@selector(touchedData:inCoreTextView:)]) {
+						[self.delegate touchedData:data inCoreTextView:self];
+					}
 				}
 			}
 		}
-    }
+	}
 }
 
 @end

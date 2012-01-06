@@ -71,6 +71,7 @@
     
     FTCoreTextStyle *italicStyle = [defaultStyle copy];
 	italicStyle.name = @"italic";
+	italicStyle.underlined = YES;
     italicStyle.font = [UIFont fontWithName:@"TimesNewRomanPS-ItalicMT" size:16.f];
 	[result addObject:italicStyle];
 	[italicStyle release];
@@ -87,12 +88,10 @@
 
 - (void)touchedData:(NSDictionary *)data inCoreTextView:(FTCoreTextView *)textView
 {
-    NSURL *url = [data objectForKey:@"url"];
+    NSURL *url = [data objectForKey:FTCoreTextDataURL];
     if (!url) return;
     [[UIApplication sharedApplication] openURL:url];
 }
-
-
 
 #pragma mark - View Controller Methods
 

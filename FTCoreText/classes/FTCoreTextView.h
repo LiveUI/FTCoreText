@@ -15,6 +15,11 @@
 
 /*
  The source text has to contain every new line sequence '\n' required.
+ 
+ The -text property is parsed to create the attributed string that will be drawn. You can cache the -attributedString property
+ for a later reuse therefore avoiding to parse again your text.
+ 
+ If the -text property is nil though, adding styles will have no effect.
  */
 
 #import <UIKit/UIKit.h>
@@ -29,14 +34,20 @@ extern NSString * const FTCoreTextTagLink;
 extern NSString * const FTCoreTextDataURL;
 
 @protocol FTCoreTextViewDelegate;
+
 @interface FTCoreTextView : UIView {
 	
 	NSMutableDictionary *_styles;
-	BOOL				_changesMade;
+	struct {
+        unsigned int textChangesMade:1;
+        unsigned int updatedAttrString:1;
+        unsigned int updatedFramesetter:1;
+	} _coreTextViewFlags;
 }
 
 @property (nonatomic, retain) NSString				*text;
 @property (nonatomic, retain) NSString				*processedString;
+@property (nonatomic, readonly) NSAttributedString	*attributedString;
 @property (nonatomic, assign) CGPathRef				path;
 @property (nonatomic, retain) NSMutableDictionary	*URLs;
 @property (nonatomic, retain) NSMutableArray		*images;
@@ -45,7 +56,7 @@ extern NSString * const FTCoreTextDataURL;
 @property (nonatomic, retain) UIColor *shadowColor;
 @property (nonatomic, assign) CGSize shadowOffset;
 
-- (id)initWithFrame:(CGRect)frame;
+- (id)initWithFrame:(CGRect)frame andAttributedString:(NSAttributedString *)attributedString;
 
 - (void)setStyles:(NSDictionary *)styles __deprecated;
 
