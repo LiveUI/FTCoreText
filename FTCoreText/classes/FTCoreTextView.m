@@ -512,7 +512,9 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
     NSMutableArray *result = [NSMutableArray array];
     int prevStart = 0;
     while (YES) {
-        NSRange rangeStart = [string rangeOfString:@"<_page/>"];
+        NSRange rangeStart = [string rangeOfString:[NSString stringWithFormat:@"<%@/>", FTCoreTextTagPage]];
+		if (rangeStart.location == NSNotFound) rangeStart = [string rangeOfString:[NSString stringWithFormat:@"<%@ />", FTCoreTextTagPage]];
+		
         if (rangeStart.location != NSNotFound) {
             NSString *page = [string substringWithRange:NSMakeRange(prevStart, rangeStart.location)];
             [result addObject:page];
@@ -839,6 +841,25 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
     return (NSArray *)result;
 }
 
+#pragma mark Setting Styles
+
+- (void)addStyle:(FTCoreTextStyle *)style
+{
+    [_styles setValue:style forKey:style.name];
+	[self didMakeChanges];
+    if ([self superview]) [self setNeedsDisplay];
+}
+
+- (void)addStyles:(NSArray *)styles
+{
+	for (FTCoreTextStyle *style in styles) {
+		[_styles setValue:style forKey:style.name];
+	}
+	[self didMakeChanges];
+    if ([self superview]) [self setNeedsDisplay];
+}
+
+
 #pragma mark - Object lifecycle
 
 - (id)initWithFrame:(CGRect)frame
@@ -941,24 +962,6 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 {
 	_shadowOffset = shadowOffset;
 	if ([self superview]) [self setNeedsDisplay];
-}
-
-#pragma mark Setting Styles
-
-- (void)addStyle:(FTCoreTextStyle *)style
-{
-    [_styles setValue:style forKey:style.name];
-	[self didMakeChanges];
-    if ([self superview]) [self setNeedsDisplay];
-}
-
-- (void)addStyles:(NSArray *)styles
-{
-	for (FTCoreTextStyle *style in styles) {
-		[_styles setValue:style forKey:style.name];
-	}
-	[self didMakeChanges];
-    if ([self superview]) [self setNeedsDisplay];
 }
 
 #pragma mark - Custom Getters
