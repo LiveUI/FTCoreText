@@ -38,6 +38,7 @@ extern NSString * const FTCoreTextDataURL;
 @interface FTCoreTextView : UIView {
 	
 	NSMutableDictionary *_styles;
+	NSMutableDictionary *_defaultsTags;
 	struct {
         unsigned int textChangesMade:1;
         unsigned int updatedAttrString:1;
@@ -61,10 +62,17 @@ extern NSString * const FTCoreTextDataURL;
 
 - (id)initWithFrame:(CGRect)frame andAttributedString:(NSAttributedString *)attributedString;
 
+/* Using one of the FTCoreTextTag constants defined you can change a default tag to a new one.
+ * Example: you can call [coretTextView changeDefaultTag:FTCoreTextTagBullet toTag:@"li"] to
+ * make the view regonize <li>...</li> tags as bullet points */
+- (void)changeDefaultTag:(NSString *)coreTextTag toTag:(NSString *)newDefaultTag;
+
 - (void)setStyles:(NSDictionary *)styles __deprecated;
 
 - (void)addStyle:(FTCoreTextStyle *)style;
 - (void)addStyles:(NSArray *)styles;
+
+- (void)removeAllStyles;
 
 - (NSArray *)stylesArray __deprecated;
 - (NSArray *)styles;
