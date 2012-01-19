@@ -2,7 +2,7 @@
 <_image>giraffe.png</_image>
 <firstLetter>T</firstLetter>he giraffe (Giraffa camelopardalis) is an African <_link>http://en.wikipedia.org/wiki/Even-toed_ungulate|even-toed ungulate</_link> mammal, the tallest of all extant land-living animal species, and the largest ruminant. Its scientific name, which is similar to its archaic English name of camelopard, refers to its irregular patches of color on a light background.
 <subtitle>Subspecies</subtitle>
-Different authorities recognize different numbers of subspecies, differentiated by <bold>size</bold>, color and <italic>pattern</italic> variations and range. Some of these subspecies may prove to be separate species as they appear to be reproductively isolated despite their mobility. The subspecies recognized by most recent authorities are:
+Different authorities recognize different numbers of subspecies, differentiated by <bold>size</bold>, <colored>color</colored> and <italic>pattern</italic> variations and range. Some of these subspecies may prove to be separate species as they appear to be reproductively isolated despite their mobility. The subspecies recognized by most recent authorities are:
 
 <_bullet>G. c. camelopardalis</_bullet>
 <_bullet>G. c. reticulata</_bullet>
