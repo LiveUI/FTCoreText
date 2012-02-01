@@ -28,7 +28,7 @@
 	defaultStyle.font = [UIFont fontWithName:@"TimesNewRomanPSMT" size:16.f];
 	defaultStyle.textAlignment = FTCoreTextAlignementJustified;
 	[result addObject:defaultStyle];
-	[defaultStyle release];
+	
 	
 	FTCoreTextStyle *titleStyle = [FTCoreTextStyle styleWithName:@"title"]; // using fast method
 	titleStyle.font = [UIFont fontWithName:@"TimesNewRomanPSMT" size:40.f];
@@ -81,7 +81,13 @@
     boldStyle.font = [UIFont fontWithName:@"TimesNewRomanPS-BoldMT" size:16.f];
 	[result addObject:boldStyle];
 	[boldStyle release];
-	
+    
+    FTCoreTextStyle *coloredStyle = [defaultStyle copy];
+    [coloredStyle setName:@"colored"];
+    [coloredStyle setColor:[UIColor redColor]];
+	[result addObject:coloredStyle];
+    [defaultStyle release];
+    
     return  result;
 }
 
