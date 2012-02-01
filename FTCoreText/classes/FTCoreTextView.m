@@ -30,7 +30,7 @@ typedef enum {
 
 @property (nonatomic, assign) FTCoreTextNode	*supernode;
 @property (nonatomic, retain) NSArray			*subnodes;
-@property (nonatomic, retain) FTCoreTextStyle	*style;
+@property (nonatomic, copy)	  FTCoreTextStyle	*style;
 @property (nonatomic, assign) NSRange			styleRange;
 @property (nonatomic, assign) BOOL				isClosed;
 @property (nonatomic, assign) NSInteger			startLocation;
@@ -644,7 +644,7 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
                     
                     if (img) {
                         NSString *lines = @"\n";
-                        float leading = floorf(img.size.height + style.paragraphInset.top + style.paragraphInset.bottom);
+                        float leading = img.size.height;
                         currentSupernode.style.leading = leading;
                         
                         currentSupernode.imageName = elementContent;
