@@ -91,9 +91,7 @@
     return  result;
 }
 
-
-- (void)touchedData:(NSDictionary *)data inCoreTextView:(FTCoreTextView *)textView
-{
+- (void)coreTextView:(FTCoreTextView *)coreTextView receivedTouchOnData:(NSDictionary *)data {
     NSURL *url = [data objectForKey:FTCoreTextDataURL];
     if (!url) return;
     [[UIApplication sharedApplication] openURL:url];
