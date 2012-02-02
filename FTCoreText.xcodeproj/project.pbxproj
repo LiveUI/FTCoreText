@@ -18,6 +18,9 @@
 		684DBCBD13FD4DCF00776C6D /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 684DBCBB13FD4DCF00776C6D /* MainWindow.xib */; };
 		684DBCC513FD4E5E00776C6D /* articleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 684DBCC413FD4E5E00776C6D /* articleViewController.m */; };
 		684DBCD413FD526200776C6D /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 684DBCD313FD526200776C6D /* CoreText.framework */; };
+		68F8D3FD14DAE89200634E7C /* test.txt in Resources */ = {isa = PBXBuildFile; fileRef = 68F8D3FC14DAE89200634E7C /* test.txt */; };
+		68F8D40114DAEDD800634E7C /* kickstartVC.m in Sources */ = {isa = PBXBuildFile; fileRef = 68F8D40014DAEDD800634E7C /* kickstartVC.m */; };
+		68F8D40314DAFB9000634E7C /* test.css in Resources */ = {isa = PBXBuildFile; fileRef = 68F8D40214DAFB9000634E7C /* test.css */; };
 		9346F4301459AEF500EFA449 /* giraffe.png in Resources */ = {isa = PBXBuildFile; fileRef = 9346F42E1459AEF500EFA449 /* giraffe.png */; };
 		9346F4311459AEF500EFA449 /* giraffe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9346F42F1459AEF500EFA449 /* giraffe@2x.png */; };
 		9346F4331459AF2200EFA449 /* text.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9346F4321459AF2200EFA449 /* text.txt */; };
@@ -42,6 +45,10 @@
 		684DBCC313FD4E5E00776C6D /* articleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = articleViewController.h; sourceTree = "<group>"; };
 		684DBCC413FD4E5E00776C6D /* articleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = articleViewController.m; sourceTree = "<group>"; };
 		684DBCD313FD526200776C6D /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		68F8D3FC14DAE89200634E7C /* test.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = test.txt; sourceTree = "<group>"; };
+		68F8D3FF14DAEDD800634E7C /* kickstartVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = kickstartVC.h; sourceTree = "<group>"; };
+		68F8D40014DAEDD800634E7C /* kickstartVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = kickstartVC.m; sourceTree = "<group>"; };
+		68F8D40214DAFB9000634E7C /* test.css */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.css; path = test.css; sourceTree = "<group>"; };
 		9346F42E1459AEF500EFA449 /* giraffe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = giraffe.png; sourceTree = "<group>"; };
 		9346F42F1459AEF500EFA449 /* giraffe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "giraffe@2x.png"; sourceTree = "<group>"; };
 		9346F4321459AF2200EFA449 /* text.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = text.txt; sourceTree = "<group>"; };
@@ -97,11 +104,13 @@
 				682D46DC144C862500D3411E /* FTCoreTextStyle.m */,
 				682D46DD144C862500D3411E /* FTCoreTextView.h */,
 				682D46DE144C862500D3411E /* FTCoreTextView.m */,
-				684DBCB013FD4DCF00776C6D /* Supporting Files */,
 				684DBCC313FD4E5E00776C6D /* articleViewController.h */,
 				684DBCC413FD4E5E00776C6D /* articleViewController.m */,
 				684DBCB813FD4DCF00776C6D /* FTCoreTextAppDelegate.h */,
 				684DBCB913FD4DCF00776C6D /* FTCoreTextAppDelegate.m */,
+				684DBCB013FD4DCF00776C6D /* Supporting Files */,
+				68F8D3FF14DAEDD800634E7C /* kickstartVC.h */,
+				68F8D40014DAEDD800634E7C /* kickstartVC.m */,
 			);
 			path = FTCoreText;
 			sourceTree = "<group>";
@@ -125,6 +134,8 @@
 				9346F4321459AF2200EFA449 /* text.txt */,
 				9346F42E1459AEF500EFA449 /* giraffe.png */,
 				9346F42F1459AEF500EFA449 /* giraffe@2x.png */,
+				68F8D3FC14DAE89200634E7C /* test.txt */,
+				68F8D40214DAFB9000634E7C /* test.css */,
 			);
 			name = assets;
 			sourceTree = "<group>";
@@ -184,6 +195,8 @@
 				9346F4301459AEF500EFA449 /* giraffe.png in Resources */,
 				9346F4311459AEF500EFA449 /* giraffe@2x.png in Resources */,
 				9346F4331459AF2200EFA449 /* text.txt in Resources */,
+				68F8D3FD14DAE89200634E7C /* test.txt in Resources */,
+				68F8D40314DAFB9000634E7C /* test.css in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -199,6 +212,7 @@
 				684DBCC513FD4E5E00776C6D /* articleViewController.m in Sources */,
 				682D46DF144C862500D3411E /* FTCoreTextStyle.m in Sources */,
 				682D46E0144C862500D3411E /* FTCoreTextView.m in Sources */,
+				68F8D40114DAEDD800634E7C /* kickstartVC.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

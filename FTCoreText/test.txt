@@ -1,0 +1,21 @@
+<h1>Giraffe</h1>
+<img src="giraffe.png"/>
+<firstLetter>T</firstLetter>he giraffe (Giraffa camelopardalis) is an African mammal, the tallest of all extant land-living animal species, and the largest ruminant. Its scientific name, which is similar to its archaic English name of camelopard, refers to its irregular patches of color on a light background.
+<h2>Subspecies</h2>
+Different authorities recognize different numbers of subspecies, differentiated by <bold>size</bold>, and <italic>pattern</italic> variations and range. Some of these subspecies may prove to be separate species as they appear to be reproductively isolated despite their mobility. The subspecies recognized by most recent authorities are:
+<ul>
+    <li>G. c. camelopardalis</li>
+    <li>G. c. reticulata</li>
+    <li>G. c. reticulata</li>
+    <li>G. c. angolensis</li>
+    <li>G. c. antiquorum</li>
+    <li>G. c. tippelskirchi</li>
+    <li>G. c. rothschildi</li>
+    <li>G. c. giraffa</li>
+    <li>G. c. thornicrofti</li>
+</ul>
+
+
+<h2>Swimming</h2>
+Although no definitive study has been publicly conducted, giraffes are assumed to be unable to swim. It has been estimated that the giraffe's proportionally larger limbs have very high rotational inertias and this would make rapid swimming motions strenuous.
+<a href ="http://en.wikipedia.org/wiki/Giraffe">©2011 - Wikipedia</a>

@@ -7,7 +7,7 @@
 //
 
 #import "FTCoreTextAppDelegate.h"
-#import "articleViewController.h"
+#import "kickstartVC.h"
 
 #define SYSTEM_VERSION_LESS_THAN(v)                 ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
@@ -19,15 +19,10 @@
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
-    articleViewController *articleVC = [[articleViewController alloc] init];
-	if (SYSTEM_VERSION_LESS_THAN(@"4.0")) {
-		[self.window addSubview:articleVC.view];
-		_controller = articleVC;
-	}
-	else {
-		[self.window setRootViewController:articleVC];
-		[articleVC release];
-	}
+    kickstartVC *startVC = [[kickstartVC alloc] init];
+
+    [self.window setRootViewController:startVC];
+    [startVC release];
     
     [self.window makeKeyAndVisible];
     

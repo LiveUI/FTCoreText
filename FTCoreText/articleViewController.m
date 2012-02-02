@@ -9,13 +9,27 @@
 #import "articleViewController.h"
 
 @implementation articleViewController
+
 @synthesize scrollView;
 @synthesize coreTextView;
+@synthesize circles;
+@synthesize useCoreText;
 
 
 - (NSString *)textForView
 {
-    return [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"text" ofType:@"txt"] encoding:NSUTF8StringEncoding error:nil];
+    NSString *text = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:(self.useCoreText)? @"text" : @"test" ofType:@"txt"] encoding:NSUTF8StringEncoding error:nil];
+    NSMutableString *mutText = [NSMutableString string];
+    for (int i = 0; i < (circles + 1); i++) {
+        [mutText appendString:text];
+    }
+    
+    UILabel *lenghtLbl = [[UILabel alloc] initWithFrame:CGRectMake(240, 10, 80, 30)];
+    [lenghtLbl setText:[NSString stringWithFormat:@"L:%d", mutText.length]];
+    [self.view addSubview:lenghtLbl];
+    [lenghtLbl release];
+    
+    return (NSString *)mutText;
 }
 
 
@@ -91,6 +105,10 @@
     return  result;
 }
 
+- (void)back {
+    [self dismissModalViewControllerAnimated:NO];
+}
+
 - (void)coreTextView:(FTCoreTextView *)coreTextView receivedTouchOnData:(NSDictionary *)data {
     NSURL *url = [data objectForKey:FTCoreTextDataURL];
     if (!url) return;
@@ -104,24 +122,46 @@
 {
     [super viewDidLoad];
     
-	//add coretextview
-    scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-	scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    coreTextView = [[FTCoreTextView alloc] initWithFrame:CGRectMake(20, 20, 280, 0)];
-	coreTextView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    // set text
-    [coreTextView setText:[self textForView]];
-    // set styles
-    [coreTextView addStyles:[self coreTextStyle]];
-    // set delegate
-    [coreTextView setDelegate:self];
-	
-	[coreTextView fitToSuggestedHeight];
 
-    [scrollView addSubview:coreTextView];
-    [scrollView setContentSize:CGSizeMake(CGRectGetWidth(scrollView.bounds), CGRectGetHeight(coreTextView.frame) + 40)];
     
-    [self.view addSubview:scrollView];
+    if (self.useCoreText) {
+        //add coretextview
+        scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+        scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        coreTextView = [[FTCoreTextView alloc] initWithFrame:CGRectMake(20, 20, 280, 0)];
+        coreTextView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+        // set text
+        [coreTextView setText:[self textForView]];
+        // set styles
+        [coreTextView addStyles:[self coreTextStyle]];
+        // set delegate
+        [coreTextView setDelegate:self];
+        
+        [coreTextView fitToSuggestedHeight];
+        
+        [scrollView addSubview:coreTextView];
+        [scrollView setContentSize:CGSizeMake(CGRectGetWidth(scrollView.bounds), CGRectGetHeight(coreTextView.frame) + 40)];
+        
+        [self.view addSubview:scrollView];
+    }
+    
+    else { //load webview
+        NSString *path = [[NSBundle mainBundle] bundlePath];
+        NSURL *baseURL = [NSURL fileURLWithPath:path];
+        NSString *css = [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"test"  ofType:@"css"] encoding:NSUTF8StringEncoding error:nil];
+        NSString *htmlText = [NSString stringWithFormat:@"<html><head><style>%@</style></head><body>%@</body></html>", css, [self textForView]];
+        
+        UIWebView *webV = [[UIWebView alloc] initWithFrame:self.view.bounds];
+        [webV loadHTMLString:htmlText baseURL:baseURL];
+        [self.view addSubview:webV];
+    }
+    
+    UIButton *btn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    [btn setTitle:@"<<" forState:UIControlStateNormal];
+    [btn setFrame:CGRectMake(10, 10, 30, 30)];
+    [btn addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
+    [self.view addSubview:btn];
+
 }
 
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation

@@ -13,5 +13,7 @@
 
 @property (nonatomic, retain) UIScrollView *scrollView;
 @property (nonatomic, retain) FTCoreTextView *coreTextView;
+@property (nonatomic, assign) int circles;
+@property (nonatomic, assign) BOOL useCoreText;
 
 @end
