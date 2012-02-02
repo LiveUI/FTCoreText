@@ -1,5 +1,7 @@
 Welcome to FTCoreText Objective-C library for iOS development.
 
+The Profiler brunch is meant to do testing against FTCoreText compared with the UIWebView.
+
 Implementation Instructions:
 
     Import CoreText.framework to your project
