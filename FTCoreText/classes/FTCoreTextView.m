@@ -302,7 +302,13 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 
 - (BOOL)isSystemUnder3_2
 {
-	return SYSTEM_VERSION_LESS_THAN(@"3.2");
+    static BOOL checked = NO;
+    static BOOL systemUnder3_2;
+    if (!checked) {
+        checked = YES;
+        systemUnder3_2 = SYSTEM_VERSION_LESS_THAN(@"3.2");
+    }
+	return systemUnder3_2;
 }
 
 #pragma mark - FTCoreTextView business
