@@ -12,6 +12,7 @@
 
 #define SYSTEM_VERSION_LESS_THAN(v)			([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
+
 NSString * const FTCoreTextTagDefault = @"_default";
 NSString * const FTCoreTextTagImage = @"_image";
 NSString * const FTCoreTextTagBullet = @"_bullet";
@@ -19,6 +20,9 @@ NSString * const FTCoreTextTagPage = @"_page";
 NSString * const FTCoreTextTagLink = @"_link";
 
 NSString * const FTCoreTextDataURL = @"url";
+NSString * const FTCoreTextDataName = @"FTCoreTextDataName";
+NSString * const FTCoreTextDataFrame = @"FTCoreTextDataFrame";
+NSString * const FTCoreTextDataAttributes = @"FTCoreTextDataAttributes";
 
 typedef enum {
 	FTCoreTextTagTypeOpen,
@@ -302,7 +306,13 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 
 - (BOOL)isSystemUnder3_2
 {
-	return SYSTEM_VERSION_LESS_THAN(@"3.2");
+    static BOOL checked = NO;
+    static BOOL systemUnder3_2;
+    if (!checked) {
+        checked = YES;
+        systemUnder3_2 = SYSTEM_VERSION_LESS_THAN(@"3.2");
+    }
+	return systemUnder3_2;
 }
 
 #pragma mark - FTCoreTextView business
@@ -369,6 +379,7 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 				//we look if the position of the touch is correct on the line
 				
 				CFIndex index = CTLineGetStringIndexForPosition(line, point);
+
 				NSArray *urlsKeys = [_URLs allKeys];
 				
 				for (NSString *key in urlsKeys) {
@@ -379,7 +390,32 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 						break;
 					}
 				}
-			}
+			
+                //frame
+                CFArrayRef runs = CTLineGetGlyphRuns(line);
+                for(CFIndex j = 0; j < CFArrayGetCount(runs); j++) {
+                    CTRunRef run = CFArrayGetValueAtIndex(runs, j);
+                    NSDictionary* attributes = (NSDictionary*)CTRunGetAttributes(run);
+                    
+                    NSString *name = [attributes objectForKey:FTCoreTextDataName];
+                    if (![name isEqualToString:@"_link"]) continue;
+                    
+                    [returnedDict setObject:attributes forKey:FTCoreTextDataAttributes];
+                    
+                    CGRect runBounds;
+                    runBounds.size.width = CTRunGetTypographicBounds(run, CFRangeMake(0, 0), &ascent, &descent, NULL); //8
+                    runBounds.size.height = ascent + descent;
+                    
+                    CGFloat xOffset = CTLineGetOffsetForStringIndex(line, CTRunGetStringRange(run).location, NULL); //9
+                    runBounds.origin.x = baselineOrigin.x + self.frame.origin.x + xOffset + 0;
+                    runBounds.origin.y = baselineOrigin.y + lineFrame.size.height - ascent; 
+                    
+                    [returnedDict setObject:NSStringFromCGRect(runBounds) forKey:FTCoreTextDataFrame];
+                    
+                }
+            
+            
+            }
 			if (returnedDict.count > 0) break;
 		}
 	}
@@ -805,6 +841,10 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 
 - (void)applyStyle:(FTCoreTextStyle *)style inRange:(NSRange)styleRange onString:(NSMutableAttributedString **)attributedString
 {
+    [*attributedString addAttribute:(id)FTCoreTextDataName
+							  value:(id)style.name
+							  range:styleRange];
+    
 	[*attributedString addAttribute:(id)kCTForegroundColorAttributeName
 							  value:(id)style.color.CGColor
 							  range:styleRange];

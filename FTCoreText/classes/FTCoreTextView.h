@@ -32,6 +32,9 @@ extern NSString * const FTCoreTextTagLink;		//Define style for links. Respond to
 /* These constants are used in the dictionary argument of the delegate method -coreTextView:receivedTouchOnData: */
 
 extern NSString * const FTCoreTextDataURL;
+extern NSString * const FTCoreTextDataName;
+extern NSString * const FTCoreTextDataFrame;
+extern NSString * const FTCoreTextDataAttributes;
 
 @protocol FTCoreTextViewDelegate;
 

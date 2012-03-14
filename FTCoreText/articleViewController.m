@@ -7,6 +7,7 @@
 //
 
 #import "articleViewController.h"
+#import <QuartzCore/QuartzCore.h>
 
 @implementation articleViewController
 @synthesize scrollView;
@@ -91,7 +92,31 @@
     return  result;
 }
 
-- (void)coreTextView:(FTCoreTextView *)coreTextView receivedTouchOnData:(NSDictionary *)data {
+- (void)coreTextView:(FTCoreTextView *)acoreTextView receivedTouchOnData:(NSDictionary *)data {
+    
+    CGRect frame = CGRectFromString([data objectForKey:FTCoreTextDataFrame]);
+    
+    if (CGRectEqualToRect(CGRectZero, frame)) return;
+    
+    frame.origin.x -= 3;
+    frame.origin.y -= 1;
+    frame.size.width += 6;
+    frame.size.height += 6;
+    UIView *view = [[UIView alloc] initWithFrame:frame];
+    [view.layer setCornerRadius:3];
+    [view setBackgroundColor:[UIColor orangeColor]];
+    [view setAlpha:0];
+    [acoreTextView.superview addSubview:view];
+    [UIView animateWithDuration:0.2 animations:^{
+        [view setAlpha:0.4];
+    } completion:^(BOOL finished) {
+        [UIView animateWithDuration:0.5 animations:^{
+            [view setAlpha:0];
+        }];
+    }];
+    
+    return;
+    
     NSURL *url = [data objectForKey:FTCoreTextDataURL];
     if (!url) return;
     [[UIApplication sharedApplication] openURL:url];

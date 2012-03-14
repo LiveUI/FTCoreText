@@ -8,7 +8,6 @@
 
 /* Begin PBXBuildFile section */
 		682D46DF144C862500D3411E /* FTCoreTextStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 682D46DC144C862500D3411E /* FTCoreTextStyle.m */; };
-		682D46E0144C862500D3411E /* FTCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 682D46DE144C862500D3411E /* FTCoreTextView.m */; };
 		684DBCAA13FD4DCF00776C6D /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 684DBCA913FD4DCF00776C6D /* UIKit.framework */; };
 		684DBCAC13FD4DCF00776C6D /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 684DBCAB13FD4DCF00776C6D /* Foundation.framework */; };
 		684DBCAE13FD4DCF00776C6D /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 684DBCAD13FD4DCF00776C6D /* CoreGraphics.framework */; };
@@ -18,6 +17,7 @@
 		684DBCBD13FD4DCF00776C6D /* MainWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 684DBCBB13FD4DCF00776C6D /* MainWindow.xib */; };
 		684DBCC513FD4E5E00776C6D /* articleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 684DBCC413FD4E5E00776C6D /* articleViewController.m */; };
 		684DBCD413FD526200776C6D /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 684DBCD313FD526200776C6D /* CoreText.framework */; };
+		68A16CB61510D9BB007B079A /* FTCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 68A16CB51510D9BB007B079A /* FTCoreTextView.m */; };
 		9346F4301459AEF500EFA449 /* giraffe.png in Resources */ = {isa = PBXBuildFile; fileRef = 9346F42E1459AEF500EFA449 /* giraffe.png */; };
 		9346F4311459AEF500EFA449 /* giraffe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 9346F42F1459AEF500EFA449 /* giraffe@2x.png */; };
 		9346F4331459AF2200EFA449 /* text.txt in Resources */ = {isa = PBXBuildFile; fileRef = 9346F4321459AF2200EFA449 /* text.txt */; };
@@ -26,8 +26,6 @@
 /* Begin PBXFileReference section */
 		682D46DB144C862500D3411E /* FTCoreTextStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FTCoreTextStyle.h; path = classes/FTCoreTextStyle.h; sourceTree = "<group>"; };
 		682D46DC144C862500D3411E /* FTCoreTextStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTCoreTextStyle.m; path = classes/FTCoreTextStyle.m; sourceTree = "<group>"; };
-		682D46DD144C862500D3411E /* FTCoreTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FTCoreTextView.h; path = classes/FTCoreTextView.h; sourceTree = "<group>"; };
-		682D46DE144C862500D3411E /* FTCoreTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTCoreTextView.m; path = classes/FTCoreTextView.m; sourceTree = "<group>"; };
 		684DBCA513FD4DCF00776C6D /* FTCoreText.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FTCoreText.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		684DBCA913FD4DCF00776C6D /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		684DBCAB13FD4DCF00776C6D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
@@ -42,6 +40,8 @@
 		684DBCC313FD4E5E00776C6D /* articleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = articleViewController.h; sourceTree = "<group>"; };
 		684DBCC413FD4E5E00776C6D /* articleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = articleViewController.m; sourceTree = "<group>"; };
 		684DBCD313FD526200776C6D /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		68A16CB41510D9BB007B079A /* FTCoreTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FTCoreTextView.h; path = classes/FTCoreTextView.h; sourceTree = "<group>"; };
+		68A16CB51510D9BB007B079A /* FTCoreTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FTCoreTextView.m; path = classes/FTCoreTextView.m; sourceTree = "<group>"; };
 		9346F42E1459AEF500EFA449 /* giraffe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = giraffe.png; sourceTree = "<group>"; };
 		9346F42F1459AEF500EFA449 /* giraffe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "giraffe@2x.png"; sourceTree = "<group>"; };
 		9346F4321459AF2200EFA449 /* text.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = text.txt; sourceTree = "<group>"; };
@@ -93,10 +93,10 @@
 		684DBCAF13FD4DCF00776C6D /* FTCoreText */ = {
 			isa = PBXGroup;
 			children = (
+				68A16CB41510D9BB007B079A /* FTCoreTextView.h */,
+				68A16CB51510D9BB007B079A /* FTCoreTextView.m */,
 				682D46DB144C862500D3411E /* FTCoreTextStyle.h */,
 				682D46DC144C862500D3411E /* FTCoreTextStyle.m */,
-				682D46DD144C862500D3411E /* FTCoreTextView.h */,
-				682D46DE144C862500D3411E /* FTCoreTextView.m */,
 				684DBCB013FD4DCF00776C6D /* Supporting Files */,
 				684DBCC313FD4E5E00776C6D /* articleViewController.h */,
 				684DBCC413FD4E5E00776C6D /* articleViewController.m */,
@@ -198,7 +198,7 @@
 				684DBCBA13FD4DCF00776C6D /* FTCoreTextAppDelegate.m in Sources */,
 				684DBCC513FD4E5E00776C6D /* articleViewController.m in Sources */,
 				682D46DF144C862500D3411E /* FTCoreTextStyle.m in Sources */,
-				682D46E0144C862500D3411E /* FTCoreTextView.m in Sources */,
+				68A16CB61510D9BB007B079A /* FTCoreTextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

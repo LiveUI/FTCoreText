@@ -1,8 +1,8 @@
 <title>Giraffe</title>
 <_image>giraffe.png</_image>
-<firstLetter>T</firstLetter>he giraffe (Giraffa camelopardalis) is an African <_link>http://en.wikipedia.org/wiki/Even-toed_ungulate|even-toed ungulate</_link> mammal, the tallest of all extant land-living animal species, and the largest ruminant. Its scientific name, which is similar to its archaic English name of camelopard, refers to its irregular patches of color on a light background.
+<firstLetter>T</firstLetter>he giraffe (Giraffa camelopardalis) is an African <_link>http://en.wikipedia.org/wiki/Even-toed_ungulate|even-toed ungulate</_link> mammal, the tallest of all extant land-living animal species, and the largest ruminant. Its scientific name,<_link>http://en.wikipedia.org/wiki/Giraffe|©2011 - Wikipedia</_link> which is similar to its archaic English name of camelopard, refers to its irregular patches of color on a light background.
 <subtitle>Subspecies</subtitle>
-Different authorities recognize different numbers of subspecies, differentiated by <bold>size</bold>, <colored>color</colored> and <italic>pattern</italic> variations and range. Some of these subspecies may prove to be separate species as they appear to be reproductively isolated despite their mobility. The subspecies recognized by most recent authorities are:
+Different authorities recognize different numbers of subspecies,<_link>http://en.wikipedia.org/wiki/Giraffe|©2011 - Wikipedia</_link> differentiated by <bold>size</bold>, <colored>color</colored> and <italic>pattern</italic> variations and range. Some of these subspecies may prove to be separate species as they appear to be reproductively isolated despite their mobility. The subspecies recognized by most recent authorities are:
 
 <_bullet>G. c. camelopardalis</_bullet>
 <_bullet>G. c. reticulata</_bullet>
@@ -14,6 +14,6 @@ Different authorities recognize different numbers of subspecies, differentiated 
 <_bullet>G. c. giraffa</_bullet>
 <_bullet>G. c. thornicrofti</_bullet>
 <subtitle>Swimming</subtitle>
-Although no definitive study has been publicly conducted, giraffes are assumed to be unable to swim. It has been estimated that the giraffe's proportionally larger limbs have very high rotational inertias and this would make rapid swimming motions strenuous.
+Although no definitive study has been publicly conducted,<_link>http://en.wikipedia.org/wiki/Giraffe|©2011 - Wikipedia</_link> giraffes are assumed to be unable to swim. It has been estimated that the giraffe's proportionally larger limbs have very high rotational inertias and this would make rapid swimming motions strenuous.
 
 <_link>http://en.wikipedia.org/wiki/Giraffe|©2011 - Wikipedia</_link>
