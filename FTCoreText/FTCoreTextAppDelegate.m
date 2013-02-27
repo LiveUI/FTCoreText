@@ -26,7 +26,6 @@
 	}
 	else {
 		[self.window setRootViewController:articleVC];
-		[articleVC release];
 	}
     
     [self.window makeKeyAndVisible];
@@ -73,11 +72,5 @@
      */
 }
 
-- (void)dealloc
-{
-    [_window release];
-	[_controller release];
-    [super dealloc];
-}
 
 @end

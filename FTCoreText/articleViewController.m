@@ -42,19 +42,16 @@
 	imageStyle.name = FTCoreTextTagImage;
 	imageStyle.textAlignment = FTCoreTextAlignementCenter;
 	[result addObject:imageStyle];
-	[imageStyle release];	
 	
 	FTCoreTextStyle *firstLetterStyle = [FTCoreTextStyle new];
 	firstLetterStyle.name = @"firstLetter";
 	firstLetterStyle.font = [UIFont fontWithName:@"TimesNewRomanPS-BoldMT" size:30.f];
 	[result addObject:firstLetterStyle];
-	[firstLetterStyle release];
 	
 	FTCoreTextStyle *linkStyle = [defaultStyle copy];
 	linkStyle.name = FTCoreTextTagLink;
 	linkStyle.color = [UIColor orangeColor];
 	[result addObject:linkStyle];
-	[linkStyle release];
 	
 	FTCoreTextStyle *subtitleStyle = [FTCoreTextStyle styleWithName:@"subtitle"];
 	subtitleStyle.font = [UIFont fontWithName:@"TimesNewRomanPS-BoldMT" size:25.f];
@@ -68,55 +65,28 @@
 	bulletStyle.bulletColor = [UIColor orangeColor];
 	bulletStyle.bulletCharacter = @"❧";
 	[result addObject:bulletStyle];
-	[bulletStyle release];
     
     FTCoreTextStyle *italicStyle = [defaultStyle copy];
 	italicStyle.name = @"italic";
 	italicStyle.underlined = YES;
     italicStyle.font = [UIFont fontWithName:@"TimesNewRomanPS-ItalicMT" size:16.f];
 	[result addObject:italicStyle];
-	[italicStyle release];
     
     FTCoreTextStyle *boldStyle = [defaultStyle copy];
 	boldStyle.name = @"bold";
     boldStyle.font = [UIFont fontWithName:@"TimesNewRomanPS-BoldMT" size:16.f];
 	[result addObject:boldStyle];
-	[boldStyle release];
     
     FTCoreTextStyle *coloredStyle = [defaultStyle copy];
     [coloredStyle setName:@"colored"];
     [coloredStyle setColor:[UIColor redColor]];
 	[result addObject:coloredStyle];
-    [defaultStyle release];
     
     return  result;
 }
 
-- (void)coreTextView:(FTCoreTextView *)acoreTextView receivedTouchOnData:(NSDictionary *)data {
-    
-    CGRect frame = CGRectFromString([data objectForKey:FTCoreTextDataFrame]);
-    
-    if (CGRectEqualToRect(CGRectZero, frame)) return;
-    
-    frame.origin.x -= 3;
-    frame.origin.y -= 1;
-    frame.size.width += 6;
-    frame.size.height += 6;
-    UIView *view = [[UIView alloc] initWithFrame:frame];
-    [view.layer setCornerRadius:3];
-    [view setBackgroundColor:[UIColor orangeColor]];
-    [view setAlpha:0];
-    [acoreTextView.superview addSubview:view];
-    [UIView animateWithDuration:0.2 animations:^{
-        [view setAlpha:0.4];
-    } completion:^(BOOL finished) {
-        [UIView animateWithDuration:0.5 animations:^{
-            [view setAlpha:0];
-        }];
-    }];
-    
-    return;
-    
+- (void)coreTextView:(FTCoreTextView *)acoreTextView receivedTouchOnData:(NSDictionary *)data
+{
     NSURL *url = [data objectForKey:FTCoreTextDataURL];
     if (!url) return;
     [[UIApplication sharedApplication] openURL:url];
@@ -159,11 +129,5 @@
 	[scrollView setContentSize:CGSizeMake(CGRectGetWidth(scrollView.bounds), CGRectGetHeight(coreTextView.frame) + 40)];
 }
 
-- (void)dealloc
-{
-	[coreTextView release];
-	[scrollView release];
-	[super dealloc];
-}
 
 @end

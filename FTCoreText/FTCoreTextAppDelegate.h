@@ -10,7 +10,6 @@
 
 @interface FTCoreTextAppDelegate : NSObject <UIApplicationDelegate>
 
-@property (nonatomic, retain) IBOutlet UIWindow *window;
-@property (nonatomic, retain) UIViewController *controller;
+@property (unsafe_unretained, nonatomic) UIViewController *controller;
 
 @end

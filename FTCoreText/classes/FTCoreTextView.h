@@ -29,6 +29,8 @@ extern NSString * const FTCoreTextTagBullet;	//Define styles for bullets. Respon
 extern NSString * const FTCoreTextTagPage;		//Divide the text in pages. Respond to markup <_page/>
 extern NSString * const FTCoreTextTagLink;		//Define style for links. Respond to markup <_link>link URL|link replacement name</_link>
 
+extern NSString * const FTCoreTextTagParagraph;
+
 /* These constants are used in the dictionary argument of the delegate method -coreTextView:receivedTouchOnData: */
 
 extern NSString * const FTCoreTextDataURL;
@@ -49,16 +51,18 @@ extern NSString * const FTCoreTextDataAttributes;
 	} _coreTextViewFlags;
 }
 
-@property (nonatomic, retain) NSString				*text;
-@property (nonatomic, retain) NSString				*processedString;
+@property (nonatomic) NSString				*text;
+@property (nonatomic) NSString				*processedString;
 @property (nonatomic, readonly) NSAttributedString	*attributedString;
 @property (nonatomic, assign) CGPathRef				path;
-@property (nonatomic, retain) NSMutableDictionary	*URLs;
-@property (nonatomic, retain) NSMutableArray		*images;
+@property (nonatomic) NSMutableDictionary	*URLs;
+@property (nonatomic) NSMutableArray		*images;
 @property (nonatomic, assign) id <FTCoreTextViewDelegate> delegate;
-//shadow is not yet part of a style. It's applied on the whole view	
-@property (nonatomic, retain) UIColor *shadowColor;
-@property (nonatomic, assign) CGSize shadowOffset;
+//shadow is not yet part of a style. It's applied on the whole view
+@property (nonatomic) UIColor *shadowColor;
+@property (nonatomic) CGSize shadowOffset;
+@property (nonatomic) BOOL verbose; //default YES
+@property (nonatomic) BOOL highlightTouch; //defaut YES;
 
 /* Using this method, you then have to set the -text property to get any result */
 - (id)initWithFrame:(CGRect)frame;
@@ -70,8 +74,6 @@ extern NSString * const FTCoreTextDataAttributes;
  * make the view regonize <li>...</li> tags as bullet points */
 - (void)changeDefaultTag:(NSString *)coreTextTag toTag:(NSString *)newDefaultTag;
 
-- (void)setStyles:(NSDictionary *)styles __deprecated;
-
 - (void)addStyle:(FTCoreTextStyle *)style;
 - (void)addStyles:(NSArray *)styles;
 
@@ -79,6 +81,7 @@ extern NSString * const FTCoreTextDataAttributes;
 
 - (NSArray *)stylesArray __deprecated;
 - (NSArray *)styles;
+- (FTCoreTextStyle *)styleForName:(NSString *)tagName;
 
 + (NSString *)stripTagsForString:(NSString *)string;
 + (NSArray *)pagesFromText:(NSString *)string;
@@ -86,12 +89,18 @@ extern NSString * const FTCoreTextDataAttributes;
 - (CGSize)suggestedSizeConstrainedToSize:(CGSize)size;
 - (void)fitToSuggestedHeight;
 
+- (CGRect)getLineRectFromNSRange:(NSRange)range;
+- (NSString*)getNodeIndexYCoordinate:(CGFloat)coord;
+- (NSRange)getLineRangeForYCoordinate:(CGFloat)coord;
+- (NSInteger)getCorrectLocationFromNSRange:(NSRange)range;
+- (NSString*) getTextInLineByRange:(NSRange)range;
+- (NSString*)getNodeIndexThatContainLocationFormNSRange:(NSRange)range;
 @end
 
 @protocol FTCoreTextViewDelegate <NSObject>
 @optional
-- (void)touchedData:(NSDictionary *)data inCoreTextView:(FTCoreTextView *)textView __deprecated;
 - (void)coreTextView:(FTCoreTextView *)coreTextView receivedTouchOnData:(NSDictionary *)data;
+- (void)coreTextViewfinishedRendering:(FTCoreTextView *)coreTextView;
 @end
 
 @interface NSString (FTCoreText)
