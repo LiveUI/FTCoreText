@@ -1326,8 +1326,6 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	[super touchesEnded:touches withEvent:event];
-	
 	if (self.delegate && [self.delegate respondsToSelector:@selector(coreTextView:receivedTouchOnData:)]) {
 		CGPoint point = [(UITouch *)[touches anyObject] locationInView:self];
 		NSMutableArray *activeRects;
@@ -1336,6 +1334,7 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 			NSMutableArray *selectedViews = [NSMutableArray new];
 			for (NSString *rectString in activeRects) {
 				CGRect rect = CGRectFromString(rectString);
+				rect = CGRectMake(rect.origin.x - 3, rect.origin.y - 4, rect.size.width + 6, rect.size.height + 6);
 				UIView *view = [[UIView alloc] initWithFrame:rect];
 				view.layer.cornerRadius = 3;
 				view.clipsToBounds = YES;
@@ -1345,22 +1344,22 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 			}
 			self.touchedData = data;
 			self.selectionsViews = selectedViews;
+			return;
 		}
 	}
+	[super touchesBegan:touches withEvent:event];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	[super touchesMoved:touches withEvent:event];
 	_touchedData = nil;
 	[_selectionsViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 	_selectionsViews = nil;
+	[super touchesMoved:touches withEvent:event];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	[super touchesEnded:touches withEvent:event];
-	
 	if (_touchedData) {
 		if (self.delegate && [self.delegate respondsToSelector:@selector(coreTextView:receivedTouchOnData:)]) {
 			if ([self.delegate respondsToSelector:@selector(coreTextView:receivedTouchOnData:)]) {
@@ -1370,7 +1369,9 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 		_touchedData = nil;
 		[_selectionsViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 		_selectionsViews = nil;
+		return;
 	}
+	[super touchesEnded:touches withEvent:event];
 }
 
 - (CGRect)getLineRectFromNSRange:(NSRange)range
