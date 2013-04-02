@@ -440,13 +440,13 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 {
 	switch (alignment) {
 		case FTCoreTextAlignementCenter:
-			return UITextAlignmentCenter;
+			return NSTextAlignmentRight;
 			break;
 		case FTCoreTextAlignementRight:
-			return UITextAlignmentRight;
+			return NSTextAlignmentRight;
 			break;
 		default:
-			return UITextAlignmentLeft;
+			return NSTextAlignmentLeft;
 			break;
 	}
 }
@@ -602,7 +602,7 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
                     NSDictionary* attributes = (__bridge NSDictionary*)CTRunGetAttributes(run);
                     
                     NSString *name = [attributes objectForKey:FTCoreTextDataName];
-                    if (![name isEqualToString:@"_link"]) continue;
+                    if (![name isEqualToString:FTCoreTextTagLink]) continue;
                     
                     [returnedDict setObject:attributes forKey:FTCoreTextDataAttributes];
                     
