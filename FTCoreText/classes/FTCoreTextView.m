@@ -690,7 +690,7 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 	BOOL finished = NO;
 	NSRange remainingRange = NSMakeRange(0, [processedString length]);
 	
-	NSString *regEx = @"<(/){0,1}.*?( /){0,1}>";
+	NSString *regEx = @"<\\{\\[(/){0,1}.*?( /){0,1}\\]\\}>";
 	
 	while (!finished) {
 		
@@ -708,10 +708,10 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
         NSString *fullTag = [processedString substringWithRange:tagRange];
         FTCoreTextTagType tagType;
         
-        if ([fullTag rangeOfString:@"</"].location == 0) {
+        if ([fullTag rangeOfString:@"<{[/"].location == 0) {
             tagType = FTCoreTextTagTypeClose;
         }
-        else if ([fullTag rangeOfString:@"/>"].location == NSNotFound && [fullTag rangeOfString:@" />"].location == NSNotFound) {
+        else if ([fullTag rangeOfString:@"/]}>"].location == NSNotFound && [fullTag rangeOfString:@" /]}>"].location == NSNotFound) {
             tagType = FTCoreTextTagTypeOpen;
         }
         else {
@@ -721,7 +721,7 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 		NSArray *tagsComponents = [fullTag componentsSeparatedByString:@" "];
 		NSString *tagName = (tagsComponents.count > 0) ? [tagsComponents objectAtIndex:0] : fullTag;
         
-        tagName = [tagName stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"< />"]];
+        tagName = [tagName stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<{[ /]}>"]];
 		
         FTCoreTextStyle *style = [_styles objectForKey:tagName];
         
@@ -795,12 +795,12 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
                     
                     NSRange elementContentRange = NSMakeRange(currentSupernode.startLocation, tagRange.location - currentSupernode.startLocation);
                     NSString *elementContent = [processedString substringWithRange:elementContentRange];
-                    NSRange pipeRange = [elementContent rangeOfString:@"|"];
+                    NSRange pipeRange = [elementContent rangeOfString:@"{[|]}"];
                     NSString *urlString = nil;
                     NSString *urlDescription = nil;
                     if (pipeRange.location != NSNotFound) {
                         urlString = [elementContent substringToIndex:pipeRange.location] ;
-                        urlDescription = [elementContent substringFromIndex:pipeRange.location + 1];
+                        urlDescription = [elementContent substringFromIndex:pipeRange.location + 5];
                     }
                     
                     [processedString replaceCharactersInRange:NSMakeRange(elementContentRange.location, elementContentRange.length + tagRange.length) withString:urlDescription];
@@ -938,8 +938,8 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
     NSMutableArray *result = [NSMutableArray array];
     int prevStart = 0;
     while (YES) {
-        NSRange rangeStart = [string rangeOfString:[NSString stringWithFormat:@"<%@/>", [self defaultTagNameForKey:FTCoreTextTagPage]]];
-		if (rangeStart.location == NSNotFound) rangeStart = [string rangeOfString:[NSString stringWithFormat:@"<%@ />", [self defaultTagNameForKey:FTCoreTextTagPage]]];
+        NSRange rangeStart = [string rangeOfString:[NSString stringWithFormat:@"<{[%@]}/>", [self defaultTagNameForKey:FTCoreTextTagPage]]];
+		if (rangeStart.location == NSNotFound) rangeStart = [string rangeOfString:[NSString stringWithFormat:@"<{[%@ /]}>", [self defaultTagNameForKey:FTCoreTextTagPage]]];
 		
         if (rangeStart.location != NSNotFound) {
             NSString *page = [string substringWithRange:NSMakeRange(prevStart, rangeStart.location)];
@@ -1452,6 +1452,6 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 @implementation NSString (FTCoreText)
 - (NSString *)stringByAppendingTagName:(NSString *)tagName
 {
-	return [NSString stringWithFormat:@"<%@>%@</%@>", tagName, self, tagName];
+	return [NSString stringWithFormat:@"<{[%@]}>%@<{[/%@]}>", tagName, self, tagName];
 }
 @end
