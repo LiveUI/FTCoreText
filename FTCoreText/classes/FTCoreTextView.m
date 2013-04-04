@@ -1105,8 +1105,8 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
     _images = [[NSMutableArray alloc] init];
 	_verbose = YES;
 	_highlightTouch = YES;
-	self.opaque = NO;
-	self.backgroundColor = [UIColor clearColor];
+	self.opaque = YES;
+	self.backgroundColor = [UIColor whiteColor];
 	self.contentMode = UIViewContentModeRedraw;
 	[self setUserInteractionEnabled:YES];
 	
