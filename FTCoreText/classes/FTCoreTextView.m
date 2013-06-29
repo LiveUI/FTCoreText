@@ -620,8 +620,10 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 			if (returnedDict.count > 0) break;
 		}
 	}
-	
-	CFRelease(ctframe);
+
+	if (ctframe) {
+		CFRelease(ctframe);
+	}
 	return returnedDict;
 }
 
