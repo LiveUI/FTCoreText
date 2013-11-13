@@ -64,6 +64,7 @@
 	bulletStyle.bulletFont = [UIFont fontWithName:@"TimesNewRomanPSMT" size:16.f];
 	bulletStyle.bulletColor = [UIColor orangeColor];
 	bulletStyle.bulletCharacter = @"❧";
+	bulletStyle.paragraphInset = UIEdgeInsetsMake(0, 20.f, 0, 0);
 	[result addObject:bulletStyle];
     
     FTCoreTextStyle *italicStyle = [defaultStyle copy];
