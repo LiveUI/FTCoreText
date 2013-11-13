@@ -6,7 +6,7 @@
 //
 
 /*
- * The source text has to contain every new line sequence '\n' required.
+ * @warning The source text has to contain every new line sequence '\n' required.
  *
  * If you don't provide an attributed string when initializing the view, the -text property is parsed
  * to create the attributed string that will be drawn. You can cache the -attributedString property

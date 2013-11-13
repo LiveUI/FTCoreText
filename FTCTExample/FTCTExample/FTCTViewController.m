@@ -1,24 +1,58 @@
 //
-//  articleViewController.m
-//  FTCoreText
+//  FTCTViewController.m
+//  FTCTExample
 //
-//  Created by Francesco Frison on 18/08/2011.
-//  Copyright 2011 Fuerte International. All rights reserved.
+//  Created by Adam Waite on 13/11/2013.
+//  Copyright (c) 2013 Fuerte International. All rights reserved.
 //
 
-#import "articleViewController.h"
-#import <QuartzCore/QuartzCore.h>
+#import "FTCTViewController.h"
+#import "FTCoreTextView.h"
 
-@implementation articleViewController
-@synthesize scrollView;
-@synthesize coreTextView;
+@interface FTCTViewController () <FTCoreTextViewDelegate>
+@property (nonatomic, strong) UIScrollView *scrollView;
+@property (nonatomic, strong) FTCoreTextView *coreTextView;
+@end
 
+@implementation FTCTViewController
+
+#pragma mark View Lifecycle
+
+- (void)viewDidLoad
+{
+    [super viewDidLoad];
+    
+    self.view.backgroundColor = [UIColor whiteColor];
+    
+    //add coretextview
+    self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
+	self.scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    self.coreTextView = [[FTCoreTextView alloc] initWithFrame:CGRectMake(20, 40, 280, 0)];
+	self.coreTextView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
+    
+    self.coreTextView.text = [self textForView];
+    
+    [self.coreTextView addStyles:[self coreTextStyle]];
+    
+    self.coreTextView.delegate = self;
+	
+	[self.coreTextView fitToSuggestedHeight];
+    
+    [self.scrollView addSubview:self.coreTextView];
+    [self.scrollView setContentSize:CGSizeMake(CGRectGetWidth(self.scrollView.bounds), CGRectGetHeight(self.coreTextView.frame) + 50)];
+    
+    [self.view addSubview:self.scrollView];
+    
+}
+
+#pragma mark Load Static Content
 
 - (NSString *)textForView
 {
     return [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"text" ofType:@"txt"] encoding:NSUTF8StringEncoding error:nil];
 }
 
+#pragma mark Styling
 
 - (NSArray *)coreTextStyle
 {
@@ -29,7 +63,6 @@
 	defaultStyle.font = [UIFont fontWithName:@"TimesNewRomanPSMT" size:16.f];
 	defaultStyle.textAlignment = FTCoreTextAlignementJustified;
 	[result addObject:defaultStyle];
-	
 	
 	FTCoreTextStyle *titleStyle = [FTCoreTextStyle styleWithName:@"title"]; // using fast method
 	titleStyle.font = [UIFont fontWithName:@"TimesNewRomanPSMT" size:40.f];
@@ -86,49 +119,13 @@
     return  result;
 }
 
+#pragma mark FTCoreTextViewDelegate
+
 - (void)coreTextView:(FTCoreTextView *)acoreTextView receivedTouchOnData:(NSDictionary *)data
 {
     NSURL *url = [data objectForKey:FTCoreTextDataURL];
     if (!url) return;
     [[UIApplication sharedApplication] openURL:url];
 }
-
-#pragma mark - View Controller Methods
-
-// Implement viewDidLoad to do additional setup after loading the view, typically from a nib.
-- (void)viewDidLoad
-{
-    [super viewDidLoad];
-    
-	//add coretextview
-    scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
-	scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    coreTextView = [[FTCoreTextView alloc] initWithFrame:CGRectMake(20, 20, 280, 0)];
-	coreTextView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    // set text
-    [coreTextView setText:[self textForView]];
-    // set styles
-    [coreTextView addStyles:[self coreTextStyle]];
-    // set delegate
-    [coreTextView setDelegate:self];
-	
-	[coreTextView fitToSuggestedHeight];
-
-    [scrollView addSubview:coreTextView];
-    [scrollView setContentSize:CGSizeMake(CGRectGetWidth(scrollView.bounds), CGRectGetHeight(coreTextView.frame) + 40)];
-    
-    [self.view addSubview:scrollView];
-}
-
-- (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation
-{
-	return (toInterfaceOrientation != UIInterfaceOrientationPortraitUpsideDown);
-}
-
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-	[scrollView setContentSize:CGSizeMake(CGRectGetWidth(scrollView.bounds), CGRectGetHeight(coreTextView.frame) + 40)];
-}
-
 
 @end
