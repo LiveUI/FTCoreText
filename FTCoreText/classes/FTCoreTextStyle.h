@@ -2,7 +2,6 @@
 //  FTCoreTextStyle.h
 //  FTCoreText
 //
-//  Created by Francesco Freezone <cescofry@gmail.com> on 20/07/2011.
 //  Copyright 2011 Fuerte International. All rights reserved.
 //
 

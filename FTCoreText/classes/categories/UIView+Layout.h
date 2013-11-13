@@ -1,59 +1,89 @@
 //
 //  UIView+Layout.h
-//  FTLibrary
 //
-//  Created by Simon Lee on 21/12/2009.
+//  Created by Ondrej Rafaj on 21/12/2009.
 //  Copyright 2009 Fuerte International. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
 
+#define UIViewAutoresizingFlexibleAllMargins                    UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin | UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin
+
+#define UIViewAutoresizingFlexibleVerticalMargins               UIViewAutoresizingFlexibleBottomMargin | UIViewAutoresizingFlexibleTopMargin
+
+#define UIViewAutoresizingFlexibleHorizontalMargins             UIViewAutoresizingFlexibleRightMargin | UIViewAutoresizingFlexibleLeftMargin
 
 @interface UIView (Layout)
 
-- (double)width;
-- (void)setWidth:(double)width;
+- (CGFloat)width;
+- (void)setWidth:(CGFloat)width;
 
-- (double)height;
-- (void)setHeight:(double)height;
+- (CGFloat)height;
+- (void)setHeight:(CGFloat)height;
 
-- (CGFloat)bottomPosition;
+- (CGFloat)xOrigin;
+- (void)setXOrigin:(CGFloat)xOrigin;
+
+- (CGFloat)yOrigin;
+- (void)setYOrigin:(CGFloat)yOrigin;
+
+- (void)moveXOriginBy:(CGFloat)value;
+- (void)moveYOriginBy:(CGFloat)value;
+
+- (void)changeWidthBy:(CGFloat)value;
+- (void)changeHeightBy:(CGFloat)value;
+
+- (CGPoint)origin;
+- (void)setOrigin:(CGPoint)origin;
+- (void)positionAtX:(CGFloat)xOrigin andY:(CGFloat)yOrigin;
 
 - (CGSize)size;
 - (void)setSize:(CGSize)size;
+- (void)setWidth:(CGFloat)width andHeight:(CGFloat)height;
 
-- (CGPoint)origin;
-- (void)setOrigin:(CGPoint)point;
+- (CGFloat)bottom;
+- (void)setBottom:(CGFloat)bottom;
 
-- (double)xPosition;
-- (double)yPosition;
-- (double)baselinePosition;
+- (CGFloat)right;
+- (void)setRight:(CGFloat)right;
 
-- (void)positionAtX:(double)xValue;
-- (void)positionAtY:(double)yValue;
-- (void)positionAtX:(double)xValue andY:(double)yValue;
+// Returns the center of the view in the view's coordinates system
+- (CGPoint)boundsCenter;
 
-- (void)positionAtX:(double)xValue andY:(double)yValue withWidth:(double)width;
-- (void)positionAtX:(double)xValue andY:(double)yValue withHeight:(double)height;
+- (void)setCenterIntegral:(CGPoint)center;
 
-- (void)positionAtX:(double)xValue withHeight:(double)height;
+// Set the anchorPoint without moving the view
+- (void)setAnchorPoint:(CGPoint)anchorPoint;
+- (CGPoint)anchorPoint;
 
-- (void)removeSubviews;
+// Superview related
+- (void)centerInSuperview;
+- (void)centerVertically;
+- (void)centerHorizontally;
 
-- (void)centerInSuperView;
-- (void)aestheticCenterInSuperView;
+- (void)makeMarginInSuperViewWithTopMargin:(CGFloat)topMargin leftMargin:(CGFloat)leftMargin rightMargin:(CGFloat)rightMargin andBottomMargin:(CGFloat)bottomMargin;
+- (void)makeMarginInSuperViewWithTopMargin:(CGFloat)topMargin andSideMargin:(CGFloat)sideMargin;
+- (void)makeMarginInSuperView:(CGFloat)margin;
+- (CGFloat)bottomMargin;
+- (void)setBottomMargin:(CGFloat)bottomMargin;
+- (CGFloat)rightMargin;
+- (void)setRightMargin:(CGFloat)rightMargin;
 
-- (void)bringToFront;
-- (void)sendToBack;
-
-//ZF
-
-- (void)centerAtX;
-
-- (void)centerAtXQuarter;
-
-- (void)centerAtX3Quarter;
+// Autoresizing
+- (void)setAutoresizingNone;
+- (void)setAutoresizingBottomLeft;
+- (void)setAutoresizingBottomRight;
+- (void)setAutoresizingTopLeft;
+- (void)setAutoresizingTopRight;
+- (void)setAutoresizingTopCenter;
+- (void)setAutoresizingCenter;
+- (void)setAutoresizingCenterLeft;
+- (void)setAutoresizingCenterRight;
+- (void)setAutoresizingBottomCenter;
+- (void)setAutoresizingWidth;
+- (void)setAutoresizingHeight;
+- (void)setAutoresizingWidthAndHeight;
 
 
 @end
