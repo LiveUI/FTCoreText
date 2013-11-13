@@ -31,40 +31,43 @@
  */
 
 
-typedef void (^FTCoreTextCallbackBlock)(NSDictionary*);
+typedef void (^FTCoreTextCallbackBlock)(NSDictionary *info);
 
-enum
-{
-	FTCoreTextAlignementLeft = 0,
+
+typedef NS_ENUM(uint8_t, FTCoreTextAlignement)  {
+    FTCoreTextAlignementLeft = 0,
 	FTCoreTextAlignementRight = 1,
 	FTCoreTextAlignementCenter = 2,
 	FTCoreTextAlignementJustified = 3,
 	FTCoreTextAlignementNatural = 4
 };
-typedef uint8_t FTCoreTextAlignement;
+
 
 @interface FTCoreTextStyle : NSObject <NSCopying>
 
-@property (nonatomic) NSString			*name;
-@property (nonatomic) NSString			*appendedCharacter;
-@property (nonatomic) UIFont			*font;
-@property (nonatomic) UIColor			*color;
+@property (nonatomic) NSString *name;
+@property (nonatomic) NSString *appendedCharacter;
+@property (nonatomic) UIFont *font;
+@property (nonatomic) UIColor *color;
 @property (nonatomic, getter=isUnderLined) BOOL underlined;
 @property (nonatomic) FTCoreTextAlignement textAlignment;
-@property (nonatomic) UIEdgeInsets		paragraphInset;
-@property (nonatomic) CGFloat			leading;
-@property (nonatomic) CGFloat			maxLineHeight;
-@property (nonatomic) CGFloat			minLineHeight;
-//for bullet styles only
-@property (nonatomic) NSString			*bulletCharacter;
-@property (nonatomic) UIFont			*bulletFont;
-@property (nonatomic) UIColor			*bulletColor;
-//called when the style is parsed for extra actions
-@property (nonatomic, copy) FTCoreTextCallbackBlock       block;
+@property (nonatomic) UIEdgeInsets paragraphInset;
+@property (nonatomic) CGFloat leading;
+@property (nonatomic) CGFloat maxLineHeight;
+@property (nonatomic) CGFloat minLineHeight;
 
-//if NO, the paragraph styling of the enclosing style is used. Default is YES.
+// For bullet styles only
+@property (nonatomic) NSString *bulletCharacter;
+@property (nonatomic) UIFont *bulletFont;
+@property (nonatomic) UIColor *bulletColor;
+
+// Called when the style is parsed for extra actions
+@property (nonatomic, copy) FTCoreTextCallbackBlock block;
+
+// If NO, the paragraph styling of the enclosing style is used. Default is YES.
 @property (nonatomic, assign) BOOL applyParagraphStyling;
 
 + (id)styleWithName:(NSString *)name;
+
 
 @end

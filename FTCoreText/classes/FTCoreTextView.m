@@ -1006,7 +1006,7 @@ NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 							  range:styleRange];
 	CFRelease(ctFont);
 	
-	CTTextAlignment alignment = style.textAlignment;
+	CTTextAlignment alignment = (CTTextAlignment)style.textAlignment;
 	CGFloat maxLineHeight = style.maxLineHeight;
 	CGFloat minLineHeight = style.minLineHeight;
 	CGFloat paragraphLeading = style.leading;
@@ -1291,7 +1291,7 @@ NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 			
 			CGRect lineFrame = CGRectMake(baselineOrigin.x, baselineOrigin.y - ascent, lineWidth, ascent + descent);
 			
-			CTTextAlignment alignment = imageNode.style.textAlignment;
+			CTTextAlignment alignment = (CTTextAlignment)imageNode.style.textAlignment;
             UIImage *img = [UIImage imageNamed:imageNode.imageName];
 			
 			if (img) {
@@ -1439,7 +1439,7 @@ NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
             if (range.location >= lineRange.location && (range.location + range.length)<= lineRange.location+lineRange.length)
             {
                 NSRange lineNSRange= {lineRange.location,lineRange.length};
-                NSString* correctString = [self.processedString substringWithRange:lineNSRange];
+                NSString *correctString = [self.processedString substringWithRange:lineNSRange];
                 return correctString;
             }
         }
