@@ -440,13 +440,13 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 {
 	switch (alignment) {
 		case FTCoreTextAlignementCenter:
-			return UITextAlignmentCenter;
+			return NSTextAlignmentRight;
 			break;
 		case FTCoreTextAlignementRight:
-			return UITextAlignmentRight;
+			return NSTextAlignmentRight;
 			break;
 		default:
-			return UITextAlignmentLeft;
+			return NSTextAlignmentLeft;
 			break;
 	}
 }
@@ -602,7 +602,7 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
                     NSDictionary* attributes = (__bridge NSDictionary*)CTRunGetAttributes(run);
                     
                     NSString *name = [attributes objectForKey:FTCoreTextDataName];
-                    if (![name isEqualToString:@"_link"]) continue;
+                    if (![name isEqualToString:FTCoreTextTagLink]) continue;
                     
                     [returnedDict setObject:attributes forKey:FTCoreTextDataAttributes];
                     
@@ -620,8 +620,10 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 			if (returnedDict.count > 0) break;
 		}
 	}
-	
-	CFRelease(ctframe);
+
+	if (ctframe) {
+		CFRelease(ctframe);
+	}
 	return returnedDict;
 }
 
@@ -690,7 +692,7 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 	BOOL finished = NO;
 	NSRange remainingRange = NSMakeRange(0, [processedString length]);
 	
-	NSString *regEx = @"<(/){0,1}.*?( /){0,1}>";
+	NSString *regEx = @"<\\{\\[(/){0,1}.*?( /){0,1}\\]\\}>";
 	
 	while (!finished) {
 		
@@ -708,10 +710,10 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
         NSString *fullTag = [processedString substringWithRange:tagRange];
         FTCoreTextTagType tagType;
         
-        if ([fullTag rangeOfString:@"</"].location == 0) {
+        if ([fullTag rangeOfString:@"<{[/"].location == 0) {
             tagType = FTCoreTextTagTypeClose;
         }
-        else if ([fullTag rangeOfString:@"/>"].location == NSNotFound && [fullTag rangeOfString:@" />"].location == NSNotFound) {
+        else if ([fullTag rangeOfString:@"/]}>"].location == NSNotFound && [fullTag rangeOfString:@" /]}>"].location == NSNotFound) {
             tagType = FTCoreTextTagTypeOpen;
         }
         else {
@@ -721,7 +723,7 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 		NSArray *tagsComponents = [fullTag componentsSeparatedByString:@" "];
 		NSString *tagName = (tagsComponents.count > 0) ? [tagsComponents objectAtIndex:0] : fullTag;
         
-        tagName = [tagName stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"< />"]];
+        tagName = [tagName stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<{[ /]}>"]];
 		
         FTCoreTextStyle *style = [_styles objectForKey:tagName];
         
@@ -795,12 +797,12 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
                     
                     NSRange elementContentRange = NSMakeRange(currentSupernode.startLocation, tagRange.location - currentSupernode.startLocation);
                     NSString *elementContent = [processedString substringWithRange:elementContentRange];
-                    NSRange pipeRange = [elementContent rangeOfString:@"|"];
+                    NSRange pipeRange = [elementContent rangeOfString:@"{[|]}"];
                     NSString *urlString = nil;
                     NSString *urlDescription = nil;
                     if (pipeRange.location != NSNotFound) {
                         urlString = [elementContent substringToIndex:pipeRange.location] ;
-                        urlDescription = [elementContent substringFromIndex:pipeRange.location + 1];
+                        urlDescription = [elementContent substringFromIndex:pipeRange.location + 5];
                     }
                     
                     [processedString replaceCharactersInRange:NSMakeRange(elementContentRange.location, elementContentRange.length + tagRange.length) withString:urlDescription];
@@ -938,8 +940,8 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
     NSMutableArray *result = [NSMutableArray array];
     int prevStart = 0;
     while (YES) {
-        NSRange rangeStart = [string rangeOfString:[NSString stringWithFormat:@"<%@/>", [self defaultTagNameForKey:FTCoreTextTagPage]]];
-		if (rangeStart.location == NSNotFound) rangeStart = [string rangeOfString:[NSString stringWithFormat:@"<%@ />", [self defaultTagNameForKey:FTCoreTextTagPage]]];
+        NSRange rangeStart = [string rangeOfString:[NSString stringWithFormat:@"<{[%@]}/>", [self defaultTagNameForKey:FTCoreTextTagPage]]];
+		if (rangeStart.location == NSNotFound) rangeStart = [string rangeOfString:[NSString stringWithFormat:@"<{[%@ /]}>", [self defaultTagNameForKey:FTCoreTextTagPage]]];
 		
         if (rangeStart.location != NSNotFound) {
             NSString *page = [string substringWithRange:NSMakeRange(prevStart, rangeStart.location)];
@@ -1105,8 +1107,8 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
     _images = [[NSMutableArray alloc] init];
 	_verbose = YES;
 	_highlightTouch = YES;
-	self.opaque = NO;
-	self.backgroundColor = [UIColor clearColor];
+	self.opaque = YES;
+	self.backgroundColor = [UIColor whiteColor];
 	self.contentMode = UIViewContentModeRedraw;
 	[self setUserInteractionEnabled:YES];
 	
@@ -1326,8 +1328,6 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 
 - (void)touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	[super touchesEnded:touches withEvent:event];
-	
 	if (self.delegate && [self.delegate respondsToSelector:@selector(coreTextView:receivedTouchOnData:)]) {
 		CGPoint point = [(UITouch *)[touches anyObject] locationInView:self];
 		NSMutableArray *activeRects;
@@ -1336,6 +1336,7 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 			NSMutableArray *selectedViews = [NSMutableArray new];
 			for (NSString *rectString in activeRects) {
 				CGRect rect = CGRectFromString(rectString);
+				rect = CGRectMake(rect.origin.x - 3, rect.origin.y - 4, rect.size.width + 6, rect.size.height + 6);
 				UIView *view = [[UIView alloc] initWithFrame:rect];
 				view.layer.cornerRadius = 3;
 				view.clipsToBounds = YES;
@@ -1345,22 +1346,22 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 			}
 			self.touchedData = data;
 			self.selectionsViews = selectedViews;
+			return;
 		}
 	}
+	[super touchesBegan:touches withEvent:event];
 }
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	[super touchesMoved:touches withEvent:event];
 	_touchedData = nil;
 	[_selectionsViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 	_selectionsViews = nil;
+	[super touchesMoved:touches withEvent:event];
 }
 
 - (void)touchesEnded:(NSSet *)touches withEvent:(UIEvent *)event
 {
-	[super touchesEnded:touches withEvent:event];
-	
 	if (_touchedData) {
 		if (self.delegate && [self.delegate respondsToSelector:@selector(coreTextView:receivedTouchOnData:)]) {
 			if ([self.delegate respondsToSelector:@selector(coreTextView:receivedTouchOnData:)]) {
@@ -1370,7 +1371,9 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 		_touchedData = nil;
 		[_selectionsViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 		_selectionsViews = nil;
+		return;
 	}
+	[super touchesEnded:touches withEvent:event];
 }
 
 - (CGRect)getLineRectFromNSRange:(NSRange)range
@@ -1451,6 +1454,6 @@ UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 @implementation NSString (FTCoreText)
 - (NSString *)stringByAppendingTagName:(NSString *)tagName
 {
-	return [NSString stringWithFormat:@"<%@>%@</%@>", tagName, self, tagName];
+	return [NSString stringWithFormat:@"<{[%@]}>%@<{[/%@]}>", tagName, self, tagName];
 }
 @end
