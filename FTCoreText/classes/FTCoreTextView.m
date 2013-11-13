@@ -234,7 +234,7 @@ typedef enum {
 @property (nonatomic) NSArray *selectionsViews;
 
 CTFontRef CTFontCreateFromUIFont(UIFont *font);
-UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignment);
+NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignment);
 NSInteger rangeSort(NSString *range1, NSString *range2, void *context);
 
 - (void)updateFramesetterIfNeeded;
@@ -436,7 +436,7 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     return ctFont;
 }
 
-UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignment)
+NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignment)
 {
 	switch (alignment) {
 		case FTCoreTextAlignementCenter:
