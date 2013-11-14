@@ -9,39 +9,41 @@
 #import <QuartzCore/QuartzCore.h>
 #import <CoreText/CoreText.h>
 
+
 #define SYSTEM_VERSION_LESS_THAN(v)			([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
 
-NSString * const FTCoreTextTagDefault = @"_default";
-NSString * const FTCoreTextTagImage = @"_image";
-NSString * const FTCoreTextTagBullet = @"_bullet";
-NSString * const FTCoreTextTagPage = @"_page";
-NSString * const FTCoreTextTagLink = @"_link";
+NSString *const FTCoreTextTagDefault = @"_default";
+NSString *const FTCoreTextTagImage = @"_image";
+NSString *const FTCoreTextTagBullet = @"_bullet";
+NSString *const FTCoreTextTagPage = @"_page";
+NSString *const FTCoreTextTagLink = @"_link";
 
-NSString * const FTCoreTextDataURL = @"url";
-NSString * const FTCoreTextDataName = @"FTCoreTextDataName";
-NSString * const FTCoreTextDataFrame = @"FTCoreTextDataFrame";
-NSString * const FTCoreTextDataAttributes = @"FTCoreTextDataAttributes";
+NSString *const FTCoreTextDataURL = @"url";
+NSString *const FTCoreTextDataName = @"FTCoreTextDataName";
+NSString *const FTCoreTextDataFrame = @"FTCoreTextDataFrame";
+NSString *const FTCoreTextDataAttributes = @"FTCoreTextDataAttributes";
 
 
-typedef enum {
+typedef NS_ENUM(NSInteger, FTCoreTextTagType) {
 	FTCoreTextTagTypeOpen,
 	FTCoreTextTagTypeClose,
 	FTCoreTextTagTypeSelfClose
-} FTCoreTextTagType;
+};
+
 
 @interface FTCoreTextNode : NSObject
 
-@property (nonatomic, assign) FTCoreTextNode	*supernode;
-@property (nonatomic) NSArray			*subnodes;
-@property (nonatomic, copy)	  FTCoreTextStyle	*style;
-@property (nonatomic) NSRange			styleRange;
-@property (nonatomic) BOOL				isClosed;
-@property (nonatomic) NSInteger			startLocation;
-@property (nonatomic) BOOL				isLink;
-@property (nonatomic) BOOL				isImage;
-@property (nonatomic) BOOL				isBullet;
-@property (nonatomic) NSString			*imageName;
+@property (nonatomic, assign) FTCoreTextNode *supernode;
+@property (nonatomic) NSArray *subnodes;
+@property (nonatomic, copy) FTCoreTextStyle *style;
+@property (nonatomic) NSRange styleRange;
+@property (nonatomic) BOOL isClosed;
+@property (nonatomic) NSInteger startLocation;
+@property (nonatomic) BOOL isLink;
+@property (nonatomic) BOOL isImage;
+@property (nonatomic) BOOL isBullet;
+@property (nonatomic) NSString *imageName;
 
 - (NSString *)descriptionOfTree;
 - (NSString *)descriptionToRoot;
@@ -54,20 +56,11 @@ typedef enum {
 - (NSUInteger)nodeIndex;
 - (FTCoreTextNode *)subnodeAtIndex:(NSUInteger)index;
 
+
 @end
 
-@implementation FTCoreTextNode
 
-@synthesize supernode = _supernode;
-@synthesize subnodes = _subnodes;
-@synthesize style = _style;
-@synthesize styleRange = _styleRange;
-@synthesize isClosed = _isClosed;
-@synthesize isLink = _isLink;
-@synthesize isImage = _isImage;
-@synthesize startLocation = _startLocation;
-@synthesize isBullet = _isBullet;
-@synthesize imageName = _imageName;
+@implementation FTCoreTextNode
 
 
 - (NSArray *)subnodes
@@ -1450,9 +1443,13 @@ NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 
 @end
 
+
 @implementation NSString (FTCoreText)
+
 - (NSString *)stringByAppendingTagName:(NSString *)tagName
 {
 	return [NSString stringWithFormat:@"<{[%@]}>%@<{[/%@]}>", tagName, self, tagName];
 }
+
+
 @end
