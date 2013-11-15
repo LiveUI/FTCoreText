@@ -10,8 +10,6 @@
 #import "FTCoreTextView.h"
 
 @interface FTCTViewController () <FTCoreTextViewDelegate>
-@property (nonatomic, strong) UIScrollView *scrollView;
-@property (nonatomic, strong) FTCoreTextView *coreTextView;
 @end
 
 @implementation FTCTViewController
@@ -24,22 +22,35 @@
     
     self.view.backgroundColor = [UIColor whiteColor];
     
-    //add coretextview
+    CGRect bounds = self.view.bounds;
+    
+    //  Create scroll view containing allowing to scroll the FTCoreText view
     self.scrollView = [[UIScrollView alloc] initWithFrame:self.view.bounds];
 	self.scrollView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
-    self.coreTextView = [[FTCoreTextView alloc] initWithFrame:CGRectMake(20, 40, 280, 0)];
+    
+    //  Create FTCoreTextView. Everything will be rendered withing this view
+    self.coreTextView = [[FTCoreTextView alloc] initWithFrame:CGRectInset(bounds, 20.0f, 0)];
 	self.coreTextView.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
     
-    self.coreTextView.text = [self textForView];
-    
+    //  Add custom styles to the FTCoreTextView
     [self.coreTextView addStyles:[self coreTextStyle]];
     
+    //  Set the custom-formatted text to the FTCoreTextView
+    self.coreTextView.text = [self textForView];
+    
+    //  If you want to get notified about users taps on the links,
+    //  implement FTCoreTextView's delegate methods
+    //  See example implementation below
     self.coreTextView.delegate = self;
 	
+    //  Make the FTCoreTextView to automatically adjust it's height
+    //  so it fits all its rendered text using the actual width
 	[self.coreTextView fitToSuggestedHeight];
     
+    //  Adjust the scroll view's content size so it can scroll all
+    //  the FTCoreTextView's content
     [self.scrollView addSubview:self.coreTextView];
-    [self.scrollView setContentSize:CGSizeMake(CGRectGetWidth(self.scrollView.bounds), CGRectGetHeight(self.coreTextView.frame) + 50)];
+    [self.scrollView setContentSize:CGSizeMake(CGRectGetWidth(self.scrollView.bounds), CGRectGetMaxY(self.coreTextView.frame)+20.0f)];
     
     [self.view addSubview:self.scrollView];
     
@@ -58,20 +69,22 @@
 {
     NSMutableArray *result = [NSMutableArray array];
     
+    //  This will be default style of the text not closed in any tag
 	FTCoreTextStyle *defaultStyle = [FTCoreTextStyle new];
 	defaultStyle.name = FTCoreTextTagDefault;	//thought the default name is already set to FTCoreTextTagDefault
 	defaultStyle.font = [UIFont fontWithName:@"TimesNewRomanPSMT" size:16.f];
 	defaultStyle.textAlignment = FTCoreTextAlignementJustified;
 	[result addObject:defaultStyle];
 	
-	FTCoreTextStyle *titleStyle = [FTCoreTextStyle styleWithName:@"title"]; // using fast method
+    //  Create style using convenience method
+	FTCoreTextStyle *titleStyle = [FTCoreTextStyle styleWithName:@"title"];
 	titleStyle.font = [UIFont fontWithName:@"TimesNewRomanPSMT" size:40.f];
-	titleStyle.paragraphInset = UIEdgeInsetsMake(0, 0, 25, 0);
+	titleStyle.paragraphInset = UIEdgeInsetsMake(20.f, 0, 25.f, 0);
 	titleStyle.textAlignment = FTCoreTextAlignementCenter;
 	[result addObject:titleStyle];
 	
+    //  Image will be centered
 	FTCoreTextStyle *imageStyle = [FTCoreTextStyle new];
-	imageStyle.paragraphInset = UIEdgeInsetsMake(0,0,0,0);
 	imageStyle.name = FTCoreTextTagImage;
 	imageStyle.textAlignment = FTCoreTextAlignementCenter;
 	[result addObject:imageStyle];
@@ -81,6 +94,9 @@
 	firstLetterStyle.font = [UIFont fontWithName:@"TimesNewRomanPS-BoldMT" size:30.f];
 	[result addObject:firstLetterStyle];
 	
+    //  This is the link style
+    //  Notice that you can make copy of FTCoreTextStyle
+    //  and just change any required properties
 	FTCoreTextStyle *linkStyle = [defaultStyle copy];
 	linkStyle.name = FTCoreTextTagLink;
 	linkStyle.color = [UIColor orangeColor];
@@ -92,6 +108,8 @@
 	subtitleStyle.paragraphInset = UIEdgeInsetsMake(10, 0, 10, 0);
 	[result addObject:subtitleStyle];
 	
+    //  This will be list of items
+    //  You can specify custom style for a bullet
 	FTCoreTextStyle *bulletStyle = [defaultStyle copy];
 	bulletStyle.name = FTCoreTextTagBullet;
 	bulletStyle.bulletFont = [UIFont fontWithName:@"TimesNewRomanPSMT" size:16.f];
@@ -123,9 +141,28 @@
 
 - (void)coreTextView:(FTCoreTextView *)acoreTextView receivedTouchOnData:(NSDictionary *)data
 {
+    //  You can get detailed info about the touched links
+    
+    //  Name (type) of selected tag
+    NSString *tagName = [data objectForKey:FTCoreTextDataName];
+    
+    //  URL if the touched data was link
     NSURL *url = [data objectForKey:FTCoreTextDataURL];
-    if (!url) return;
-    [[UIApplication sharedApplication] openURL:url];
+    
+    //  Frame of the touched element
+    //  Notice that frame is returned as a string returned by NSStringFromCGRect function
+    CGRect touchedFrame = CGRectFromString([data objectForKey:FTCoreTextDataFrame]);
+    
+    //  You can get detailed CoreText information
+    NSDictionary *coreTextAttributes = [data objectForKey:FTCoreTextDataAttributes];
+    
+    NSLog(@"Received touched on element:\n"
+          @"Tag name: %@\n"
+          @"URL: %@\n"
+          @"Frame: %@\n"
+          @"CoreText attributes: %@",
+          tagName, url, NSStringFromCGRect(touchedFrame), coreTextAttributes
+          );
 }
 
 @end

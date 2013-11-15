@@ -10,8 +10,19 @@
 #import <CoreText/CoreText.h>
 
 
-#define SYSTEM_VERSION_LESS_THAN(v)			([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
+#define FTCT_SYSTEM_VERSION_LESS_THAN(v)			([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
 
+
+#pragma mark - Custom categories headers
+
+@interface NSData (FTCoreTextAdditions)
+
++ (NSData *)ftct_base64DataFromString:(NSString *)string;
+
+@end
+
+
+#pragma mark - FTCoreText
 
 NSString *const FTCoreTextTagDefault = @"_default";
 NSString *const FTCoreTextTagImage = @"_image";
@@ -56,12 +67,10 @@ typedef NS_ENUM(NSInteger, FTCoreTextTagType) {
 - (NSUInteger)nodeIndex;
 - (FTCoreTextNode *)subnodeAtIndex:(NSUInteger)index;
 
-
 @end
 
 
 @implementation FTCoreTextNode
-
 
 - (NSArray *)subnodes
 {
@@ -226,7 +235,7 @@ typedef NS_ENUM(NSInteger, FTCoreTextTagType) {
 @property (nonatomic) NSArray *selectionsViews;
 
 CTFontRef CTFontCreateFromUIFont(UIFont *font);
-NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignment);
+UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignment);
 NSInteger rangeSort(NSString *range1, NSString *range2, void *context);
 
 - (void)updateFramesetterIfNeeded;
@@ -428,17 +437,17 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     return ctFont;
 }
 
-NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignment)
+UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignment)
 {
 	switch (alignment) {
 		case FTCoreTextAlignementCenter:
-			return NSTextAlignmentRight;
+			return UITextAlignmentCenter;
 			break;
 		case FTCoreTextAlignementRight:
-			return NSTextAlignmentRight;
+			return UITextAlignmentRight;
 			break;
 		default:
-			return NSTextAlignmentLeft;
+			return UITextAlignmentLeft;
 			break;
 	}
 }
@@ -596,6 +605,7 @@ NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
                     NSString *name = [attributes objectForKey:FTCoreTextDataName];
                     if (![name isEqualToString:FTCoreTextTagLink]) continue;
                     
+                    [returnedDict setObject:name forKey:FTCoreTextDataName];
                     [returnedDict setObject:attributes forKey:FTCoreTextDataAttributes];
                     
                     CGRect runBounds;
@@ -603,7 +613,7 @@ NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
                     runBounds.size.height = ascent + descent;
                     
                     CGFloat xOffset = CTLineGetOffsetForStringIndex(line, CTRunGetStringRange(run).location, NULL); //9
-                    runBounds.origin.x = baselineOrigin.x + self.frame.origin.x + xOffset + 0;
+                    runBounds.origin.x = baselineOrigin.x + self.frame.origin.x + xOffset;
                     runBounds.origin.y = baselineOrigin.y + lineFrame.size.height - ascent;
                     
                     [returnedDict setObject:NSStringFromCGRect(runBounds) forKey:FTCoreTextDataFrame];
@@ -684,7 +694,7 @@ NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 	BOOL finished = NO;
 	NSRange remainingRange = NSMakeRange(0, [processedString length]);
 	
-	NSString *regEx = @"<\\{\\[(/){0,1}.*?( /){0,1}\\]\\}>";
+	NSString *regEx = @"<(/){0,1}.*?( /){0,1}>";
 	
 	while (!finished) {
 		
@@ -702,10 +712,10 @@ NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
         NSString *fullTag = [processedString substringWithRange:tagRange];
         FTCoreTextTagType tagType;
         
-        if ([fullTag rangeOfString:@"<{[/"].location == 0) {
+        if ([fullTag rangeOfString:@"</"].location == 0) {
             tagType = FTCoreTextTagTypeClose;
         }
-        else if ([fullTag rangeOfString:@"/]}>"].location == NSNotFound && [fullTag rangeOfString:@" /]}>"].location == NSNotFound) {
+        else if ([fullTag rangeOfString:@"/>"].location == NSNotFound && [fullTag rangeOfString:@" />"].location == NSNotFound) {
             tagType = FTCoreTextTagTypeOpen;
         }
         else {
@@ -715,7 +725,7 @@ NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 		NSArray *tagsComponents = [fullTag componentsSeparatedByString:@" "];
 		NSString *tagName = (tagsComponents.count > 0) ? [tagsComponents objectAtIndex:0] : fullTag;
         
-        tagName = [tagName stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"<{[ /]}>"]];
+        tagName = [tagName stringByTrimmingCharactersInSet:[NSCharacterSet characterSetWithCharactersInString:@"< />"]];
 		
         FTCoreTextStyle *style = [_styles objectForKey:tagName];
         
@@ -789,12 +799,12 @@ NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
                     
                     NSRange elementContentRange = NSMakeRange(currentSupernode.startLocation, tagRange.location - currentSupernode.startLocation);
                     NSString *elementContent = [processedString substringWithRange:elementContentRange];
-                    NSRange pipeRange = [elementContent rangeOfString:@"{[|]}"];
+                    NSRange pipeRange = [elementContent rangeOfString:@"|"];
                     NSString *urlString = nil;
                     NSString *urlDescription = nil;
                     if (pipeRange.location != NSNotFound) {
                         urlString = [elementContent substringToIndex:pipeRange.location] ;
-                        urlDescription = [elementContent substringFromIndex:pipeRange.location + 5];
+                        urlDescription = [elementContent substringFromIndex:pipeRange.location + 1];
                     }
                     
                     [processedString replaceCharactersInRange:NSMakeRange(elementContentRange.location, elementContentRange.length + tagRange.length) withString:urlDescription];
@@ -813,7 +823,16 @@ NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 					
                     NSRange elementContentRange = NSMakeRange(currentSupernode.startLocation, tagRange.location - currentSupernode.startLocation);
                     NSString *elementContent = [processedString substringWithRange:elementContentRange];
-                    UIImage *img = [UIImage imageNamed:elementContent];
+                    UIImage *img =nil;
+                    if ([elementContent hasPrefix:@"base64:"])
+                    {
+                        NSData *myImgData = [NSData ftct_base64DataFromString:[elementContent substringFromIndex:7]];
+                        img = [UIImage imageWithData:myImgData];
+                    }
+                    else
+                    {
+                        img = [UIImage imageNamed:elementContent];
+                    }
                     
                     if (img) {
                         NSString *lines = @"\n";
@@ -932,8 +951,8 @@ NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
     NSMutableArray *result = [NSMutableArray array];
     int prevStart = 0;
     while (YES) {
-        NSRange rangeStart = [string rangeOfString:[NSString stringWithFormat:@"<{[%@]}/>", [self defaultTagNameForKey:FTCoreTextTagPage]]];
-		if (rangeStart.location == NSNotFound) rangeStart = [string rangeOfString:[NSString stringWithFormat:@"<{[%@ /]}>", [self defaultTagNameForKey:FTCoreTextTagPage]]];
+        NSRange rangeStart = [string rangeOfString:[NSString stringWithFormat:@"<%@/>", [self defaultTagNameForKey:FTCoreTextTagPage]]];
+		if (rangeStart.location == NSNotFound) rangeStart = [string rangeOfString:[NSString stringWithFormat:@"<%@ />", [self defaultTagNameForKey:FTCoreTextTagPage]]];
 		
         if (rangeStart.location != NSNotFound) {
             NSString *page = [string substringWithRange:NSMakeRange(prevStart, rangeStart.location)];
@@ -1285,8 +1304,16 @@ NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 			CGRect lineFrame = CGRectMake(baselineOrigin.x, baselineOrigin.y - ascent, lineWidth, ascent + descent);
 			
 			CTTextAlignment alignment = (CTTextAlignment)imageNode.style.textAlignment;
-            UIImage *img = [UIImage imageNamed:imageNode.imageName];
-			
+            UIImage *img =nil;
+            if ([imageNode.imageName hasPrefix:@"base64:"])
+            {
+                NSData* myImgData = [NSData ftct_base64DataFromString:[imageNode.imageName substringFromIndex:7]];
+                img = [UIImage imageWithData:myImgData];
+            }
+            else
+            {
+                img = [UIImage imageNamed:imageNode.imageName];
+            }
 			if (img) {
 				int x = 0;
 				if (alignment == kCTRightTextAlignment) x = (self.frame.size.width - img.size.width);
@@ -1328,7 +1355,6 @@ NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 			NSMutableArray *selectedViews = [NSMutableArray new];
 			for (NSString *rectString in activeRects) {
 				CGRect rect = CGRectFromString(rectString);
-				rect = CGRectMake(rect.origin.x - 3, rect.origin.y - 4, rect.size.width + 6, rect.size.height + 6);
 				UIView *view = [[UIView alloc] initWithFrame:rect];
 				view.layer.cornerRadius = 3;
 				view.clipsToBounds = YES;
@@ -1338,9 +1364,9 @@ NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 			}
 			self.touchedData = data;
 			self.selectionsViews = selectedViews;
-			return;
 		}
 	}
+    
 	[super touchesBegan:touches withEvent:event];
 }
 
@@ -1363,7 +1389,6 @@ NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 		_touchedData = nil;
 		[_selectionsViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 		_selectionsViews = nil;
-		return;
 	}
 	[super touchesEnded:touches withEvent:event];
 }
@@ -1443,13 +1468,126 @@ NSTextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignm
 
 @end
 
+#pragma mark -
+#pragma mark Custom categories implementation
 
 @implementation NSString (FTCoreText)
 
 - (NSString *)stringByAppendingTagName:(NSString *)tagName
 {
-	return [NSString stringWithFormat:@"<{[%@]}>%@<{[/%@]}>", tagName, self, tagName];
+	return [NSString stringWithFormat:@"<%@>%@</%@>", tagName, self, tagName];
 }
 
+@end
+
+
+
+@implementation NSData (NSDataAdditions)
+
+/**
+ *  Code by Alex Reynolds from StackOverflow discussion here:
+ *  http://stackoverflow.com/a/800976/2378431
+ */
++ (NSData *)ftct_base64DataFromString:(NSString *)string
+{
+    unsigned long ixtext, lentext;
+    unsigned char ch, inbuf[4], outbuf[3];
+    short i, ixinbuf;
+    Boolean flignore, flendtext = false;
+    const unsigned char *tempcstring;
+    NSMutableData *theData;
+    
+    if (string == nil)
+    {
+        return [NSData data];
+    }
+    
+    ixtext = 0;
+    
+    tempcstring = (const unsigned char *)[string UTF8String];
+    
+    lentext = [string length];
+    
+    theData = [NSMutableData dataWithCapacity: lentext];
+    
+    ixinbuf = 0;
+    
+    while (true)
+    {
+        if (ixtext >= lentext) {
+            break;
+        }
+        
+        ch = tempcstring [ixtext++];
+        
+        flignore = false;
+        
+        if ((ch >= 'A') && (ch <= 'Z')) {
+            ch = ch - 'A';
+        }
+        else if ((ch >= 'a') && (ch <= 'z')) {
+            ch = ch - 'a' + 26;
+        }
+        else if ((ch >= '0') && (ch <= '9')) {
+            ch = ch - '0' + 52;
+        }
+        else if (ch == '+') {
+            ch = 62;
+        }
+        else if (ch == '=') {
+            flendtext = true;
+        }
+        else if (ch == '/') {
+            ch = 63;
+        }
+        else {
+            flignore = true;
+        }
+        
+        if (!flignore)
+        {
+            short ctcharsinbuf = 3;
+            Boolean flbreak = false;
+            
+            if (flendtext)
+            {
+                if (ixinbuf == 0) {
+                    break;
+                }
+                
+                if ((ixinbuf == 1) || (ixinbuf == 2)) {
+                    ctcharsinbuf = 1;
+                }
+                else {
+                    ctcharsinbuf = 2;
+                }
+                
+                ixinbuf = 3;
+                flbreak = true;
+            }
+            
+            inbuf [ixinbuf++] = ch;
+            
+            if (ixinbuf == 4)
+            {
+                ixinbuf = 0;
+                
+                outbuf[0] = (inbuf[0] << 2) | ((inbuf[1] & 0x30) >> 4);
+                outbuf[1] = ((inbuf[1] & 0x0F) << 4) | ((inbuf[2] & 0x3C) >> 2);
+                outbuf[2] = ((inbuf[2] & 0x03) << 6) | (inbuf[3] & 0x3F);
+                
+                for (i = 0; i < ctcharsinbuf; i++){
+                    [theData appendBytes: &outbuf[i] length: 1];
+                }
+            }
+            
+            if (flbreak){
+                break;
+            }
+        }
+    }
+    
+    return theData;
+}
 
 @end

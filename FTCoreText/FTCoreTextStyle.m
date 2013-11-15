@@ -25,8 +25,6 @@
 @synthesize minLineHeight = _minLineHeight;
 @synthesize block;
 
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations"
-
 - (id)init
 {
 	self = [super init];
@@ -85,7 +83,7 @@
 
 - (id)copyWithZone:(NSZone *)zone
 {
-	FTCoreTextStyle *style = [[FTCoreTextStyle alloc] init];
+	FTCoreTextStyle *style = [[FTCoreTextStyle allocWithZone:zone] init];
 	style.name = [self.name copy];
 	style.bulletCharacter = self.bulletCharacter;
 	style.appendedCharacter = [self.appendedCharacter copy];
@@ -100,12 +98,5 @@
 	style.leading = self.leading;
 	return style;
 }
-
-- (void)setParagraphInset:(UIEdgeInsets)paragraphInset
-{
-	_paragraphInset = paragraphInset;
-}
-
-#pragma GCC diagnostic warning "-Wdeprecated-declarations"
 
 @end
