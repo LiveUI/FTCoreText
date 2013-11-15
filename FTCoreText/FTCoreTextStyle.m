@@ -23,25 +23,25 @@
 @synthesize leading = _leading;
 @synthesize maxLineHeight = _maxLineHeight;
 @synthesize minLineHeight = _minLineHeight;
-@synthesize block;
+@synthesize block = _block;
 
 - (id)init
 {
 	self = [super init];
 	if (self) {
-		self.name = @"_default";
-		self.bulletCharacter = @"•";
-		self.appendedCharacter = @"";
-		self.font = [UIFont systemFontOfSize:12];
-		self.color = [UIColor blackColor];
-		self.underlined = NO;
-		self.textAlignment = FTCoreTextAlignementLeft;
-		self.maxLineHeight = 0;
-		self.minLineHeight = 0;
-		self.paragraphInset = UIEdgeInsetsZero;
-		self.applyParagraphStyling = YES;
-		self.leading = 0;
-        self.block=nil;
+		_name = @"_default";
+		_bulletCharacter = @"•";
+		_appendedCharacter = @"";
+		_font = [UIFont systemFontOfSize:12];
+		_color = [UIColor blackColor];
+		_underlined = NO;
+		_textAlignment = FTCoreTextAlignementLeft;
+		_maxLineHeight = 0;
+		_minLineHeight = 0;
+		_paragraphInset = UIEdgeInsetsZero;
+		_applyParagraphStyling = YES;
+		_leading = 0;
+        _block = nil;
 	}
 	return self;
 }
@@ -86,6 +86,7 @@
 	FTCoreTextStyle *style = [[FTCoreTextStyle allocWithZone:zone] init];
 	style.name = [self.name copy];
 	style.bulletCharacter = self.bulletCharacter;
+    style.bulletColor = self.bulletColor;
 	style.appendedCharacter = [self.appendedCharacter copy];
 	style.font = [UIFont fontWithName:self.font.fontName size:self.font.pointSize];
 	style.color = self.color;
