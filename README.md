@@ -1,46 +1,48 @@
 FTCoreText
 ===
 
-An open source Objective-C component that makes use of the CoreText framework to render static text content with a highly customisable markup syntax.
+An open source Objective-C interface component that makes use of the CoreText framework to render static text content using a highly customisable markup syntax.
 
 ##Usage
 
-1. Include the CoreText.framework to your project
+1. Include CoreText.framework in your project
 2. `#import FTCoreTextView.h`
 3. Create an instance of `FTCoreTextView`
-4. Apply styles to the output by creating instances of `FTCoreTextStyle` before adding them to the view.
+4. Create styles to apply to the output by creating instances of `FTCoreTextStyle`
 
-```
-FTCoreTextStyle *coloredStyle = [defaultStyle copy];
-coloredStyle.name:@"coloured";
-coloredStyle.color = [UIColor redColor];
- ```
- which is rendered red with markup: 
- `<coloured>I'm red</coloured>`
+
+        FTCoreTextStyle *coloredStyle = [defaultStyle copy];
+        coloredStyle.name:@"coloured";
+        coloredStyle.color = [UIColor redColor];
+
+
+    which renders red with markup: 
+    
+        <coloured>I'm red</coloured>
 
 5. Once styles are defined, apply to the view: 
 
-`[ftCoreTextInstance addStyles:@[style1, style2, style3]];`
+        [ftCoreTextInstance addStyles:@[style1, style2, style3]];
 
-6. Finally, set the text:
+6. Last step, set the text:
 
-`ftCoreTextInstance.text = [self [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"MyStaticContent" ofType:@"txt"] encoding:NSUTF8StringEncoding error:nil]];`
+        ftCoreTextInstance.text = [self [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"MyStaticContent" ofType:@"txt"] encoding:NSUTF8StringEncoding error:nil]];
 
-See the example in the repository for greater detail.
+See the included example in for greater detail.
 
 ##Elements
 
-Several interface element types are included for rendering lists, images and suchlike:
-
-`someFTCoreTextStyleInstance.name = FTCoreTextTagDefault`  
+FTCoreText provides some interface element types for rendering content types commonly found on the web and printed media such as lists, images, links and suchlike.
 
 Included:
 
--  `FTCoreTextTagDefault`: the default style applied to the text. 
--  `FTCoreTextTagPage`: Divide the text in pages. Markup: `<_page/>`
--  `FTCoreTextTagBullet`: define styles for bullets. Markup: `<_bullet>content</bullet>`.
+- `FTCoreTextTagDefault`: the default style applied to the text. 
+- `FTCoreTextTagPage`: Divide the text in pages. Markup: `<_page/>`
+- `FTCoreTextTagBullet`: define styles for bullets. Markup: `<_bullet>content</bullet>`.
 - `FTCoreTextTagImage`: renders images. Markup: `<_image>imageNameOnBundle.extension</_image>`
 - `FTCoreTextTagLink`: define style for links. Markup: `<_link>link_target|link - name</_link>`. See `FTCoreTextViewDelegate` for responding to touch.
+
+To use the included element types, set the name of an `FTCoreTextStyle` style instance to one of the string constant types above and use the markup specified. Example: `linkTypeFTCoreTextStyleInstance.name = FTCoreTextTagLink`, and in the static content: `<_link>http://fuerteint.com|Fuerte International</_link>`
 
 ##Notes
 
