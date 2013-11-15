@@ -28,7 +28,7 @@ An open source Objective-C interface component that makes use of the CoreText fr
 
         ftCoreTextInstance.text = [self [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"MyStaticContent" ofType:@"txt"] encoding:NSUTF8StringEncoding error:nil]];
 
-See the included example in for greater detail.
+See the included example for greater detail.
 
 ##Elements
 
