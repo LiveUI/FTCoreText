@@ -10,7 +10,13 @@
 
 @class FTCoreTextView;
 
-@interface FTCTViewController : UIViewController
+/**
+ *  This a complete complex example of implementing FTCoreTextView
+ *
+ *  This controller unlike others does not subclass basic controller
+ *  and shows also management of scroll view
+ */
+@interface FTCTGiraffeExampleViewController : UIViewController
 
 @property (nonatomic, strong) UIScrollView *scrollView;
 @property (nonatomic, strong) FTCoreTextView *coreTextView;

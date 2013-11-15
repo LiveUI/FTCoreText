@@ -13,14 +13,20 @@
 		99A6F4551833FFAD008B555D /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 99A6F4531833FFAD008B555D /* InfoPlist.strings */; };
 		99A6F4571833FFAD008B555D /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 99A6F4561833FFAD008B555D /* main.m */; };
 		99A6F45B1833FFAD008B555D /* FTCTAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 99A6F45A1833FFAD008B555D /* FTCTAppDelegate.m */; };
-		99A6F4611833FFAD008B555D /* FTCTViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99A6F4601833FFAD008B555D /* FTCTViewController.m */; };
-		99A6F4631833FFAD008B555D /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 99A6F4621833FFAD008B555D /* Images.xcassets */; };
+		99A6F4611833FFAD008B555D /* FTCTGiraffeExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 99A6F4601833FFAD008B555D /* FTCTGiraffeExampleViewController.m */; };
 		99A6F48B1833FFCA008B555D /* FTCoreTextStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 99A6F4861833FFCA008B555D /* FTCoreTextStyle.m */; };
 		99A6F48C1833FFCA008B555D /* FTCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 99A6F4881833FFCA008B555D /* FTCoreTextView.m */; };
-		99A6F4941834017D008B555D /* text.txt in Resources */ = {isa = PBXBuildFile; fileRef = 99A6F4911834017D008B555D /* text.txt */; };
-		99A6F4951834017D008B555D /* giraffe.png in Resources */ = {isa = PBXBuildFile; fileRef = 99A6F4921834017D008B555D /* giraffe.png */; };
-		99A6F4961834017D008B555D /* giraffe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 99A6F4931834017D008B555D /* giraffe@2x.png */; };
 		99A6F498183401D1008B555D /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99A6F497183401D1008B555D /* CoreText.framework */; };
+		A08113201836755E0071CA4E /* FTCoreTextExamplesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A081131F1836755E0071CA4E /* FTCoreTextExamplesViewController.m */; };
+		A0811325183676E30071CA4E /* FTCTBase64ImagesExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0811324183676E30071CA4E /* FTCTBase64ImagesExampleViewController.m */; };
+		A081132918367B330071CA4E /* FTCTBasicExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A081132818367B330071CA4E /* FTCTBasicExampleViewController.m */; };
+		A081133018367C9B0071CA4E /* ftcoretext-example-text-giraffe.txt in Resources */ = {isa = PBXBuildFile; fileRef = A081132C18367C9B0071CA4E /* ftcoretext-example-text-giraffe.txt */; };
+		A081133118367C9B0071CA4E /* giraffe.png in Resources */ = {isa = PBXBuildFile; fileRef = A081132E18367C9B0071CA4E /* giraffe.png */; };
+		A081133218367C9B0071CA4E /* giraffe@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A081132F18367C9B0071CA4E /* giraffe@2x.png */; };
+		A081133418367E2B0071CA4E /* ftcoretext-example-text-inline-base64-images.txt in Resources */ = {isa = PBXBuildFile; fileRef = A081133318367E2B0071CA4E /* ftcoretext-example-text-inline-base64-images.txt */; };
+		A0811339183686910071CA4E /* Default-568h@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A0811336183686910071CA4E /* Default-568h@2x.png */; };
+		A081133A183686910071CA4E /* Default.png in Resources */ = {isa = PBXBuildFile; fileRef = A0811337183686910071CA4E /* Default.png */; };
+		A081133B183686910071CA4E /* Default@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = A0811338183686910071CA4E /* Default@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,17 +40,26 @@
 		99A6F4581833FFAD008B555D /* FTCTExample-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "FTCTExample-Prefix.pch"; sourceTree = "<group>"; };
 		99A6F4591833FFAD008B555D /* FTCTAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FTCTAppDelegate.h; sourceTree = "<group>"; };
 		99A6F45A1833FFAD008B555D /* FTCTAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FTCTAppDelegate.m; sourceTree = "<group>"; };
-		99A6F45F1833FFAD008B555D /* FTCTViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FTCTViewController.h; sourceTree = "<group>"; };
-		99A6F4601833FFAD008B555D /* FTCTViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FTCTViewController.m; sourceTree = "<group>"; };
-		99A6F4621833FFAD008B555D /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		99A6F45F1833FFAD008B555D /* FTCTGiraffeExampleViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FTCTGiraffeExampleViewController.h; sourceTree = "<group>"; };
+		99A6F4601833FFAD008B555D /* FTCTGiraffeExampleViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = FTCTGiraffeExampleViewController.m; sourceTree = "<group>"; };
 		99A6F4851833FFCA008B555D /* FTCoreTextStyle.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTCoreTextStyle.h; sourceTree = "<group>"; };
 		99A6F4861833FFCA008B555D /* FTCoreTextStyle.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTCoreTextStyle.m; sourceTree = "<group>"; };
 		99A6F4871833FFCA008B555D /* FTCoreTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTCoreTextView.h; sourceTree = "<group>"; };
 		99A6F4881833FFCA008B555D /* FTCoreTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTCoreTextView.m; sourceTree = "<group>"; };
-		99A6F4911834017D008B555D /* text.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = text.txt; sourceTree = "<group>"; };
-		99A6F4921834017D008B555D /* giraffe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = giraffe.png; sourceTree = "<group>"; };
-		99A6F4931834017D008B555D /* giraffe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "giraffe@2x.png"; sourceTree = "<group>"; };
 		99A6F497183401D1008B555D /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		A081131E1836755E0071CA4E /* FTCoreTextExamplesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTCoreTextExamplesViewController.h; sourceTree = "<group>"; };
+		A081131F1836755E0071CA4E /* FTCoreTextExamplesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTCoreTextExamplesViewController.m; sourceTree = "<group>"; };
+		A0811323183676E30071CA4E /* FTCTBase64ImagesExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTCTBase64ImagesExampleViewController.h; sourceTree = "<group>"; };
+		A0811324183676E30071CA4E /* FTCTBase64ImagesExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTCTBase64ImagesExampleViewController.m; sourceTree = "<group>"; };
+		A081132718367B330071CA4E /* FTCTBasicExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTCTBasicExampleViewController.h; sourceTree = "<group>"; };
+		A081132818367B330071CA4E /* FTCTBasicExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTCTBasicExampleViewController.m; sourceTree = "<group>"; };
+		A081132C18367C9B0071CA4E /* ftcoretext-example-text-giraffe.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "ftcoretext-example-text-giraffe.txt"; sourceTree = "<group>"; };
+		A081132E18367C9B0071CA4E /* giraffe.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = giraffe.png; sourceTree = "<group>"; };
+		A081132F18367C9B0071CA4E /* giraffe@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "giraffe@2x.png"; sourceTree = "<group>"; };
+		A081133318367E2B0071CA4E /* ftcoretext-example-text-inline-base64-images.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "ftcoretext-example-text-inline-base64-images.txt"; sourceTree = "<group>"; };
+		A0811336183686910071CA4E /* Default-568h@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default-568h@2x.png"; sourceTree = "<group>"; };
+		A0811337183686910071CA4E /* Default.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Default.png; sourceTree = "<group>"; };
+		A0811338183686910071CA4E /* Default@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Default@2x.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -99,7 +114,6 @@
 				99A6F48F1834004C008B555D /* Controllers */,
 				99A6F49018340059008B555D /* Storyboard */,
 				99A6F48E18340046008B555D /* Resources */,
-				99A6F4621833FFAD008B555D /* Images.xcassets */,
 				99A6F4511833FFAD008B555D /* Supporting Files */,
 			);
 			path = FTCTExample;
@@ -131,9 +145,8 @@
 		99A6F48E18340046008B555D /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				99A6F4911834017D008B555D /* text.txt */,
-				99A6F4921834017D008B555D /* giraffe.png */,
-				99A6F4931834017D008B555D /* giraffe@2x.png */,
+				A081132D18367C9B0071CA4E /* Images */,
+				A081132B18367C9B0071CA4E /* Texts */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -141,8 +154,11 @@
 		99A6F48F1834004C008B555D /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
-				99A6F45F1833FFAD008B555D /* FTCTViewController.h */,
-				99A6F4601833FFAD008B555D /* FTCTViewController.m */,
+				A081131E1836755E0071CA4E /* FTCoreTextExamplesViewController.h */,
+				A081131F1836755E0071CA4E /* FTCoreTextExamplesViewController.m */,
+				A081132618367B020071CA4E /* Basic abstract controller */,
+				A0811321183676510071CA4E /* Complex "Giraffe" example */,
+				A0811322183676B40071CA4E /* Inline Base64-encoded images */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -152,6 +168,64 @@
 			children = (
 			);
 			name = Storyboard;
+			sourceTree = "<group>";
+		};
+		A0811321183676510071CA4E /* Complex "Giraffe" example */ = {
+			isa = PBXGroup;
+			children = (
+				99A6F45F1833FFAD008B555D /* FTCTGiraffeExampleViewController.h */,
+				99A6F4601833FFAD008B555D /* FTCTGiraffeExampleViewController.m */,
+			);
+			name = "Complex \"Giraffe\" example";
+			sourceTree = "<group>";
+		};
+		A0811322183676B40071CA4E /* Inline Base64-encoded images */ = {
+			isa = PBXGroup;
+			children = (
+				A0811323183676E30071CA4E /* FTCTBase64ImagesExampleViewController.h */,
+				A0811324183676E30071CA4E /* FTCTBase64ImagesExampleViewController.m */,
+			);
+			name = "Inline Base64-encoded images";
+			sourceTree = "<group>";
+		};
+		A081132618367B020071CA4E /* Basic abstract controller */ = {
+			isa = PBXGroup;
+			children = (
+				A081132718367B330071CA4E /* FTCTBasicExampleViewController.h */,
+				A081132818367B330071CA4E /* FTCTBasicExampleViewController.m */,
+			);
+			name = "Basic abstract controller";
+			sourceTree = "<group>";
+		};
+		A081132B18367C9B0071CA4E /* Texts */ = {
+			isa = PBXGroup;
+			children = (
+				A081132C18367C9B0071CA4E /* ftcoretext-example-text-giraffe.txt */,
+				A081133318367E2B0071CA4E /* ftcoretext-example-text-inline-base64-images.txt */,
+			);
+			name = Texts;
+			path = Resources/Texts;
+			sourceTree = "<group>";
+		};
+		A081132D18367C9B0071CA4E /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				A0811335183686910071CA4E /* Splashscreen */,
+				A081132E18367C9B0071CA4E /* giraffe.png */,
+				A081132F18367C9B0071CA4E /* giraffe@2x.png */,
+			);
+			name = Images;
+			path = Resources/Images;
+			sourceTree = "<group>";
+		};
+		A0811335183686910071CA4E /* Splashscreen */ = {
+			isa = PBXGroup;
+			children = (
+				A0811336183686910071CA4E /* Default-568h@2x.png */,
+				A0811337183686910071CA4E /* Default.png */,
+				A0811338183686910071CA4E /* Default@2x.png */,
+			);
+			path = Splashscreen;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -207,11 +281,14 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				99A6F4951834017D008B555D /* giraffe.png in Resources */,
-				99A6F4631833FFAD008B555D /* Images.xcassets in Resources */,
+				A081133A183686910071CA4E /* Default.png in Resources */,
+				A081133B183686910071CA4E /* Default@2x.png in Resources */,
+				A0811339183686910071CA4E /* Default-568h@2x.png in Resources */,
 				99A6F4551833FFAD008B555D /* InfoPlist.strings in Resources */,
-				99A6F4961834017D008B555D /* giraffe@2x.png in Resources */,
-				99A6F4941834017D008B555D /* text.txt in Resources */,
+				A081133018367C9B0071CA4E /* ftcoretext-example-text-giraffe.txt in Resources */,
+				A081133418367E2B0071CA4E /* ftcoretext-example-text-inline-base64-images.txt in Resources */,
+				A081133118367C9B0071CA4E /* giraffe.png in Resources */,
+				A081133218367C9B0071CA4E /* giraffe@2x.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -224,9 +301,12 @@
 			files = (
 				99A6F4571833FFAD008B555D /* main.m in Sources */,
 				99A6F48B1833FFCA008B555D /* FTCoreTextStyle.m in Sources */,
-				99A6F4611833FFAD008B555D /* FTCTViewController.m in Sources */,
+				A081132918367B330071CA4E /* FTCTBasicExampleViewController.m in Sources */,
+				99A6F4611833FFAD008B555D /* FTCTGiraffeExampleViewController.m in Sources */,
 				99A6F45B1833FFAD008B555D /* FTCTAppDelegate.m in Sources */,
 				99A6F48C1833FFCA008B555D /* FTCoreTextView.m in Sources */,
+				A08113201836755E0071CA4E /* FTCoreTextExamplesViewController.m in Sources */,
+				A0811325183676E30071CA4E /* FTCTBase64ImagesExampleViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -319,8 +399,6 @@
 		99A6F47A1833FFAD008B555D /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FTCTExample/FTCTExample-Prefix.pch";
 				INFOPLIST_FILE = "FTCTExample/FTCTExample-Info.plist";
@@ -332,8 +410,6 @@
 		99A6F47B1833FFAD008B555D /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "FTCTExample/FTCTExample-Prefix.pch";
 				INFOPLIST_FILE = "FTCTExample/FTCTExample-Info.plist";

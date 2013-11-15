@@ -7,20 +7,19 @@
 //
 
 #import "FTCTAppDelegate.h"
-#import "FTCTViewController.h"
-
-@interface FTCTAppDelegate ()
-@property (strong, nonatomic, readwrite) FTCTViewController *controller;
-@end
+#import "FTCoreTextExamplesViewController.h"
 
 @implementation FTCTAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     self.window = [[UIWindow alloc] initWithFrame:[[UIScreen mainScreen] bounds]];
-    self.controller = [[FTCTViewController alloc] init];
-    self.window.rootViewController = self.controller;
+    
+    UIViewController *rootController = [[FTCoreTextExamplesViewController alloc] init];
+    
+    self.window.rootViewController = [[UINavigationController alloc] initWithRootViewController:rootController];
     [self.window makeKeyAndVisible];
+    
     return YES;
 }
 							

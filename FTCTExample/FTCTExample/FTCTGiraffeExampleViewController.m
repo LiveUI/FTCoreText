@@ -6,13 +6,13 @@
 //  Copyright (c) 2013 Fuerte International. All rights reserved.
 //
 
-#import "FTCTViewController.h"
+#import "FTCTGiraffeExampleViewController.h"
 #import "FTCoreTextView.h"
 
-@interface FTCTViewController () <FTCoreTextViewDelegate>
+@interface FTCTGiraffeExampleViewController () <FTCoreTextViewDelegate>
 @end
 
-@implementation FTCTViewController
+@implementation FTCTGiraffeExampleViewController
 
 #pragma mark View Lifecycle
 
@@ -67,7 +67,7 @@
 
 - (NSString *)textForView
 {
-    return [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"text" ofType:@"txt"] encoding:NSUTF8StringEncoding error:nil];
+    return [NSString stringWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"ftcoretext-example-text-giraffe" ofType:@"txt"] encoding:NSUTF8StringEncoding error:nil];
 }
 
 #pragma mark Styling
