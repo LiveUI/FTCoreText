@@ -17,6 +17,8 @@
 		99A6F48B1833FFCA008B555D /* FTCoreTextStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 99A6F4861833FFCA008B555D /* FTCoreTextStyle.m */; };
 		99A6F48C1833FFCA008B555D /* FTCoreTextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 99A6F4881833FFCA008B555D /* FTCoreTextView.m */; };
 		99A6F498183401D1008B555D /* CoreText.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 99A6F497183401D1008B555D /* CoreText.framework */; };
+		A01C505A183A814200FB7720 /* FTCTHTMLSyntaxExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A01C5059183A814200FB7720 /* FTCTHTMLSyntaxExampleViewController.m */; };
+		A01C505C183A828C00FB7720 /* ftcoretext-example-text-html-syntax.txt in Resources */ = {isa = PBXBuildFile; fileRef = A01C505B183A828C00FB7720 /* ftcoretext-example-text-html-syntax.txt */; };
 		A08113201836755E0071CA4E /* FTCoreTextExamplesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A081131F1836755E0071CA4E /* FTCoreTextExamplesViewController.m */; };
 		A0811325183676E30071CA4E /* FTCTBase64ImagesExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A0811324183676E30071CA4E /* FTCTBase64ImagesExampleViewController.m */; };
 		A081132918367B330071CA4E /* FTCTBasicExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = A081132818367B330071CA4E /* FTCTBasicExampleViewController.m */; };
@@ -47,6 +49,9 @@
 		99A6F4871833FFCA008B555D /* FTCoreTextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTCoreTextView.h; sourceTree = "<group>"; };
 		99A6F4881833FFCA008B555D /* FTCoreTextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTCoreTextView.m; sourceTree = "<group>"; };
 		99A6F497183401D1008B555D /* CoreText.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreText.framework; path = System/Library/Frameworks/CoreText.framework; sourceTree = SDKROOT; };
+		A01C5058183A814200FB7720 /* FTCTHTMLSyntaxExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTCTHTMLSyntaxExampleViewController.h; sourceTree = "<group>"; };
+		A01C5059183A814200FB7720 /* FTCTHTMLSyntaxExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTCTHTMLSyntaxExampleViewController.m; sourceTree = "<group>"; };
+		A01C505B183A828C00FB7720 /* ftcoretext-example-text-html-syntax.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "ftcoretext-example-text-html-syntax.txt"; sourceTree = "<group>"; };
 		A081131E1836755E0071CA4E /* FTCoreTextExamplesViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTCoreTextExamplesViewController.h; sourceTree = "<group>"; };
 		A081131F1836755E0071CA4E /* FTCoreTextExamplesViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FTCoreTextExamplesViewController.m; sourceTree = "<group>"; };
 		A0811323183676E30071CA4E /* FTCTBase64ImagesExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FTCTBase64ImagesExampleViewController.h; sourceTree = "<group>"; };
@@ -159,6 +164,7 @@
 				A081132618367B020071CA4E /* Basic abstract controller */,
 				A0811321183676510071CA4E /* Complex "Giraffe" example */,
 				A0811322183676B40071CA4E /* Inline Base64-encoded images */,
+				A01C5057183A80FA00FB7720 /* HTML-like syntax */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -168,6 +174,15 @@
 			children = (
 			);
 			name = Storyboard;
+			sourceTree = "<group>";
+		};
+		A01C5057183A80FA00FB7720 /* HTML-like syntax */ = {
+			isa = PBXGroup;
+			children = (
+				A01C5058183A814200FB7720 /* FTCTHTMLSyntaxExampleViewController.h */,
+				A01C5059183A814200FB7720 /* FTCTHTMLSyntaxExampleViewController.m */,
+			);
+			name = "HTML-like syntax";
 			sourceTree = "<group>";
 		};
 		A0811321183676510071CA4E /* Complex "Giraffe" example */ = {
@@ -202,6 +217,7 @@
 			children = (
 				A081132C18367C9B0071CA4E /* ftcoretext-example-text-giraffe.txt */,
 				A081133318367E2B0071CA4E /* ftcoretext-example-text-inline-base64-images.txt */,
+				A01C505B183A828C00FB7720 /* ftcoretext-example-text-html-syntax.txt */,
 			);
 			name = Texts;
 			path = Resources/Texts;
@@ -285,6 +301,7 @@
 				A081133B183686910071CA4E /* Default@2x.png in Resources */,
 				A0811339183686910071CA4E /* Default-568h@2x.png in Resources */,
 				99A6F4551833FFAD008B555D /* InfoPlist.strings in Resources */,
+				A01C505C183A828C00FB7720 /* ftcoretext-example-text-html-syntax.txt in Resources */,
 				A081133018367C9B0071CA4E /* ftcoretext-example-text-giraffe.txt in Resources */,
 				A081133418367E2B0071CA4E /* ftcoretext-example-text-inline-base64-images.txt in Resources */,
 				A081133118367C9B0071CA4E /* giraffe.png in Resources */,
@@ -301,6 +318,7 @@
 			files = (
 				99A6F4571833FFAD008B555D /* main.m in Sources */,
 				99A6F48B1833FFCA008B555D /* FTCoreTextStyle.m in Sources */,
+				A01C505A183A814200FB7720 /* FTCTHTMLSyntaxExampleViewController.m in Sources */,
 				A081132918367B330071CA4E /* FTCTBasicExampleViewController.m in Sources */,
 				99A6F4611833FFAD008B555D /* FTCTGiraffeExampleViewController.m in Sources */,
 				99A6F45B1833FFAD008B555D /* FTCTAppDelegate.m in Sources */,
