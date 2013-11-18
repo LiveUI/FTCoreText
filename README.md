@@ -3,6 +3,14 @@ FTCoreText
 
 An open source Objective-C interface component that makes use of the CoreText framework to render static text content using a highly customisable markup syntax.
 
+<table>
+  <tr>
+    <td><img src="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-1.png" alt="FTCoreText \"Giraffe\" example" style="width: 200px;"/></td>
+    <td><img src="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-2.png" alt="FTCoreText \"Giraffe\" example" style="width: 200px;"/></td>
+    <td><img src="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-3.png" alt="FTCoreText inline Base64-encoded images example" style="width: 200px;"/></td>
+  </tr>
+</table>
+
 ##Usage
 
 1. Include CoreText.framework in your project
