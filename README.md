@@ -5,9 +5,21 @@ An open source Objective-C interface component that makes use of the CoreText fr
 
 <table>
   <tr>
-    <td><img src="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-1.png" alt="FTCoreText \"Giraffe\" example" style="width: 200px;"/></td>
-    <td><img src="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-2.png" alt="FTCoreText \"Giraffe\" example" style="width: 200px;"/></td>
-    <td><img src="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-3.png" alt="FTCoreText inline Base64-encoded images example" style="width: 200px;"/></td>
+    <td>
+       <a href="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-1.png">
+          <img src="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-1-thumb.png" alt="FTCoreText \"Giraffe\" example screenshot"/>
+       </a>
+    </td>
+    <td>
+       <a href="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-2.png">
+          <img src="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-2-thumb.png" alt="FTCoreText \"Giraffe\" example screenshot"/>
+       </a>
+    </td>
+    <td>
+       <a href="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-3.png">
+          <img src="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-3-thumb.png" alt="FTCoreText inlined Base64-encoded images example screenshot"/>
+       </a>
+    </td>
   </tr>
 </table>
 
