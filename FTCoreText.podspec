@@ -2,7 +2,7 @@ Pod::Spec.new do |s|
 
   s.name         = "FTCoreText"
   s.version      = "1.0"
-  s.summary      = "An open source Objective-C interface component that makes use of the CoreText framework to render static text content using a highly customisable markup syntax."
+  s.summary      = "UIView subclass for rendering static content with CoreText using Objective-C interface and highly customisable markup syntax."
   s.homepage     = "https://github.com/FuerteInternational/FTCoreText"
   s.screenshots  = "https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-1.png", "https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-1.png", "https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-3.png"
   s.license      = { :type => 'MIT', :file => 'LICENSE' }
