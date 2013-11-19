@@ -1289,7 +1289,7 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
 			CGRect lineFrame = CGRectMake(baselineOrigin.x, baselineOrigin.y - ascent, lineWidth, ascent + descent);
 			
 			CTTextAlignment alignment = (CTTextAlignment)imageNode.style.textAlignment;
-            UIImage *img =nil;
+            UIImage *img = nil;
             if ([imageNode.imageName hasPrefix:@"base64:"])
             {
                 NSData* myImgData = [NSData ftct_base64DataFromString:[imageNode.imageName substringFromIndex:7]];
