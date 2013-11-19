@@ -27,12 +27,14 @@
         
         _titles = @[
             @"Complex \"Giraffe\" example",
-            @"Inline Base64-encoded images"
+            @"Inline Base64-encoded images",
+            @"HTML-like syntax"
         ];
         
         _controllersClassesNames = @[
             @"FTCTGiraffeExampleViewController",
-            @"FTCTBase64ImagesExampleViewController"
+            @"FTCTBase64ImagesExampleViewController",
+            @"FTCTHTMLSyntaxExampleViewController"
         ];
     }
     return self;

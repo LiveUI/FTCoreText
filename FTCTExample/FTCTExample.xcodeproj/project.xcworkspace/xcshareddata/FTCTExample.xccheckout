@@ -5,34 +5,34 @@
 	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
 	<false/>
 	<key>IDESourceControlProjectIdentifier</key>
-	<string>1C41FDAF-255B-4874-A4C5-5FEC36D3872A</string>
+	<string>95F1FEB7-E73C-47E9-8098-6B0E2D7BBE8B</string>
 	<key>IDESourceControlProjectName</key>
 	<string>FTCTExample</string>
 	<key>IDESourceControlProjectOriginsDictionary</key>
 	<dict>
-		<key>750F407C-4645-4DF9-9919-B97AFEC6C79B</key>
-		<string>https://github.com/FuerteInternational/FTCoreText</string>
+		<key>8169EECB-14CE-4163-9B6D-F1780B0472D0</key>
+		<string>ssh://github.com/FuerteInternational/FTCoreText.git</string>
 	</dict>
 	<key>IDESourceControlProjectPath</key>
 	<string>FTCTExample/FTCTExample.xcodeproj/project.xcworkspace</string>
 	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
 	<dict>
-		<key>750F407C-4645-4DF9-9919-B97AFEC6C79B</key>
+		<key>8169EECB-14CE-4163-9B6D-F1780B0472D0</key>
 		<string>../../..</string>
 	</dict>
 	<key>IDESourceControlProjectURL</key>
-	<string>https://github.com/FuerteInternational/FTCoreText</string>
+	<string>ssh://github.com/FuerteInternational/FTCoreText.git</string>
 	<key>IDESourceControlProjectVersion</key>
 	<integer>110</integer>
 	<key>IDESourceControlProjectWCCIdentifier</key>
-	<string>750F407C-4645-4DF9-9919-B97AFEC6C79B</string>
+	<string>8169EECB-14CE-4163-9B6D-F1780B0472D0</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>
 			<key>IDESourceControlWCCIdentifierKey</key>
-			<string>750F407C-4645-4DF9-9919-B97AFEC6C79B</string>
+			<string>8169EECB-14CE-4163-9B6D-F1780B0472D0</string>
 			<key>IDESourceControlWCCName</key>
 			<string>FTCoreText</string>
 		</dict>

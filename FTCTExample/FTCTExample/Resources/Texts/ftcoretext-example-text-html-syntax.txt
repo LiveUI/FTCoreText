@@ -1,0 +1,24 @@
+<h1>Giraffe</h1>
+<img>giraffe.png</img>
+
+<p>The giraffe (Giraffa camelopardalis) is an African <a>http://en.wikipedia.org/wiki/Even-toed_ungulate|even-toed ungulate</a> mammal, the tallest of all extant land-living animal species, and the largest ruminant. Its scientific name, <a>http://en.wikipedia.org/wiki/Giraffe|©2011 - Wikipedia</a> which is similar to its archaic English name of camelopard, refers to its irregular patches of color on a light background</p>
+
+<h2>Subspecies</h2>
+
+<p>Different authorities recognize different numbers of subspecies, <a>http://en.wikipedia.org/wiki/Giraffe|©2011 - Wikipedia</a> differentiated by size, color and pattern variations and range. Some of these subspecies may prove to be separate species as they appear to be reproductively isolated despite their mobility. The subspecies recognized by most recent authorities are:</p>
+
+<li>G. c. camelopardalis, an unusual specimen which can only be well-described a long line of text we hope will wrap correctly when presented as an item in a bullet list.</li>
+<li>G. c. reticulata</li>
+<li>G. c. reticulata</li>
+<li>G. c. angolensis</li>
+<li>G. c. antiquorum</li>
+<li>G. c. tippelskirchi</li>
+<li>G. c. rothschildi</li>
+<li>G. c. giraffa</li>
+<li>G. c. thornicrofti</li>
+
+<h2>Swimming</h2>
+
+<p>Although no definitive study has been publicly conducted, <a>http://en.wikipedia.org/wiki/Giraffe|©2011 - Wikipedia</a> giraffes are assumed to be unable to swim. It has been estimated that the giraffe's proportionally larger limbs have very high rotational inertias and this would make rapid swimming motions strenuous.</p>
+
+<a>http://en.wikipedia.org/wiki/Giraffe|©2011 - Wikipedia</a>
