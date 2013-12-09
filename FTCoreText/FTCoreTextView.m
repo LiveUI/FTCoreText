@@ -308,9 +308,9 @@ NSInteger rangeSort(NSString *range1, NSString *range2, void *context);
 }
 
 
-- (NSString*)getIndexingForNode:(FTCoreTextNode*)node
+- (NSString *)getIndexingForNode:(FTCoreTextNode*)node
 {
-    NSString* string = [NSString string];
+    NSString *string = [NSString string];
     FTCoreTextNode* currentNode = node;
     do {
         if (currentNode==self.rootNode)
