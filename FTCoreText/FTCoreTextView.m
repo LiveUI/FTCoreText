@@ -256,18 +256,18 @@ NSInteger rangeSort(NSString *range1, NSString *range2, void *context);
 
 - (NSString*)getNodeIndexThatContainLocationFormNSRange:(NSRange)range
 {
-    FTCoreTextNode* node = [self getNodeThatContainLocationFormNSRange:range];
+    FTCoreTextNode *node = [self getNodeThatContainLocationFormNSRange:range];
     return [self getIndexingForNode:node];
 }
 
 - (FTCoreTextNode*)getNodeThatContainLocationFormNSRange:(NSRange)range
 {
-    FTCoreTextNode* currentNode = self.rootNode;
+    FTCoreTextNode *currentNode = self.rootNode;
     int i = 0;
     int count = [currentNode.subnodes count];
     while (currentNode.subnodes && count>i)
     {
-        FTCoreTextNode* node = [currentNode.subnodes objectAtIndex:i];
+        FTCoreTextNode *node = [currentNode.subnodes objectAtIndex:i];
         if (range.length==0 && node.styleRange.location==range.location && node.styleRange.length==0)
         {
             currentNode=node;
@@ -289,12 +289,12 @@ NSInteger rangeSort(NSString *range1, NSString *range2, void *context);
 
 - (NSInteger)getCorrectLocationFromNSRange:(NSRange)range
 {
-    FTCoreTextNode* currentNode = self.rootNode;
+    FTCoreTextNode *currentNode = self.rootNode;
     int i = 0;
     int count = [currentNode.subnodes count];
     while (currentNode.subnodes && count>i)
     {
-        FTCoreTextNode* node = [currentNode.subnodes objectAtIndex:i];
+        FTCoreTextNode *node = [currentNode.subnodes objectAtIndex:i];
         if (node.styleRange.location<=range.location && (node.styleRange.location + node.styleRange.length)>range.location)
         {
             currentNode=node;
@@ -311,7 +311,7 @@ NSInteger rangeSort(NSString *range1, NSString *range2, void *context);
 - (NSString *)getIndexingForNode:(FTCoreTextNode*)node
 {
     NSString *string = [NSString string];
-    FTCoreTextNode* currentNode = node;
+    FTCoreTextNode *currentNode = node;
     do {
         if (currentNode==self.rootNode)
         {
@@ -360,7 +360,7 @@ NSInteger rangeSort(NSString *range1, NSString *range2, void *context);
             {
                 CFRange lineRange= CTLineGetStringRange(line);
                 NSRange lineNSRange = {lineRange.location,lineRange.length};
-                FTCoreTextNode* myNode = [self getNodeThatContainLocationFormNSRange:lineNSRange];
+                FTCoreTextNode *myNode = [self getNodeThatContainLocationFormNSRange:lineNSRange];
                 CFRelease(ctframe);
                 return [self getIndexingForNode:myNode];
             }
@@ -585,7 +585,7 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
                 CFArrayRef runs = CTLineGetGlyphRuns(line);
                 for(CFIndex j = 0; j < CFArrayGetCount(runs); j++) {
                     CTRunRef run = CFArrayGetValueAtIndex(runs, j);
-                    NSDictionary* attributes = (__bridge NSDictionary*)CTRunGetAttributes(run);
+                    NSDictionary *attributes = (__bridge NSDictionary*)CTRunGetAttributes(run);
                     
                     NSString *name = [attributes objectForKey:FTCoreTextDataName];
                     if (![name isEqualToString:FTCoreTextTagLink]) continue;
@@ -884,7 +884,7 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
 				
                 if (style.block)
                 {
-                    NSDictionary* blockDict = [NSDictionary dictionaryWithObjectsAndKeys:tagsComponents,@"components", [NSValue valueWithRange:NSMakeRange(tagRange.location, newNode.style.appendedCharacter.length)],@"range", nil];
+                    NSDictionary *blockDict = [NSDictionary dictionaryWithObjectsAndKeys:tagsComponents,@"components", [NSValue valueWithRange:NSMakeRange(tagRange.location, newNode.style.appendedCharacter.length)],@"range", nil];
                     style.block(blockDict);
                 }
                 remainingRange.location = tagRange.location;
@@ -1292,7 +1292,7 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
             UIImage *img = nil;
             if ([imageNode.imageName hasPrefix:@"base64:"])
             {
-                NSData* myImgData = [NSData ftct_dataWithBase64EncodedString:[imageNode.imageName substringFromIndex:7]];
+                NSData *myImgData = [NSData ftct_dataWithBase64EncodedString:[imageNode.imageName substringFromIndex:7]];
                 img = [UIImage imageWithData:myImgData];
             }
             else
