@@ -264,7 +264,7 @@ NSInteger rangeSort(NSString *range1, NSString *range2, void *context);
 {
     FTCoreTextNode *currentNode = self.rootNode;
     int i = 0;
-    int count = [currentNode.subnodes count];
+    NSInteger count = [currentNode.subnodes count];
     while (currentNode.subnodes && count>i)
     {
         FTCoreTextNode *node = [currentNode.subnodes objectAtIndex:i];
@@ -291,7 +291,7 @@ NSInteger rangeSort(NSString *range1, NSString *range2, void *context);
 {
     FTCoreTextNode *currentNode = self.rootNode;
     int i = 0;
-    int count = [currentNode.subnodes count];
+    NSInteger count = [currentNode.subnodes count];
     while (currentNode.subnodes && count>i)
     {
         FTCoreTextNode *node = [currentNode.subnodes objectAtIndex:i];
@@ -315,11 +315,11 @@ NSInteger rangeSort(NSString *range1, NSString *range2, void *context);
     do {
         if (currentNode==self.rootNode)
         {
-            string = [NSString stringWithFormat:@"%d%@",currentNode.nodeIndex,string];
+            string = [NSString stringWithFormat:@"%lu%@", (unsigned long)currentNode.nodeIndex,string];
         }
         else
         {
-            string = [NSString stringWithFormat:@"/%d%@",currentNode.nodeIndex,string];
+            string = [NSString stringWithFormat:@"/%lu%@", (unsigned long)currentNode.nodeIndex,string];
         }
         currentNode=currentNode.supernode;
     } while (currentNode);
@@ -542,7 +542,7 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
 							}
 							//we get enclosing rects
 							NSMutableArray *rectsStrings = [NSMutableArray new];
-							for (int iLine = startLineIndex; iLine <= endLineIndex; iLine++) {
+							for (NSInteger iLine = startLineIndex; iLine <= endLineIndex; iLine++) {
 								CTLineRef line = (__bridge CTLineRef)[lines objectAtIndex:iLine];
 								CGFloat ascent, descent;
 								CGFloat lineWidth = CTLineGetTypographicBounds(line, &ascent, &descent, NULL);
@@ -687,7 +687,7 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
 		
 		if (tagRange.location == NSNotFound) {
 			if (currentSupernode != rootNode && !currentSupernode.isClosed) {
-				if (_verbose) NSLog(@"FTCoreTextView :%@ - Couldn't parse text because tag '%@' at position %d is not closed - aborting rendering", self, currentSupernode.style.name, currentSupernode.startLocation);
+				if (_verbose) NSLog(@"FTCoreTextView :%@ - Couldn't parse text because tag '%@' at position %ld is not closed - aborting rendering", self, currentSupernode.style.name, (long)currentSupernode.startLocation);
 				return;
 			}
 			finished = YES;
@@ -934,7 +934,7 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
 - (NSMutableArray *)divideTextInPages:(NSString *)string
 {
     NSMutableArray *result = [NSMutableArray array];
-    int prevStart = 0;
+    NSInteger prevStart = 0;
     while (YES) {
         NSRange rangeStart = [string rangeOfString:[NSString stringWithFormat:@"<%@/>", [self defaultTagNameForKey:FTCoreTextTagPage]]];
 		if (rangeStart.location == NSNotFound) rangeStart = [string rangeOfString:[NSString stringWithFormat:@"<%@ />", [self defaultTagNameForKey:FTCoreTextTagPage]]];
