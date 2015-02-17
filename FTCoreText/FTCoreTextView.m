@@ -793,10 +793,14 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
                     }
                     
                     [processedString replaceCharactersInRange:NSMakeRange(elementContentRange.location, elementContentRange.length + tagRange.length) withString:urlDescription];
-                    if (!([[urlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] hasPrefix:@"http://"] || [[urlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] hasPrefix:@"https://"]))
-                    {
-                        urlString = [NSString stringWithFormat:@"http://%@", urlString];
+                    
+                    if (_autoHttpPrefixLinks) {
+                        if (!([[urlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] hasPrefix:@"http://"] || [[urlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]] hasPrefix:@"https://"]))
+                        {
+                            urlString = [NSString stringWithFormat:@"http://%@", urlString];
+                        }
                     }
+                    
                     NSURL *url = [NSURL URLWithString:[urlString stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]]];
                     NSRange urlDescriptionRange = NSMakeRange(elementContentRange.location, [urlDescription length]);
                     [_URLs setObject:url forKey:NSStringFromRange(urlDescriptionRange)];
@@ -1103,6 +1107,7 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
     _images = [[NSMutableArray alloc] init];
 	_verbose = YES;
 	_highlightTouch = YES;
+    _autoHttpPrefixLinks = NO;
 	self.opaque = YES;
 	self.backgroundColor = [UIColor whiteColor];
 	self.contentMode = UIViewContentModeRedraw;
