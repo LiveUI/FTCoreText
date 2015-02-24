@@ -34,7 +34,7 @@
 typedef void (^FTCoreTextCallbackBlock)(NSDictionary *info);
 
 
-typedef NS_ENUM(uint8_t, FTCoreTextAlignement)  {
+typedef NS_ENUM(NSInteger, FTCoreTextAlignement)  {
     FTCoreTextAlignementLeft = 0,
 	FTCoreTextAlignementRight = 1,
 	FTCoreTextAlignementCenter = 2,
