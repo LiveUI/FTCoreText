@@ -235,7 +235,7 @@ typedef NS_ENUM(NSInteger, FTCoreTextTagType) {
 @property (nonatomic) NSArray *selectionsViews;
 
 CTFontRef CTFontCreateFromUIFont(UIFont *font);
-UITextAlignment UITextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignment);
+NSTextAlignment NSTextAlignmentFromCoreTextAlignment(FTCoreTextAlignement alignment);
 NSInteger rangeSort(NSString *range1, NSString *range2, void *context);
 
 - (void)updateFramesetterIfNeeded;
