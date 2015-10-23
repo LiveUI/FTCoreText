@@ -5,18 +5,18 @@ An open source Objective-C interface component that makes use of the CoreText fr
 <table>
   <tr>
     <td>
-       <a href="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-1.png">
-          <img src="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-1-thumb.png" alt="FTCoreText \"Giraffe\" example screenshot"/>
+       <a href="https://raw.github.com/Ridiculous-Innovations/FTCoreText/documentation/screenshots/ftcoretext-screenshot-1.png">
+          <img src="https://raw.github.com/Ridiculous-Innovations/FTCoreText/documentation/screenshots/ftcoretext-screenshot-1-thumb.png" alt="FTCoreText \"Giraffe\" example screenshot"/>
        </a>
     </td>
     <td>
-       <a href="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-2.png">
-          <img src="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-2-thumb.png" alt="FTCoreText \"Giraffe\" example screenshot"/>
+       <a href="https://raw.github.com/Ridiculous-Innovations/FTCoreText/documentation/screenshots/ftcoretext-screenshot-2.png">
+          <img src="https://raw.github.com/Ridiculous-Innovations/FTCoreText/documentation/screenshots/ftcoretext-screenshot-2-thumb.png" alt="FTCoreText \"Giraffe\" example screenshot"/>
        </a>
     </td>
     <td>
-       <a href="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-3.png">
-          <img src="https://raw.github.com/FuerteInternational/FTCoreText/documentation/screenshots/ftcoretext-screenshot-3-thumb.png" alt="FTCoreText inlined Base64-encoded images example screenshot"/>
+       <a href="https://raw.github.com/Ridiculous-Innovations/FTCoreText/documentation/screenshots/ftcoretext-screenshot-3.png">
+          <img src="https://raw.github.com/Ridiculous-Innovations/FTCoreText/documentation/screenshots/ftcoretext-screenshot-3-thumb.png" alt="FTCoreText inlined Base64-encoded images example screenshot"/>
        </a>
     </td>
   </tr>
@@ -78,7 +78,7 @@ Included:
 - `FTCoreTextTagImage`: renders images. Markup: `<_image>imageNameOnBundle.extension</_image>`
 - `FTCoreTextTagLink`: define style for links. Markup: `<_link>link_target|link - name</_link>`. See `FTCoreTextViewDelegate` for responding to touch.
 
-To use the included element types, set the name of an `FTCoreTextStyle` style instance to one of the string constant types above and use the markup specified. Example: `linkTypeFTCoreTextStyleInstance.name = FTCoreTextTagLink`, and in the static content: `<_link>http://fuerteint.com|Fuerte International</_link>`
+To use the included element types, set the name of an `FTCoreTextStyle` style instance to one of the string constant types above and use the markup specified. Example: `linkTypeFTCoreTextStyleInstance.name = FTCoreTextTagLink`, and in the static content: `<_link>http://xprogress.com|xProgress</_link>`
 
 ##Notes
 
@@ -88,13 +88,13 @@ To use the included element types, set the name of an `FTCoreTextStyle` style in
 
 ##Contact
 
-FTCoreText is developed by [FuerteInt](http://fuerteint.com). Please [drop us an email](mailto:open-source@fuerteint.com) to let us know you how you are using this component.
+FTCoreText is developed by [Ridiculous Innovations](http://www.ridiculous-innovations.com). Please [drop us an email](mailto:open-source@fuerteint.com) to let us know you how you are using this component.
 
 ##License
 
 Open Source Initiative OSI - The MIT License (MIT):Licensing [OSI Approved License] The MIT License (MIT)
 
-Copyright (c) 2013 Fuerte International
+Copyright (c) 2015 Ridiculous Innovations Ltd
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
