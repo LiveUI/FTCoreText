@@ -511,7 +511,7 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
 				
 				for (NSString *key in urlsKeys) {
 					NSRange range = NSRangeFromString(key);
-					if (index >= range.location && index < range.location + range.length) {
+					if (index >= range.location && index <= range.location + range.length) {
 						NSURL *url = [_URLs objectForKey:key];
 						if (url) [returnedDict setObject:url forKey:FTCoreTextDataURL];
 						
