@@ -63,6 +63,13 @@ extern NSString *const FTCoreTextDataAttributes;
 @property (nonatomic) BOOL verbose; //default YES
 @property (nonatomic) BOOL highlightTouch; //defaut YES;
 
+/**
+ * If set to YES, any links missing a HTTP:// or HTTPS:// prefix will have a HTTP:// prefix added to them.
+ *
+ * Default NO.
+ */
+@property (nonatomic) BOOL autoHttpPrefixLinks;
+
 /* Using this method, you then have to set the -text property to get any result */
 - (id)initWithFrame:(CGRect)frame;
 
