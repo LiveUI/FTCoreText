@@ -50,7 +50,7 @@ An open source Objective-C interface component that makes use of the CoreText fr
 ```objective-c
 //  Draw text closed in <red> tag in red color
 //  Example: <red>this will be drawn red</red>
-FTCoreTextStyle *redStyle = FTCoreTextStyle *imageStyle = [FTCoreTextStyle styleWithName:@"red"];
+FTCoreTextStyle *redStyle = [FTCoreTextStyle styleWithName:@"red"];
 redStyle.color = [UIColor redColor];
 ```
 
