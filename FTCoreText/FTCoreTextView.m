@@ -1362,6 +1362,12 @@ CTFontRef CTFontCreateFromUIFont(UIFont *font)
 
 - (void)touchesMoved:(NSSet *)touches withEvent:(UIEvent *)event
 {
+    UITouch *touch = [touches anyObject];
+    CGPoint currentTouchPosition = [touch locationInView:touch.window];
+    CGPoint oldTouchPosition = [touch previousLocationInView:touch.window];
+    if (CGPointEqualToPoint(currentTouchPosition, oldTouchPosition)) {
+        return;
+    }
 	_touchedData = nil;
 	[_selectionsViews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 	_selectionsViews = nil;
