@@ -1,4 +1,4 @@
-#FTCoreText
+# FTCoreText
 
 An open source Objective-C interface component that makes use of the CoreText framework to render static text content using a highly customisable markup syntax.
 
@@ -22,7 +22,7 @@ An open source Objective-C interface component that makes use of the CoreText fr
   </tr>
 </table>
 
-##Usage
+## Usage
 
 ### Implement FTCoreText into your project
 
@@ -66,7 +66,7 @@ ftCoreTextInstance.text = @"My text with <red>red</red> word.";
 
 See the included examples project highlighting various features.
 
-##Elements
+## Elements
 
 FTCoreText provides some interface element types for rendering content types commonly found on the web and printed media such as lists, images, links and suchlike.
 
@@ -80,21 +80,21 @@ Included:
 
 To use the included element types, set the name of an `FTCoreTextStyle` style instance to one of the string constant types above and use the markup specified. Example: `linkTypeFTCoreTextStyleInstance.name = FTCoreTextTagLink`, and in the static content: `<_link>http://xprogress.com|xProgress</_link>`
 
-##Notes
+## Notes
 
 1. Use of the CoreText framework is available for iOS versions 3.2 and above.
 
 2. Although FTCoreTextView uses a similar markup syntax to HTML, most of the properties defined in the HTML specification are unsupported.
 
-##Contact
+## Contact
 
-FTCoreText is developed by [Ridiculous Innovations](http://www.ridiculous-innovations.com). Please [drop us an email](mailto:open-source@fuerteint.com) to let us know you how you are using this component.
+FTCoreText is developed by LiveUI & [manGoweb](http://www.mangoweb.cz/en). Please [drop us an email](mailto:open-source@mangoweb.cz) to let us know you how you are using this component.
 
-##License
+## License
 
 Open Source Initiative OSI - The MIT License (MIT):Licensing [OSI Approved License] The MIT License (MIT)
 
-Copyright (c) 2015 Ridiculous Innovations Ltd
+Copyright (c) 2011-2018 LiveUI
 
 Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
 
