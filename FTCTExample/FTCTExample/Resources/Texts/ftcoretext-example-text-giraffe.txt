@@ -14,6 +14,6 @@ Different authorities recognize different numbers of subspecies, <_link>http://e
 <_bullet>G. c. giraffa</_bullet>
 <_bullet>G. c. thornicrofti</_bullet>
 <subtitle>Swimming</subtitle>
-Although no definitive study has been publicly conducted, <_link>http://en.wikipedia.org/wiki/Giraffe|©2011 - Wikipedia</_link> giraffes are assumed to be unable to swim. It has been estimated that the giraffe's proportionally larger limbs have very high rotational inertias and this would make rapid swimming motions strenuous.
+Although no definitive study has been publicly conducted, <_link>http://en.wikipedia.org/wiki/Giraffe|©2011 - Wikipedia</_link> giraffes are assumed to be unable to swim. It has been estimated that the giraffes' proportionally larger limbs have very high rotational inertias and this would make rapid swimming motions strenuous.
 
 <_link>http://en.wikipedia.org/wiki/Giraffe|©2011 - Wikipedia</_link>
