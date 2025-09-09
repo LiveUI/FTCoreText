@@ -1,6 +1,8 @@
 # FTCoreText
 
-An open source Objective-C interface component that makes use of the CoreText framework to render static text content using a highly customisable markup syntax.
+A Swift 6 refactor of the original Objective-C component with support for Swift Package Manager.
+
+An open source Swift interface component that uses the CoreText framework to render static text content with a highly customisable markup syntax.
 
 <table>
   <tr>
@@ -29,39 +31,53 @@ An open source Objective-C interface component that makes use of the CoreText fr
 #### Manually
 
 1. Download `FTCoreText` sources from repository
-2. Add files in `FTCoreText` folder to your project
+2. Add files in `Sources/FTCoreText` folder to your project
 3. Include `CoreText.framework` in your project
+
+#### Using Swift Package Manager
+
+1. In Xcode select "Add Packages..." and use the repository URL.
+2. Add "FTCoreText" to your target dependencies.
 
 #### Using CocoaPods
 
 1. Use `FTCoreText` pod
 
+### Demo App with Tuist
+
+A minimal iOS application showcasing `FTCoreTextView` is included in the
+repository and uses [Tuist](https://tuist.io/) for project generation.
+
+1. Install Tuist: `curl -Ls https://install.tuist.io | bash`
+2. Run `tuist generate` from the repository root.
+3. Open the generated `FTCoreTextDemo.xcodeproj` and run the *FTCoreTextDemo* scheme.
+
 ### Use FTCoreTextView
 
 #### 1. Import FTCoreText
-```objective-c
-#import FTCoreTextView.h
+```swift
+import FTCoreText
 ```
 
 #### 2. Create an instance of `FTCoreTextView`
 
 #### 3. Create styles to apply to the output by creating instances of `FTCoreTextStyle`
 
-```objective-c
-//  Draw text closed in <red> tag in red color
+```swift
+//  Draw text enclosed in <red> tag in red color
 //  Example: <red>this will be drawn red</red>
-FTCoreTextStyle *redStyle = [FTCoreTextStyle styleWithName:@"red"];
-redStyle.color = [UIColor redColor];
+var redStyle = FTCoreTextStyle(name: "red")
+redStyle.color = .red
 ```
 
 #### 4. Once styles are defined, apply them to the view: 
-```objective-c
-[ftCoreTextInstance addStyles:@[style1, style2, style3]];
+```swift
+coreTextView.addStyles([style1, style2, style3])
 ```
 
 #### 5. Set text with corrent markdown to the `FTCoreTextView` instance
-```objective-c
-ftCoreTextInstance.text = @"My text with <red>red</red> word.";
+```swift
+coreTextView.text = "My text with <red>red</red> word."
 ```
 
 See the included examples project highlighting various features.
