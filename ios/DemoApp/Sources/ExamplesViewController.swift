@@ -57,7 +57,7 @@ final class ExamplesViewController: UITableViewController {
                 subtitle: "<_image>giraffe</_image> with drop cap and padding",
                 text: "<_image>giraffe</_image>" +
                       "<_paragraph>" +
-                      "This text should wrap next to the image with padding. " +
+                      "<_dropcap>T</_dropcap>his text should wrap next to the image with padding. " +
                       Array(repeating: "More content continues to demonstrate wrapping. ", count: 10).joined() +
                       "</_paragraph>",
                 configure: { view in
@@ -77,27 +77,25 @@ final class ExamplesViewController: UITableViewController {
             ),
             FTCTExample(
                 title: "Heading + Paragraph",
-                subtitle: "Custom heading tag with centered text",
-                text: "<_h1>FTCoreText</_h1>\n<_paragraph>This paragraph uses the built-in paragraph tag with custom inset and alignment.</_paragraph>",
+                subtitle: "Centered heading and paragraph (via styles)",
+                text: "<_h1>FTCoreText</_h1>\n<_paragraph>This paragraph uses the built-in paragraph tag with centered alignment set in code.</_paragraph>",
                 configure: { view in
                     view.removeAllStyles()
                     view.addStyles(FTCoreTextDefaults.defaultStyles())
-                    // Add a custom heading style (tag name "_h1")
+                    // Center both heading and paragraph via styles (no alignment tags in text)
                     let h1 = FTCoreTextStyle(
                         name: "_h1",
                         font: .boldSystemFont(ofSize: 28),
                         color: .label,
                         underlined: false,
-                        textAlignment: .center,
-                        paragraphInset: UIEdgeInsets(top: 0, left: 0, bottom: 8, right: 0)
+                        textAlignment: .center
                     )
                     let paragraph = FTCoreTextStyle(
                         name: FTCoreTextTag.paragraph,
                         font: .systemFont(ofSize: 16),
                         color: .secondaryLabel,
                         underlined: false,
-                        textAlignment: .justified,
-                        paragraphInset: UIEdgeInsets(top: 0, left: 16, bottom: 0, right: 16),
+                        textAlignment: .center,
                         leading: 8
                     )
                     view.addStyles([h1, paragraph])

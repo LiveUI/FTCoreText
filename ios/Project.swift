@@ -24,7 +24,11 @@ let project = Project(
                 "UILaunchStoryboardName": .string("LaunchScreen")
             ]),
             sources: ["DemoApp/Sources/**"],
-            resources: ["DemoApp/Resources/**"],
+            resources: [
+                "DemoApp/Resources/**",
+                "../shared/Texts/**",
+                "../shared/Images/**"
+            ],
             dependencies: [
                 .target(name: "FTCoreText")
             ],

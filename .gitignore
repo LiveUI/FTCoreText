@@ -28,3 +28,12 @@ FTCTExample/FTCTExample.xcodeproj/project.xcworkspace/xcshareddata/FTCTExample.x
 Tuist/Derived/
 Tuist/Cache/
 Tuist/Graph/
+Derived/
+
+# Android / Gradle
+android/.gradle/
+android/**/build/
+android/**/.cxx/
+android/**/.idea/
+android/**/*.iml
+/.gradle/

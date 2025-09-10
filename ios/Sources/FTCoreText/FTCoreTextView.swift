@@ -199,8 +199,6 @@ open class FTCoreTextView: UIView {
         }
 
         processedString = text
-        // Apply an automatic drop cap to the first letter if a style named "_dropcap" exists
-        applyAutoDropCapIfNeeded(to: result, processedText: text)
         attributedString = result
         // Update TextKit storage for layout, drawing and hit-testing
         if let existing = textStorage { existing.removeLayoutManager(layoutManager) }
