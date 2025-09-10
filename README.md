@@ -98,12 +98,12 @@ See the included examples project highlighting various features.
 
 The Swift version currently supports a focused subset of tags via the `FTCoreTextTag` names:
 
-- `__default` (`FTCoreTextTag.default`): base font/color applied to all text.
-- `__paragraph` (`FTCoreTextTag.paragraph`): paragraph styling (alignment, inset, spacing).
-- `__link` (`FTCoreTextTag.link`): link styling; content supports `url|display`; links are tappable in `FTCoreTextView`.
-- `__bullet` (`FTCoreTextTag.bullet`): bullet styling (character/font/color). List layout with a simple hanging indent.
-- `__image` (`FTCoreTextTag.image`): inline images via either `<_image>AssetName</_image>` (asset catalog) or `<_image>base64:...</_image>` (Base64-encoded PNG/JPEG).
-- `__page` (`FTCoreTextTag.page`): page-splitting utility via `FTCoreTextView.pages(from:)` (not auto-paginated).
+- `_default` (`FTCoreTextTag.default`): base font/color applied to all text.
+- `_paragraph` (`FTCoreTextTag.paragraph`): paragraph styling (alignment, inset, spacing).
+- `_link` (`FTCoreTextTag.link`): link styling; content supports `url|display`; links are tappable in `FTCoreTextView`.
+- `_bullet` (`FTCoreTextTag.bullet`): bullet styling (character/font/color). List layout with a simple hanging indent.
+- `_image` (`FTCoreTextTag.image`): inline images via either `<_image>AssetName</_image>` (asset catalog) or `<_image>base64:...</_image>` (Base64-encoded PNG/JPEG).
+- `_page` (`FTCoreTextTag.page`): page-splitting utility via `FTCoreTextView.pages(from:)` (not auto-paginated).
 
 Notes:
 - Custom tags are supported by creating an `FTCoreTextStyle` with the tag name you want (e.g., `"_code"`) and using `<_code>...</_code>` in text.
@@ -111,12 +111,8 @@ Notes:
 
 ## Notes
 
-1. Demo app requires iOS 14.0+. The Swift package targets iOS 13.0+ and macOS 10.15+.
+1. Demo app requires iOS 14.0+. The Swift package targets iOS 14.0+ and macOS 10.15+.
 2. Although `FTCoreTextView` uses an HTML-like markup, only the tags and attributes described above are supported.
-
-## Contact
-
-FTCoreText is developed by LiveUI & [manGoweb](http://www.mangoweb.cz/en). Please [drop us an email](mailto:open-source@mangoweb.cz) to let us know you how you are using this component.
 
 ## License
 
