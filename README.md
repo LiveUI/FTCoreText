@@ -1,6 +1,6 @@
 # FTCoreText
 
-Cross‑platform rich text rendering with lightweight markup for iOS (Swift) and Android (Kotlin). The same localized strings render identically on both platforms.
+Cross-platform rich text rendering with lightweight markup for iOS (Swift) and Android (Kotlin). The same localized strings render identically on both platforms.
 
 ## Layout
 - **iOS** (Swift/SPM + Tuist demo): `ios/` — see the [iOS guide](ios/README.md)
@@ -45,7 +45,6 @@ Cross‑platform rich text rendering with lightweight markup for iOS (Swift) and
 ## Learn More
 - **iOS** details (SPM usage, Tuist demo): [ios/README.md](ios/README.md)
 - **Android** details (Gradle usage, sample app): [android/README.md](android/README.md)
-
 
 ## Screenshots
 
