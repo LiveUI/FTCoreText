@@ -1,6 +1,8 @@
 # FTCoreText
 
-An open source Objective-C interface component that makes use of the CoreText framework to render static text content using a highly customisable markup syntax.
+A Swift 6 refactor of the original Objective-C component with support for Swift Package Manager.
+
+An open source Swift interface component that uses the CoreText framework to render static text content with a highly customisable markup syntax.
 
 <table>
   <tr>
@@ -29,62 +31,88 @@ An open source Objective-C interface component that makes use of the CoreText fr
 #### Manually
 
 1. Download `FTCoreText` sources from repository
-2. Add files in `FTCoreText` folder to your project
+2. Add files in `Sources/FTCoreText` folder to your project
 3. Include `CoreText.framework` in your project
 
-#### Using CocoaPods
+#### Using Swift Package Manager
 
-1. Use `FTCoreText` pod
+1. In Xcode select "Add Packages..." and use the repository URL.
+2. Add "FTCoreText" to your target dependencies.
+
+#### CocoaPods
+
+CocoaPods is no longer supported. Please use Swift Package Manager or Tuist.
+
+### Demo App with Tuist
+
+A minimal iOS application showcasing `FTCoreTextView` is included in the
+repository and uses [Tuist](https://tuist.io/) for project generation.
+
+1. Install Tuist: `curl -Ls https://install.tuist.io | bash`
+2. Run `tuist generate --open` from the repository root.
+3. Select the *FTCoreTextDemo* scheme and run on a simulator.
+   - Demo requires iOS 14.0+ (uses modern cell configuration APIs).
+   - Demo assets live under `DemoApp/Resources/Assets.xcassets`. A placeholder `DemoImage` imageset is included; add your own `demo.png` there to see the image example.
+   - Add text examples under `DemoApp/Resources/Texts`. Any `*.txt` files there automatically appear in the app under the “Resource:” section.
 
 ### Use FTCoreTextView
 
 #### 1. Import FTCoreText
-```objective-c
-#import FTCoreTextView.h
+```swift
+import FTCoreText
 ```
 
 #### 2. Create an instance of `FTCoreTextView`
 
 #### 3. Create styles to apply to the output by creating instances of `FTCoreTextStyle`
 
-```objective-c
-//  Draw text closed in <red> tag in red color
+```swift
+//  Draw text enclosed in <red> tag in red color
 //  Example: <red>this will be drawn red</red>
-FTCoreTextStyle *redStyle = [FTCoreTextStyle styleWithName:@"red"];
-redStyle.color = [UIColor redColor];
+var redStyle = FTCoreTextStyle(name: "red")
+redStyle.color = .red
 ```
 
 #### 4. Once styles are defined, apply them to the view: 
-```objective-c
-[ftCoreTextInstance addStyles:@[style1, style2, style3]];
+```swift
+coreTextView.addStyles([style1, style2, style3])
 ```
 
-#### 5. Set text with corrent markdown to the `FTCoreTextView` instance
-```objective-c
-ftCoreTextInstance.text = @"My text with <red>red</red> word.";
+#### 4. Link tags (`<_link>`)
+
+Links support either a raw URL or a `url|display` pair inside the tag. Tapping a link opens it with `UIApplication`:
+
+```swift
+coreTextView.addStyles(FTCoreTextDefaults.defaultStyles())
+coreTextView.text = "See <_link>https://github.com/LiveUI/FTCoreText|FTCoreText</_link> on GitHub"
+```
+
+#### 5. Set text with the markup to the `FTCoreTextView` instance
+```swift
+coreTextView.text = "My text with <red>red</red> word."
 ```
 
 See the included examples project highlighting various features.
 
-## Elements
+## Supported Tags
 
-FTCoreText provides some interface element types for rendering content types commonly found on the web and printed media such as lists, images, links and suchlike.
+The Swift version currently supports a focused subset of tags via the `FTCoreTextTag` names:
 
-Included:
+- `__default` (`FTCoreTextTag.default`): base font/color applied to all text.
+- `__paragraph` (`FTCoreTextTag.paragraph`): paragraph styling (alignment, inset, spacing).
+- `__link` (`FTCoreTextTag.link`): link styling; content supports `url|display`; links are tappable in `FTCoreTextView`.
+- `__bullet` (`FTCoreTextTag.bullet`): bullet styling (character/font/color). List layout with a simple hanging indent.
+- `__image` (`FTCoreTextTag.image`): inline images via either `<_image>AssetName</_image>` (asset catalog) or `<_image>base64:...</_image>` (Base64-encoded PNG/JPEG).
+- `__page` (`FTCoreTextTag.page`): page-splitting utility via `FTCoreTextView.pages(from:)` (not auto-paginated).
 
-- `FTCoreTextTagDefault`: the default style applied to the text. 
-- `FTCoreTextTagPage`: Divide the text in pages. Markup: `<_page/>`
-- `FTCoreTextTagBullet`: define styles for bullets. Markup: `<_bullet>content</bullet>`.
-- `FTCoreTextTagImage`: renders images. Markup: `<_image>imageNameOnBundle.extension</_image>`
-- `FTCoreTextTagLink`: define style for links. Markup: `<_link>link_target|link - name</_link>`. See `FTCoreTextViewDelegate` for responding to touch.
-
-To use the included element types, set the name of an `FTCoreTextStyle` style instance to one of the string constant types above and use the markup specified. Example: `linkTypeFTCoreTextStyleInstance.name = FTCoreTextTagLink`, and in the static content: `<_link>http://xprogress.com|xProgress</_link>`
+Notes:
+- Custom tags are supported by creating an `FTCoreTextStyle` with the tag name you want (e.g., `"_code"`) and using `<_code>...</_code>` in text.
+- For a left-floating image effect, place `<_image>...</_image>` at the start and apply a left paragraph inset equal to the image width + padding (see the demo example). Full exclusion-path wrapping is not implemented.
 
 ## Notes
 
-1. Use of the CoreText framework is available for iOS versions 3.2 and above.
-
-2. Although FTCoreTextView uses a similar markup syntax to HTML, most of the properties defined in the HTML specification are unsupported.
+1. Demo app requires iOS 14.0+. The Swift package targets iOS 13.0+ and macOS 10.15+.
+2. Although `FTCoreTextView` uses an HTML-like markup, only the tags and attributes described above are supported.
 
 ## Contact
 
