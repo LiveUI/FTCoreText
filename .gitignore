@@ -19,3 +19,12 @@ profile
 
 /FTCoreText.xcodeproj/project.xcworkspace/xcuserdata/fuerteinternational.xcuserdatad/UserInterfaceState.xcuserstate
 FTCTExample/FTCTExample.xcodeproj/project.xcworkspace/xcshareddata/FTCTExample.xccheckout
+
+# Tuist-generated project files
+*.xcodeproj
+*.xcworkspace
+
+# Tuist caches / derived data (keep Tuist sources like ProjectDescriptionHelpers)
+Tuist/Derived/
+Tuist/Cache/
+Tuist/Graph/

@@ -1,32 +1,36 @@
 import ProjectDescription
 
+// Tuist 4.13+ manifest using destinations/deploymentTargets and `.target` factory
 let project = Project(
     name: "FTCoreTextDemo",
     organizationName: "FTCoreText",
     targets: [
-        Target(
+        .target(
             name: "FTCoreText",
-            platform: .iOS,
+            destinations: .iOS,
             product: .framework,
             bundleId: "com.example.ftcoretext",
-            deploymentTarget: .iOS(targetVersion: "13.0", devices: [.iphone, .ipad]),
+            deploymentTargets: .iOS("14.0"),
             infoPlist: .default,
-            sources: ["Sources/FTCoreText/**"],
-            resources: [],
-            dependencies: []
+            sources: ["Sources/FTCoreText/**"]
         ),
-        Target(
+        .target(
             name: "FTCoreTextDemo",
-            platform: .iOS,
+            destinations: .iOS,
             product: .app,
             bundleId: "com.example.ftcoretext.demo",
-            deploymentTarget: .iOS(targetVersion: "13.0", devices: [.iphone, .ipad]),
-            infoPlist: .default,
+            deploymentTargets: .iOS("14.0"),
+            infoPlist: .extendingDefault(with: [
+                "UILaunchStoryboardName": .string("LaunchScreen")
+            ]),
             sources: ["DemoApp/Sources/**"],
-            resources: [],
+            resources: ["DemoApp/Resources/**"],
             dependencies: [
                 .target(name: "FTCoreText")
-            ]
+            ],
+            settings: .settings(base: [
+                "ASSETCATALOG_COMPILER_APPICON_NAME": ""
+            ])
         )
     ]
 )
